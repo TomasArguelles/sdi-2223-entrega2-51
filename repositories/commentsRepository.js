@@ -6,7 +6,7 @@ module.exports = {
     getComments: async function (filter, options) {
         try {
             const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
-            const database = client.db("musicStore");
+            const database = client.db("sdi-2223-entrega2-51");
             const collectionName = 'comments';
             const commentsCollection = database.collection(collectionName);
             return await commentsCollection.find(filter, options).toArray();
@@ -19,7 +19,7 @@ module.exports = {
             if (err) {
                 callbackFunction(null)
             } else {
-                const database = dbClient.db("musicStore");
+                const database = dbClient.db("sdi-2223-entrega2-51");
                 const collectionName = 'comments';
                 const commentsCollection = database.collection(collectionName);
                 commentsCollection.insertOne(comment)

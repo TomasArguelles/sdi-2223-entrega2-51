@@ -6,7 +6,7 @@ module.exports = {
     getSongs: async function (filter, options) {
         try {
             const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
-            const database = client.db("musicStore");
+            const database = client.db("sdi-2223-entrega2-51");
             const collectionName = 'songs';
             const songsCollection = database.collection(collectionName);
             return await songsCollection.find(filter, options).toArray();
@@ -17,7 +17,7 @@ module.exports = {
     findSong: async function (filter, options) {
         try {
             const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
-            const database = client.db("musicStore");
+            const database = client.db("sdi-2223-entrega2-51");
             const collectionName = 'songs';
             const songsCollection = database.collection(collectionName);
             return await songsCollection.findOne(filter, options);
@@ -30,7 +30,7 @@ module.exports = {
             if (err) {
                 callbackFunction(null)
             } else {
-                const database = dbClient.db("musicStore");
+                const database = dbClient.db("sdi-2223-entrega2-51");
                 const collectionName = 'songs';
                 const songsCollection = database.collection(collectionName);
                 songsCollection.insertOne(song)
@@ -43,7 +43,7 @@ module.exports = {
     deleteSong: async function (filter, options) {
         try {
             const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
-            const database = client.db("musicStore");
+            const database = client.db("sdi-2223-entrega2-51");
             const collectionName = 'songs';
             const songsCollection = database.collection(collectionName);
             const result = await songsCollection.deleteOne(filter, options);
@@ -55,7 +55,7 @@ module.exports = {
     updateSong: async function (newSong, filter, options) {
         try {
             const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
-            const database = client.db("musicStore");
+            const database = client.db("sdi-2223-entrega2-51");
             const collectionName = 'songs';
             const songsCollection = database.collection(collectionName);
             const result = await songsCollection.updateOne(filter, {$set: newSong}, options);
@@ -69,7 +69,7 @@ module.exports = {
             if (err) {
                 callbackFunction(null)
             } else {
-                const database = dbClient.db("musicStore");
+                const database = dbClient.db("sdi-2223-entrega2-51");
                 const collectionName = 'purchases';
                 const purchasesCollection = database.collection(collectionName);
                 purchasesCollection.insertOne(shop)
@@ -96,7 +96,7 @@ module.exports = {
     getPurchases: async function (filter, options) {
         try {
             const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
-            const database = client.db("musicStore");
+            const database = client.db("sdi-2223-entrega2-51");
             const collectionName = 'purchases';
             const purchasesCollection = database.collection(collectionName);
             return await purchasesCollection.find(filter, options).toArray();
@@ -108,7 +108,7 @@ module.exports = {
         try {
             const limit = 4;
             const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
-            const database = client.db("musicStore");
+            const database = client.db("sdi-2223-entrega2-51");
             const collectionName = 'songs';
             const songsCollection = database.collection(collectionName);
             const songsCollectionCount = await songsCollection.count();

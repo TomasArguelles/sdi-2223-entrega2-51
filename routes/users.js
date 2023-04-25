@@ -19,8 +19,8 @@ module.exports = function (app, usersRepository) {
             email: req.body.email,
             password: securePassword
         }
-        usersRepository.findUser({email: user.email}, {}).then(user => {
-            if (user === null)
+        usersRepository.findUser({email: user.email}, {}).then(us => {
+            if (us === null)
                 usersRepository.insertUser(user).then(userId => {
                     res.redirect("/users/login" +
                         "?message=Nuevo usuario registrado"+

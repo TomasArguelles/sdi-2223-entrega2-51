@@ -6,7 +6,7 @@ module.exports = {
     findUser: async function (filter, options) {
         try {
             const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
-            const database = client.db("musicStore");
+            const database = client.db("sdi-2223-entrega2-51");
             const collectionName = 'users';
             const usersCollection = database.collection(collectionName);
             return await usersCollection.findOne(filter, options);
@@ -17,7 +17,7 @@ module.exports = {
     insertUser: async function (user) {
         try {
             const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
-            const database = client.db("musicStore");
+            const database = client.db("sdi-2223-entrega2-51");
             const collectionName = 'users';
             const usersCollection = database.collection(collectionName);
             const result = await usersCollection.insertOne(user);
