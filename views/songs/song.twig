@@ -1,0 +1,61 @@
+{% extends "layout.twig" %}
+
+{% block title %} Detalles de canción {% endblock %}
+
+{% block main_container %}
+    <div class="row">
+        <div class="media col-xs-10">
+            <div class="media-left media-middle">
+                <img class="media-object" src="/covers/{{ song._id }}.png">
+            </div>
+            <div class="media-body">
+                <h2>{{ song.title }}</h2>
+                <p>{{ song.author }}</p>
+                <p>{{ song.kind }}</p>
+                {% if buy %}
+                    <a class="btn btn-primary pull-right"
+                       href="/songs/buy/{{ song._id }}">{{ song.price }} € - {{ song.usd }}$</a>
+                {% else %}
+                    <audio controls>
+                        <source src="/audios/{{ song._id }}.mp3" type="audio/mpeg">
+                    </audio>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Autor</th>
+                <th>Comentario</th>
+                <th class="col-md-1"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for comment in comments %}
+                <tr>
+                    <td>{{ comment.author }}</td>
+                    <td>{{ comment.text }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h2>Añadir comentario</h2>
+    <form class="form-horizontal" method="post" action="/comments/{{ song._id }}"
+          encType="multipart/form-data">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="text">Comentario:</label>
+            <div class="col-sm-10">
+                <input id="text" type="text" class="form-control" name="text"
+                       placeholder="Comentario..." required="true"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Comentar</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
