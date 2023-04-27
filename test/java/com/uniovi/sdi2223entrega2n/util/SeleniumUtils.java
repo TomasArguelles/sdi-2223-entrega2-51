@@ -1,9 +1,9 @@
-package com.uniovi.sdi2223entrega1n.util;
+package com.uniovi.sdi2223entrega2n.util;
 
 
-import com.uniovi.sdi2223entrega1n.pageobjects.PO_HomeView;
-import com.uniovi.sdi2223entrega1n.pageobjects.PO_LoginView;
-import com.uniovi.sdi2223entrega1n.pageobjects.PO_SignUpView;
+import com.uniovi.sdi2223entrega2n.pageobjects.PO_HomeView;
+import com.uniovi.sdi2223entrega2n.pageobjects.PO_LoginView;
+import com.uniovi.sdi2223entrega2n.pageobjects.PO_SignUpView;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -128,7 +128,7 @@ public class SeleniumUtils {
     }
 
     /**
-     * Inicio de sesión con usuario de prueba ({@link com.uniovi.sdi2223entrega1n.services.InsertSampleDataService})
+     * Inicio de sesión con usuario de prueba ()
      *
      * @param driver Apuntando al navegador abierto actualmente.
      * @param role   STANDARD | ADMIN

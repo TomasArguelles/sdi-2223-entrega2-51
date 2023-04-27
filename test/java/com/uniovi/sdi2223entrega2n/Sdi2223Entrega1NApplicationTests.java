@@ -1,21 +1,15 @@
-package com.uniovi.sdi2223entrega1n;
+package com.uniovi.sdi2223entrega2n;
 
-import com.uniovi.sdi2223entrega1n.entities.User;
-import com.uniovi.sdi2223entrega1n.pageobjects.*;
-import com.uniovi.sdi2223entrega1n.repositories.OffersRepository;
-import com.uniovi.sdi2223entrega1n.services.UsersService;
-import com.uniovi.sdi2223entrega1n.util.SeleniumUtils;
+import com.uniovi.sdi2223entrega2n.pageobjects.*;
+import com.uniovi.sdi2223entrega2n.util.SeleniumUtils;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-@SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class Sdi2223Entrega1NApplicationTests {
 
@@ -35,12 +29,6 @@ class Sdi2223Entrega1NApplicationTests {
 
     // Enpoint para mostrar la vista de login
     static final String LOGIN_ENDPOINT = BASE_ENDPOINT + "/login";
-
-    @Autowired
-    private OffersRepository offersRepository;
-
-    @Autowired
-    private UsersService userService;
 
     public static WebDriver getDriver(String PathFirefox, String Geckodriver) {
         System.setProperty("webdriver.firefox.bin", PathFirefox);
@@ -215,10 +203,10 @@ class Sdi2223Entrega1NApplicationTests {
         //Sacamos la lista de usuarios q hay
         List<WebElement> usersList = PO_UserListView.getUsersList(driver);
         //Sacamos la lista de usaurios del sistema
-        List<User> usersSystem = userService.getUsers();
-        Assertions.assertEquals(usersSystem.size(), usersSystem.size());
-        //Comprobamos uno a uno
-        PO_UserListView.compareOneByOneTwoUsersLists(driver, usersList, usersSystem);
+//        List<User> usersSystem = userService.getUsers();
+//        Assertions.assertEquals(usersSystem.size(), usersSystem.size());
+//        //Comprobamos uno a uno
+//        PO_UserListView.compareOneByOneTwoUsersLists(driver, usersList, usersSystem);
     }
 
     //[Prueba12] Ir a la lista de usuarios, borrar el primer usuario de la lista, comprobar que la lista se actualiza
@@ -368,14 +356,14 @@ class Sdi2223Entrega1NApplicationTests {
         // Acceder a la vista de listado de ofertas
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listOfferMenu");
 
-        // Comprobar número elementos de tabla con número de elementos BBDD
-        int offerCountFromUserOnDatabase = offersRepository.findAllBySeller("miemail444@email.com").size();
-
-        // Obtener número de filas de la tabla de la vista del listado de ofertas
-        int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table table-hover']/tbody/tr");
-
-        // Verificar que el número de registros mostrados es correcto
-        Assertions.assertEquals(offerCountFromUserOnDatabase, rowCount);
+//        // Comprobar número elementos de tabla con número de elementos BBDD
+//        int offerCountFromUserOnDatabase = offersRepository.findAllBySeller("miemail444@email.com").size();
+//
+//        // Obtener número de filas de la tabla de la vista del listado de ofertas
+//        int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table table-hover']/tbody/tr");
+//
+//        // Verificar que el número de registros mostrados es correcto
+//        Assertions.assertEquals(offerCountFromUserOnDatabase, rowCount);
     }
 
     // [Prueba18]. Baja de una oferta - Borrar primera oferta de la lista.

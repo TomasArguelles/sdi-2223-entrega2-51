@@ -1,6 +1,5 @@
-package com.uniovi.sdi2223entrega1n.pageobjects;
+package com.uniovi.sdi2223entrega2n.pageobjects;
 
-import com.uniovi.sdi2223entrega1n.util.SeleniumUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
