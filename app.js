@@ -29,8 +29,7 @@ app.set('clave', 'abcdefg');
 app.set('crypto', crypto);
 
 const {MongoClient} = require("mongodb");
-//const url = 'mongodb+srv://admin:sdi@sdi-2223-entrega2-51.287aegb.mongodb.net/?retryWrites=true&w=majority';
-const url = 'mongodb://localhost:27017';
+const url = 'mongodb+srv://admin:sdi@sdi-2223-entrega2-51.287aegb.mongodb.net/?retryWrites=true&w=majority';
 app.set('connectionStrings', url);
 
 const userSessionRouter = require('./routes/userSessionRouter');
@@ -64,15 +63,14 @@ let commentsRepository = require("./repositories/commentsRepository.js");
 commentsRepository.init(app, MongoClient);
 require("./routes/comments.js")(app, commentsRepository);
 
-// Repositorio de ofertas
-let offersRepository = require("./repositories/offersRepository.js");
-offersRepository.init(app, MongoClient);
-require("./routes/offers.js")(app, offersRepository);
-
-
+let songsRepository = require("./repositories/songsRepository.js");
+songsRepository.init(app, MongoClient);
+require("./routes/songs.js")(app, songsRepository, commentsRepository);
 require('./routes/authors.js')(app);
-// require("./routes/offers.js")(app, MongoClient);
+// require("./routes/songs.js")(app, MongoClient);
 
+require("./routes/api/songsAPIv1.0.js")(app, songsRepository, usersRepository);
+require("./routes/api/wallapopAPI.js")(app, usersRepository);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
