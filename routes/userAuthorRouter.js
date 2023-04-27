@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require("path");
 const {ObjectId} = require("mongodb");
-const songsRepository = require("../repositories/songsRepository");
+const songsRepository = require("../repositories/offersRepository");
 const userAuthorRouter = express.Router();
 userAuthorRouter.use(function (req, res, next) {
     console.log("userAuthorRouter");

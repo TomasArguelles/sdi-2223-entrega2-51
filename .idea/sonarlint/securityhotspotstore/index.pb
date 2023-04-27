@@ -1,0 +1,23 @@
+
+D
+views/songs/add.twig,3\f\3f9cd411c7a49b37cac9666480c4a40f4d645967
+B
+routes/comments.js,5\1\512570a6b6daee99894999ff507708b95711e310
+R
+"repositories/commentsRepository.js,1\e\1eecc304dbbf62fd57a5f7145bd040c43ebdb1d3
+J
+routes/api/songsAPIv1.0.js,5\9\593edca837d34bb0fb1cf6bf1ded6a537a9ff6e5
+A
+views/layout.twig,0\6\06a8cf847006c2e37708c5b7ed91ab069e2bb24f
+O
+repositories/usersRepository.js,5\9\59eec077761f04a33a5f4c3ab7e5c70852ca968e
+I
+routes/api/wallapopAPI.js,7\9\79f44395764f2ed6a98b25498274c92e86630d63
+7
+bin/www,f\9\f9f3ad31c1666c9d010b84cbbe24e70370a40411
+s
+Ctest/java/com/uniovi/sdi2223entrega1n/pageobjects/PO_LoginView.java,2\e\2e4db8a66941f543fc6b23952e0eacacf615657a
+{
+Ktest/java/com/uniovi/sdi2223entrega1n/Sdi2223Entrega1NApplicationTests.java,d\7\d7b30737fab945ab898879aec78ee4a72c6d4a16
+@
+views/login.twig,8\5\858c14f39b540b2c71113cc8d7641ef3eb0900cb

@@ -1,6 +1,6 @@
 const express = require('express');
 const {ObjectId} = require("mongodb");
-const songsRepository = require("../repositories/songsRepository");
+const songsRepository = require("../repositories/offersRepository");
 const userAudiosRouter = express.Router();
 userAudiosRouter.use(function (req, res, next) {
     console.log("routerAudios");

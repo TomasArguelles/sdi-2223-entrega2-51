@@ -1,0 +1,41 @@
+{% extends "layout.twig" %}
+{% block title %}Listado de ofertas | My Wallapop {% endblock %}
+{% block main_container %}
+    <h2>Listado de las ofertas propias</h2>
+    <br />
+    <div class="container">
+        <a href="/offer/add" class="btn btn-primary">Nueva oferta</a>
+    </div>
+    <br />
+    {% if offers.length > 0 %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Título</th>
+                <th>Detalle de la oferta</th>
+                <th>Fecha de publicación</th>
+                <th>Precio</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for offer in offers %}
+                <tr>
+                    <td>{{ offer.title }}</td>
+                    <td>{{ offer.description }}</td>
+                    <td>{{ offer.date }}</td>
+                    <td>{{ offer.price }}</td>
+                    <td>
+{#                        <a href="/offer/{{ offer._id }}/edit"#}
+{#                           class="btn btn-primary">Editar</a>#}
+                        <a href="/offer/{{ offer._id }}/delete"
+                           class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay ofertas</p>
+    {% endif %}
+{% endblock %}

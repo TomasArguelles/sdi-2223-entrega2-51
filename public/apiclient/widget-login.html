@@ -2,14 +2,16 @@
     <div class="form-group">
         <label class="control-label col-sm-2" for="email">Email:</label>
         <div class="col-sm-10">
-            <input type="email" class="form-control" name="email" placeholder="email@email.com"
-                                      id="email"/></div>
+            <input type="email" class="form-control" name="email"
+                   placeholder="email@email.com"
+                   id="email"/></div>
     </div>
     <div class="form-group">
         <label class="control-label col-sm-2" for="password">Password:</label>
         <div class="col-sm-10">
-            <input type="password" class="form-control" name="password" placeholder="contraseña"
-                                      id="password"/></div>
+            <input type="password" class="form-control" name="password"
+                   placeholder="contraseña"
+                   id="password"/></div>
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
@@ -20,9 +22,9 @@
 
 <script>
     window.history.pushState("", "", "/apiclient/client.html?w=login");
-    $("#boton-login").click(function (){
+    $("#boton-login").click(function () {
         $.ajax({
-            url: URLbase + "/user/login",
+            url: URLbase + "/users/login",
             type: "POST",
             data: {
                 email: $("#email").val(),
@@ -33,11 +35,15 @@
                 console.log(response.token);
                 token = response.token;
                 Cookies.set('token', response.token)
-                $("#main-container").load("widget-songs.html");
+                $("#main-container").load("widget-offers.html");
             },
-            error: function(error) {
+            error: function (error) {
                 Cookies.remove('token');
-                $("#widget-login").prepend("<div class='alert alert-danger'>Usuario no encontrado</div>");
+                $("#widget-login").prepend("<div class='alert alert-danger'>Credenciales incorrectas. Inténtenlo de nuevo.</div>");
+
+                setTimeout(() => {
+                    $("#widget-login").find(".alert").remove();
+                }, 3000);
             }
         });
     });

@@ -1,7 +1,22 @@
 {% extends "layout.twig" %}
-{% block title %}Agregar canción {% endblock %}
+{% block title %}Añadir oferta {% endblock %}
 {% block main_container %}
+    <div class="container">
+        <a href="/offers" class="btn btn-primary">Ver mis ofertas</a>
+    </div>
+    <br/>
     <h2>Añadir una nueva oferta</h2>
+
+    {% if errors %}
+        <div class="container">
+            <ul style="list-style-type: none">
+                {% for error in errors %}
+                    <li class="alert alert-danger">{{ error.msg }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
     <form class="form-horizontal" method="post" action="/offer/add">
         <div class="form-group">
             <label class="control-label col-sm-2" for="title">Titulo:</label>
@@ -13,7 +28,8 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-sm-2s" for="description"></label>
+            <label class="control-label col-sm-2" for="description">Detalle
+                textual:</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="description"
                        name="description"
@@ -29,40 +45,18 @@
                 <input type="number" class="form-control" id="price"
                        name="price"
                        step="0.1"
-                       placeholder="Precio del producto..."
+                       placeholder="Precio de la oferta..."
                 />
                 <span class="text-danger"></span>
-            </div>
-        </div>
-
-        <!-- Imagen solicitada -->
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="image"></label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="image"
-                       name="image">
-            </div>
-        </div>
-
-        <!-- Boton para destacar la nueva oferta -->
-        <div class="form-group">
-            <div class="col-sm-10">
-                <label for="featured">Destacar</label>
-                <input type="checkbox" class="form-control" id="featured"
-                       name="featured"/>
             </div>
         </div>
 
         <!-- Boton para publicar la nueva oferta -->
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">Añadir
+                <button type="submit" class="btn btn-primary">Añadir oferta
                 </button>
             </div>
         </div>
-        <input type="hidden" class="form-control" id="dateUpload"
-               name="dateUpload"/>
-        <input type="hidden" name="${_csrf.parameterName}"
-               value="${_csrf.token}"/>
     </form>
 {% endblock %}

@@ -3,6 +3,7 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
+
 let app = express();
 
 let rest = require('request');
@@ -29,18 +30,18 @@ app.set('clave', 'abcdefg');
 app.set('crypto', crypto);
 
 const {MongoClient} = require("mongodb");
-const url = 'mongodb+srv://admin:sdi@sdi-2223-entrega2-51.287aegb.mongodb.net/?retryWrites=true&w=majority';
-app.set('connectionStrings', url);
+//const url = 'mongodb+srv://admin:sdi@sdi-2223-entrega2-51.287aegb.mongodb.net/?retryWrites=true&w=majority';
+
+// TODO: Reemplazar por URL mongo Altas
+const localUrl = 'mongodb://localhost:27017';
+app.set('connectionStrings', localUrl);
 
 const userSessionRouter = require('./routes/userSessionRouter');
 const userAudiosRouter = require('./routes/userAudiosRouter');
 
-app.use("/songs/add",userSessionRouter);
-app.use("/publications",userSessionRouter);
-app.use("/songs/buy",userSessionRouter);
-app.use("/purchases",userSessionRouter);
-app.use("/audios/",userAudiosRouter);
-app.use("/shop/",userSessionRouter);
+// Auth middleware
+app.use("/offers/",userSessionRouter);
+app.use("/offer/",userSessionRouter);
 
 const userAuthorRouter = require('./routes/userAuthorRouter');
 app.use("/songs/edit",userAuthorRouter);
@@ -63,13 +64,13 @@ let commentsRepository = require("./repositories/commentsRepository.js");
 commentsRepository.init(app, MongoClient);
 require("./routes/comments.js")(app, commentsRepository);
 
-let songsRepository = require("./repositories/songsRepository.js");
-songsRepository.init(app, MongoClient);
-require("./routes/songs.js")(app, songsRepository, commentsRepository);
-require('./routes/authors.js')(app);
-// require("./routes/songs.js")(app, MongoClient);
+let offersRepository = require("./repositories/offersRepository.js");
+offersRepository.init(app, MongoClient);
+require("./routes/offers.js")(app, offersRepository, commentsRepository);
 
-require("./routes/api/songsAPIv1.0.js")(app, songsRepository, usersRepository);
+require('./routes/authors.js')(app);
+
+require("./routes/api/songsAPIv1.0.js")(app, offersRepository, usersRepository);
 require("./routes/api/wallapopAPI.js")(app, usersRepository);
 
 // view engine setup
