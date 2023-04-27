@@ -70,6 +70,7 @@ require('./routes/authors.js')(app);
 // require("./routes/songs.js")(app, MongoClient);
 
 require("./routes/api/songsAPIv1.0.js")(app, songsRepository, usersRepository);
+require("./routes/api/wallapopAPI.js")(app, usersRepository);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
