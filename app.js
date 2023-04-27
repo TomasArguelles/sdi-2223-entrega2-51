@@ -29,7 +29,8 @@ app.set('clave', 'abcdefg');
 app.set('crypto', crypto);
 
 const {MongoClient} = require("mongodb");
-const url = 'mongodb+srv://admin:sdi@sdi-2223-entrega2-51.287aegb.mongodb.net/?retryWrites=true&w=majority';
+//const url = 'mongodb+srv://admin:sdi@sdi-2223-entrega2-51.287aegb.mongodb.net/?retryWrites=true&w=majority';
+const url = 'mongodb://localhost:27017';
 app.set('connectionStrings', url);
 
 const userSessionRouter = require('./routes/userSessionRouter');
@@ -63,13 +64,15 @@ let commentsRepository = require("./repositories/commentsRepository.js");
 commentsRepository.init(app, MongoClient);
 require("./routes/comments.js")(app, commentsRepository);
 
-let songsRepository = require("./repositories/songsRepository.js");
-songsRepository.init(app, MongoClient);
-require("./routes/songs.js")(app, songsRepository, commentsRepository);
-require('./routes/authors.js')(app);
-// require("./routes/songs.js")(app, MongoClient);
+// Repositorio de ofertas
+let offersRepository = require("./repositories/offersRepository.js");
+offersRepository.init(app, MongoClient);
+require("./routes/offers.js")(app, offersRepository);
 
-require("./routes/api/songsAPIv1.0.js")(app, songsRepository, usersRepository);
+
+require('./routes/authors.js')(app);
+// require("./routes/offers.js")(app, MongoClient);
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
