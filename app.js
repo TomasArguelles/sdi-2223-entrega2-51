@@ -36,6 +36,16 @@ const {MongoClient} = require("mongodb");
 const localUrl = 'mongodb://localhost:27017';
 app.set('connectionStrings', localUrl);
 
+
+//---  Logger middleware ------------------------
+const customLogger = require('./middlewares/loggerMiddleware');
+app.use("/offer/", customLogger);
+app.use("/offers/", customLogger);
+app.use("/users/login/", customLogger);
+//TODO: Añadir el resto de rutas
+
+// ----------------------------------------------
+
 const userSessionRouter = require('./routes/userSessionRouter');
 const userAudiosRouter = require('./routes/userAudiosRouter');
 
