@@ -1,5 +1,5 @@
 const {ObjectId} = require("mongodb");
-module.exports = function (app, usersRepository) {
+module.exports = function (app, usersRepository, offersRepository) {
     app.post('/api/v1.0/users/login', function (req, res) {
         try {
             let securePassword = app.get("crypto").createHmac('sha256', app.get('clave'))
@@ -38,5 +38,20 @@ module.exports = function (app, usersRepository) {
                 authenticated: false
             });
         }
+    });
+
+    app.get("/api/v1.0/offers/list/:id", function (req, res) {
+        let userA = res.user; // email
+        offersRepository.getOffers().then(offers => {
+            let id = offers[0]._id;
+            let userB = offers[0].email;
+            if (userA !== userB) {  // offers de los usuarios diferentes al usuario en sesión
+                res.status(200);
+                res.send({offers: offers});
+            }
+        }).catch(() => {
+            res.status(500);
+            res.json({error: "Se ha producido un error al obtener las ofertas."})
+        });
     });
 }
