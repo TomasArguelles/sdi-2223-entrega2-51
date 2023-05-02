@@ -1,10 +1,13 @@
+const {generateLogContent} = require("../middlewares/loggerMiddleware");
 module.exports = function (app, usersRepository) {
     app.get('/users', function (req, res) {
+        generateLogContent(req, res);
         res.send('lista de usuarios');
     })
 
     app.get('/users/logout', function (req, res) {
         req.session.user = null;
+        generateLogContent(req, res);
         res.send("El usuario se ha desconectado correctamente");
     })
 
@@ -36,6 +39,7 @@ module.exports = function (app, usersRepository) {
     });
 
     app.get('/users/login', function (req, res) {
+        generateLogContent(req, res);
         res.render("login.twig");
     })
 
@@ -50,11 +54,16 @@ module.exports = function (app, usersRepository) {
         usersRepository.findUser(filter, options).then(user => {
             if (user === null) {
                 req.session.user = null;
+
+                generateLogContent(req, res);
+
                 res.redirect("/users/login" +
                     "?message=Email o password incorrecto"+
                     "&messageType=alert-danger ");
             } else {
                 req.session.user = user.email;
+
+                generateLogContent(req, res);
 
                 // Redireccionar a la pagina de ofertas propias
                 res.redirect("/offers");

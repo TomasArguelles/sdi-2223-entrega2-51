@@ -3,8 +3,6 @@ D
 views/songs/add.twig,3\f\3f9cd411c7a49b37cac9666480c4a40f4d645967
 J
 routes/api/songsAPIv1.0.js,5\9\593edca837d34bb0fb1cf6bf1ded6a537a9ff6e5
-A
-views/layout.twig,0\6\06a8cf847006c2e37708c5b7ed91ab069e2bb24f
 O
 repositories/usersRepository.js,5\9\59eec077761f04a33a5f4c3ab7e5c70852ca968e
 I
@@ -13,8 +11,6 @@ I
 bin/www,f\9\f9f3ad31c1666c9d010b84cbbe24e70370a40411
 s
 Ctest/java/com/uniovi/sdi2223entrega1n/pageobjects/PO_LoginView.java,2\e\2e4db8a66941f543fc6b23952e0eacacf615657a
-@
-views/login.twig,8\5\858c14f39b540b2c71113cc8d7641ef3eb0900cb
 R
 "public/apiclient/widget-login.html,3\e\3efd3a60a097d48eb8e965bd293a92d42516f7a4
 A
@@ -33,8 +29,6 @@ S
 #public/apiclient/widget-offers.html,7\a\7a829514f4c592523a5d8c90745198b928ee8831
 D
 views/offer/add.twig,e\4\e4435a75863599b82a8de1ef7b62810ebec8e079
-E
-views/offer/list.twig,0\1\0161806e1e8e6ab410b0cf08b89c64d1e3aa5dcd
 S
 #middlewares/validationMiddleware.js,c\a\ca6b6d08234719bdbe7f0a339b255a1dfe937947
 R
@@ -55,7 +49,5 @@ J
 routes/userAudiosRouter.js,c\3\c396b453f41a428900735f87c7a99f938b97c4cc
 @
 routes/offers.js,a\3\a3966e5b4f1ae11212e585a0191244da421f4446
-?
-routes/users.js,0\1\0183ca13e8b379ffbb27ca8371a09f05510b35e8
 P
  repositories/offersRepository.js,1\9\19d9e7e5a4f35488889b872d147538948bcf6145

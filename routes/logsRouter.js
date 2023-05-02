@@ -1,12 +1,13 @@
 module.exports = function (app, logsRepository) {
+
     /**
      * GET /logs
      * Listado de todos los logs.
      */
-    app.get("/logs", async function (req, res) {
+    app.get("/admin", async function (req, res) {
         try {
-            const logs = await logsRepository.getAllLogs();
-            //res.render("logs/list", {logs});
+            const logs = await logsRepository.findAllLogs();
+            res.render("admin", {logs});
         } catch (err) {
             res.status(500).json({error: "Error al listar los logs. " + err});
         }
@@ -18,8 +19,12 @@ module.exports = function (app, logsRepository) {
      */
     app.get("/logs/delete", async function (req, res) {
         try {
-            await logsRepository.deleteAllLogs();
-            res.redirect("/logs");
+            await logsRepository.deleteAllLogs(function (isDeleted) {
+                if (isDeleted) {
+                    res.redirect("/logs");
+                }
+            });
+
         } catch (err) {
             res.status(500).json({error: "Error al eliminar los logs. " + err});
         }

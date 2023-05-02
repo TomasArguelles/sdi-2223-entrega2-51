@@ -39,9 +39,9 @@ app.set('connectionStrings', localUrl);
 
 //---  Logger middleware ------------------------
 const customLogger = require('./middlewares/loggerMiddleware');
-app.use("/offer/", customLogger);
-app.use("/offers/", customLogger);
-app.use("/users/login", customLogger);
+app.use("/offer/", customLogger.loggerRouter);
+app.use("/offers/", customLogger.loggerRouter);
+app.use("/users/signup", customLogger.loggerRouter);
 
 //TODO: Añadir el resto de rutas
 
@@ -65,6 +65,11 @@ let bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+// Logs
+let logsRepository = require("./repositories/loggingRepository.js");
+logsRepository.init(app, MongoClient);
+require("./routes/logsRouter.js")(app, logsRepository);
+
 const usersRepository = require("./repositories/usersRepository.js");
 usersRepository.init(app, MongoClient);
 require("./routes/users.js")(app, usersRepository);
@@ -78,11 +83,6 @@ require("./routes/comments.js")(app, commentsRepository);
 let offersRepository = require("./repositories/offersRepository.js");
 offersRepository.init(app, MongoClient);
 require("./routes/offers.js")(app, offersRepository, commentsRepository);
-
-// Logs
-let logsRepository = require("./repositories/loggingRepository.js");
-logsRepository.init(app, MongoClient);
-require("./routes/logsRouter.js")(app, logsRepository);
 
 require('./routes/authors.js')(app);
 
