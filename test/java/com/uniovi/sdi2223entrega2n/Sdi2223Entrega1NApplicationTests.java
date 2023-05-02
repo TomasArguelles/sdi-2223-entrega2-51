@@ -15,10 +15,10 @@ class Sdi2223Entrega1NApplicationTests {
 
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
 
-   
-    static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+
+    static String Geckodriver = "C:\\Users\\UO253628\\Downloads\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
-    static String BASE_ENDPOINT = "http://localhost:8090";
+    static String BASE_ENDPOINT = "http://localhost:8081";
 
     // Endpoint para mostrar el listado de usuarios (Ver UserController)
     static final String USER_LIST_ENDPOINT = BASE_ENDPOINT + "/user/list";
@@ -67,10 +67,26 @@ class Sdi2223Entrega1NApplicationTests {
         //Nos movemos al formulario de registro
         PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
-        PO_SignUpView.fillForm(driver, "JoseFo@gmail.com", "Josefo", "Perez", "77777", "77777");
+        PO_SignUpView.fillForm(driver, "JoseFo@gmail.com", "Josefo", "Perez", "01/11/1997",
+                "77777", "77777");
         //Comprobamos que hemos ido a la pagina de home, confirmando que el registro se ha completado con exito
         PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
     }
+//    [Prueba2] Registro de Usuario con datos inválidos (email, nombre, apellidos y fecha de nacimiento vacíos).
+//    [Prueba3] Registro de Usuario con datos inválidos (repetición de contraseña inválida).
+//    [Prueba4] Registro de Usuario con datos inválidos (email existente).
+
+    //    [Prueba1] Registro de Usuario con datos válidos.
+//    @Test
+//    @Order(1)
+//    void PR01() {
+//        //Nos movemos al formulario de registro
+//        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+//        //Cumplimentamos el registro con datos VALIDOS
+//        PO_SignUpView.fillForm(driver, "JoseFo@gmail.com", "Josefo", "Perez", "77777", "77777");
+//        //Comprobamos que hemos ido a la pagina de home, confirmando que el registro se ha completado con exito
+//        PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
+//    }
 
     //    [Prueba2] Registro de Usuario con datos inválidos (email vacío, nombre vacío, apellidos vacíos).
     @Test
@@ -79,7 +95,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Nos movemos al formulario de registro
         PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos INVALIDOS
-        PO_SignUpView.fillForm(driver, "", "", "", "77777", "77777");
+        PO_SignUpView.fillForm(driver, "", "", "", "", "77777", "77777");
         //Comprobamos que seguimos en la pantalla de registro
         PO_SignUpView.checkSignUpPage(driver, PO_Properties.getSPANISH());
     }
@@ -91,7 +107,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Nos movemos al formulario de registro
         PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos INVALIDOS
-        PO_SignUpView.fillForm(driver, "JoseFo@gmail.com", "Josefo", "Perez", "77777", "773777");
+        PO_SignUpView.fillForm(driver, "JoseFo@gmail.com", "Josefo", "01111997","Perez", "77777", "773777");
         //Comprobamos que seguimos en la pantalla de registro
         PO_SignUpView.checkSignUpPage(driver, PO_Properties.getSPANISH());
     }
@@ -103,7 +119,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Nos movemos al formulario de registro
         PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
-        PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo", "Perez", "77777", "77777");
+        PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo", "01111997","Perez", "77777", "77777");
         //Comprobamos que seguimos en la pantalla de registro
         PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
 
@@ -111,7 +127,7 @@ class Sdi2223Entrega1NApplicationTests {
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
         PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos INVALIDOS
-        PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo", "Perez", "77777", "77777");
+        PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo", "01111997","Perez", "77777", "77777");
         //Comprobamos que seguimos en la pantalla de registro
         PO_SignUpView.checkSignUpPage(driver, PO_Properties.getSPANISH());
     }
@@ -182,7 +198,7 @@ class Sdi2223Entrega1NApplicationTests {
     @Order(10)
     void PR010() {
         //Buscamos que tenga el tex
-        SeleniumUtils.textIsNotPresentOnPage(driver,"Desconectate");
+        SeleniumUtils.textIsNotPresentOnPage(driver, "Desconectate");
     }
 
     //[Prueba11] Mostrar el listado de usuarios y comprobar que se muestran todos los que existen en el
@@ -479,11 +495,11 @@ class Sdi2223Entrega1NApplicationTests {
         PO_LoginView.fillForm(driver, "user07@email.com", "user07");
         //Entramos a la vista de comprar y compramos la oferta 104 que su precio es valido
         String buttonName = "buyOffer104";
-        PO_AllOfferView.buyOffer(driver,buttonName);
+        PO_AllOfferView.buyOffer(driver, buttonName);
         //Sacamos el valor del wallet
         String value = PO_AllOfferView.seeWallet(driver);
         //Lo comparamos con el precio restado
-        Assertions.assertEquals(value,"54.0");
+        Assertions.assertEquals(value, "54.0");
         //Cierro sesion
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
     }
@@ -511,11 +527,11 @@ class Sdi2223Entrega1NApplicationTests {
         PO_LoginView.fillForm(driver, "user07@email.com", "user07");
         //Entramos a la vista de comprar y compramos la oferta 153 que su precio es igual al wallet
         String buttonName = "buyOffer153";
-        PO_AllOfferView.buyOffer(driver,buttonName);
+        PO_AllOfferView.buyOffer(driver, buttonName);
         //Sacamos el valor del wallet
         String value = PO_AllOfferView.seeWallet(driver);
         //Lo comparamos con el precio restado
-        Assertions.assertEquals(value,"0.0");
+        Assertions.assertEquals(value, "0.0");
 
     }
 
@@ -532,14 +548,14 @@ class Sdi2223Entrega1NApplicationTests {
         PO_LoginView.fillForm(driver, "user07@email.com", "user07");
         //Entramos a la vista de comprar y compramos la oferta 34 que su precio es invalido
         String buttonName = "buyOffer34";
-        PO_AllOfferView.buyOffer(driver,buttonName);
+        PO_AllOfferView.buyOffer(driver, buttonName);
         //Buscamos que aparezca en la pagina la label
         boolean isDisplayed = driver.findElement(By.id("errorPrecio")).isDisplayed();
-        Assertions.assertEquals(true,isDisplayed);
+        Assertions.assertEquals(true, isDisplayed);
         //Cierro sesion
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
     }
-    
+
     // [Prueba 25]. Listado de ofertas compradas por un usuario.
     // Comprobar que se muestran todas las ofertas compradas por dicho usuario.
     @Test
@@ -572,7 +588,7 @@ class Sdi2223Entrega1NApplicationTests {
         // Cerramos sesión
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
     }
-    
+
     //[Prueba26] Sobre una búsqueda determinada de ofertas (a elección de desarrollador), enviar un mensaje
 //a una oferta concreta. Se abriría dicha conversación por primera vez. Comprobar que el mensaje aparece
 //en la conversación.
@@ -582,7 +598,6 @@ class Sdi2223Entrega1NApplicationTests {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
         PO_LoginView.fillForm(driver, "user06@email.com", "user06");
-
 
 
         //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
@@ -606,7 +621,7 @@ class Sdi2223Entrega1NApplicationTests {
         List<WebElement> rows2 = table.findElements(By.tagName("tr"));
         int numRowsAfter = rows2.size();
 
-        Assertions.assertEquals(numRowsInit, numRowsAfter-1);
+        Assertions.assertEquals(numRowsInit, numRowsAfter - 1);
     }
 
     //[Prueba27] Enviar un mensaje a una conversación ya existente accediendo desde el botón/enlace
@@ -638,7 +653,7 @@ class Sdi2223Entrega1NApplicationTests {
         List<WebElement> rows2 = table.findElements(By.tagName("tr"));
         int numRowsAfter = rows2.size();
 
-        Assertions.assertEquals(numRowsInit, numRowsAfter-1);
+        Assertions.assertEquals(numRowsInit, numRowsAfter - 1);
     }
 
     //[Prueba28] Mostrar el listado de conversaciones ya abiertas. Comprobar que el listado contiene la
@@ -664,46 +679,46 @@ class Sdi2223Entrega1NApplicationTests {
      */
     @Test
     @Order(29)
-    public void PR29(){
+    public void PR29() {
         //Me logueo como usuario normal
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         PO_LoginView.fillForm(driver, "user04@email.com", "user04");
         //Compruebo el titulo con la pagina en español
-        String title= "Bienvenidos a la página principal";
+        String title = "Bienvenidos a la página principal";
         String result = PO_HomeView.getTitleMessage(driver);
-        Assertions.assertEquals(title,result);
+        Assertions.assertEquals(title, result);
         //Cambio a idioma ingles
-        PO_NavView.changeLanguage(driver,"English");
+        PO_NavView.changeLanguage(driver, "English");
         //Compruebo el titulo con la pagina en ingles
         title = "Welcome to homepage";
         result = PO_HomeView.getTitleMessage(driver);
-        Assertions.assertEquals(title,result);
+        Assertions.assertEquals(title, result);
         //Cambio a español
-        PO_NavView.changeLanguage(driver,"Spanish");
+        PO_NavView.changeLanguage(driver, "Spanish");
         //Compruebo el titulo en español
-        title= "Bienvenidos a la página principal";
+        title = "Bienvenidos a la página principal";
         result = PO_HomeView.getTitleMessage(driver);
-        Assertions.assertEquals(title,result);
+        Assertions.assertEquals(title, result);
 
         //Cambio a pagina de ver ofertas para comprar
-        PO_NavView.selectDropdownById(driver,"gestionOfertasMenu","gestionOfertasDropdow","listAllOfferMenu");
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdow", "listAllOfferMenu");
 
         //Compruebo el titulo en español
         title = "Todas las ofertas";
         result = PO_AllOfferView.getTitleMessage(driver);
-        Assertions.assertEquals(title,result);
+        Assertions.assertEquals(title, result);
         //Cambio a ingles
-        PO_NavView.changeLanguage(driver,"English");
+        PO_NavView.changeLanguage(driver, "English");
         //Compruebo en ingles
         title = "All offers";
         result = PO_AllOfferView.getTitleMessage(driver);
-        Assertions.assertEquals(title,result);
+        Assertions.assertEquals(title, result);
         //Cambio a español
-        PO_NavView.changeLanguage(driver,"Spanish");
+        PO_NavView.changeLanguage(driver, "Spanish");
         //Compruebo en español
-        title= "Todas las ofertas";
+        title = "Todas las ofertas";
         result = PO_HomeView.getTitleMessage(driver);
-        Assertions.assertEquals(title,result);
+        Assertions.assertEquals(title, result);
 
         //Me deslogueo
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
@@ -715,40 +730,40 @@ class Sdi2223Entrega1NApplicationTests {
         driver.get("http://localhost:8090/user/list");
         //Compruebo el titulo en español
 
-        title="Usuarios";
+        title = "Usuarios";
         result = PO_UserListView.getTile(driver);
-        Assertions.assertEquals(title,result);
+        Assertions.assertEquals(title, result);
         //Me cambio a ingles
-        PO_NavView.changeLanguage(driver,"English");
+        PO_NavView.changeLanguage(driver, "English");
         //Compruebo el titulo en ingles
-        title="Users";
+        title = "Users";
         result = PO_UserListView.getTile(driver);
-        Assertions.assertEquals(title,result);
+        Assertions.assertEquals(title, result);
         //Me cambio a español
-        PO_NavView.changeLanguage(driver,"Spanish");
+        PO_NavView.changeLanguage(driver, "Spanish");
         //Compruebo el titulo en español
-        title="Usuarios";
+        title = "Usuarios";
         result = PO_UserListView.getTile(driver);
-        Assertions.assertEquals(title,result);
+        Assertions.assertEquals(title, result);
 
         //Cambiamos a la ventana log
         driver.get("http://localhost:8090/admin/logs/all");
         //Comprobamos en español
         title = "Listado de logs";
         result = PO_AdminView.getTitle(driver);
-        Assertions.assertEquals(title,result);
+        Assertions.assertEquals(title, result);
         //Cambiamos a ingles
-        PO_NavView.changeLanguage(driver,"English");
+        PO_NavView.changeLanguage(driver, "English");
         //Comprobamos en ingles
         title = "Log listing";
         result = PO_AdminView.getTitle(driver);
-        Assertions.assertEquals(title,result);
+        Assertions.assertEquals(title, result);
         //Cambiamos a español
-        PO_NavView.changeLanguage(driver,"Spanish");
+        PO_NavView.changeLanguage(driver, "Spanish");
         //Comprobamos en español
         title = "Listado de logs";
         result = PO_AdminView.getTitle(driver);
-        Assertions.assertEquals(title,result);
+        Assertions.assertEquals(title, result);
     }
 
 
@@ -918,9 +933,10 @@ class Sdi2223Entrega1NApplicationTests {
         WebElement table2 = driver.findElement(By.id("tableOtherOffers"));
         List<WebElement> rows2 = table2.findElements(By.tagName("tr"));
         int numRowsFinal = rows2.size();
-        Assertions.assertEquals(numRowsOriginal, numRowsFinal+1);
+        Assertions.assertEquals(numRowsOriginal, numRowsFinal + 1);
 
     }
+
     //[Prueba36] Sobre el listado de conversaciones ya abiertas, pulsar el enlace Eliminar de la última y
     //comprobar que el listado se actualiza correctamente
     @Test
@@ -942,7 +958,7 @@ class Sdi2223Entrega1NApplicationTests {
         WebElement table2 = driver.findElement(By.id("tableOtherOffers"));
         List<WebElement> rows2 = table2.findElements(By.tagName("tr"));
         int numRowsFinal = rows2.size();
-        Assertions.assertEquals(numRowsOriginal, numRowsFinal+1);
+        Assertions.assertEquals(numRowsOriginal, numRowsFinal + 1);
 
     }
 
@@ -1016,7 +1032,7 @@ class Sdi2223Entrega1NApplicationTests {
         String value = PO_AllOfferView.seeWallet(driver);
 
         // Lo comparamos con el precio restado: 154.0 - 20.0 = 134.0
-        Assertions.assertEquals(value,"134.0");
+        Assertions.assertEquals(value, "134.0");
 
         // Cerramos sesión
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
@@ -1053,11 +1069,11 @@ class Sdi2223Entrega1NApplicationTests {
      */
     @Test
     @Order(40)
-    public void PR040(){
+    public void PR040() {
         //Crear un usuario
         SeleniumUtils.registerNewUser(driver, "miemail12333@email.com", "123456");
         //Creo una oferta sin imagen
-        String s= "coche";
+        String s = "coche";
         PO_OfferView.addImageOffer(driver, s);
 
         //Comprobar que se muestra
@@ -1072,11 +1088,11 @@ class Sdi2223Entrega1NApplicationTests {
      */
     @Test
     @Order(41)
-    public void PR041(){
+    public void PR041() {
         //Crear un usuario
         SeleniumUtils.registerNewUser(driver, "miemail123@email.com", "123456");
         //Creo una oferta sin imagen
-        String s= "coche";
+        String s = "coche";
         PO_OfferView.addSampleOffer(driver, s);
 
         //Comprobar que se muestra

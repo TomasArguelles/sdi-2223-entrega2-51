@@ -54,6 +54,15 @@ module.exports = function (app, usersRepository) {
         res.render("login.twig");
     })
 
+    /**
+     * Suministrando su email y contraseña, un usuario registrado podrá autenticarse ante el sistema. Sólo los
+     * usuarios que proporcionen correctamente su email y su contraseña podrán iniciar sesión con éxito.
+     * En caso de que el inicio de sesión fracase, será necesario mostrar un mensaje de error indicando el
+     * problema.
+     * En caso de que el inicio de sesión sea correcto se enviará al usuiario a diferentes lugares:
+     * * Usuario Administrador: “listado de todos los usuarios de la aplicación”
+     * * Usuario Registrado: "listado de ofertas propias"
+     */
     app.post('/users/login', function (req, res) {
         let securePassword = app.get("crypto").createHmac('sha256', app.get('clave')).update(req.body.password)
             .digest('hex')
@@ -70,7 +79,12 @@ module.exports = function (app, usersRepository) {
                     "&messageType=alert-danger ");
             } else {
                 req.session.user = user.email;
-                res.redirect("/publications");
+                if(user.kind === "Usuario Administrador"){
+                    res.redirect("/publications"); //TODO “listado de todos los usuarios de la aplicación”
+                }
+                else{
+                    res.redirect("/publications"); //TODO "listado de ofertas propias"
+                }
             }
         }).catch(error => {
             req.session.user = null;

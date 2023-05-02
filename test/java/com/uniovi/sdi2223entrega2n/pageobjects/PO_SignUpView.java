@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class PO_SignUpView extends PO_NavView {
-    static public void fillForm(WebDriver driver, String emailp, String namep, String lastnamep, String
+    static public void fillForm(WebDriver driver, String emailp, String namep, String surnamep, String datep, String
             passwordp, String passwordconfp) {
         WebElement email = driver.findElement(By.name("email"));
         email.click();
@@ -16,10 +16,14 @@ public class PO_SignUpView extends PO_NavView {
         name.click();
         name.clear();
         name.sendKeys(namep);
-        WebElement lastname = driver.findElement(By.name("lastName"));
-        lastname.click();
-        lastname.clear();
-        lastname.sendKeys(lastnamep);
+        WebElement surname = driver.findElement(By.name("surname"));
+        surname.click();
+        surname.clear();
+        surname.sendKeys(surnamep);
+        WebElement date = driver.findElement(By.name("date"));
+        date.click();
+        date.clear();
+        date.sendKeys(datep);
         WebElement password = driver.findElement(By.name("password"));
         password.click();
         password.clear();
