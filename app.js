@@ -65,12 +65,18 @@ require("./routes/comments.js")(app, commentsRepository);
 
 let songsRepository = require("./repositories/songsRepository.js");
 songsRepository.init(app, MongoClient);
+
+let conversationsRepository = require("./repositories/conversationsRepository.js");
+conversationsRepository.init(app, MongoClient);
+let messagesRepository = require("./repositories/messagesRepository.js");
+messagesRepository.init(app, MongoClient);
+
 require("./routes/songs.js")(app, songsRepository, commentsRepository);
 require('./routes/authors.js')(app);
 // require("./routes/songs.js")(app, MongoClient);
 
 require("./routes/api/songsAPIv1.0.js")(app, songsRepository, usersRepository);
-require("./routes/api/wallapopAPI.js")(app, usersRepository);
+require("./routes/api/wallapopAPI.js")(app, usersRepository, conversationsRepository, messagesRepository);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
