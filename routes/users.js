@@ -12,6 +12,9 @@ module.exports = function (app, usersRepository) {
         res.render("signup.twig");
     })
 
+    /**
+     *
+     */
     app.post('/users/signup', function (req, res) {
         if(req.body.password !== req.body.password2)
             res.redirect("/users/signup" +
@@ -36,7 +39,7 @@ module.exports = function (app, usersRepository) {
                     usersRepository.insertUser(user).then(userId => {
                         res.redirect("/users/login" +
                             "?message=Nuevo usuario registrado" +
-                            "&messageType=alert-info ");
+                            "&messageType=alert-info "); //TODO “listado de ofertas propias”
                     })
                 else
                     res.redirect("/users/signup" +

@@ -67,14 +67,55 @@ class Sdi2223Entrega1NApplicationTests {
         //Nos movemos al formulario de registro
         PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
-        PO_SignUpView.fillForm(driver, "JoseFo@gmail.com", "Josefo", "Perez", "01/11/1997",
+        PO_SignUpView.fillForm(driver, "JoseFo@gmail.com", "Josefo", "Perez", "2023-05-22",
                 "77777", "77777");
         //Comprobamos que hemos ido a la pagina de home, confirmando que el registro se ha completado con exito
-        PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
+        PO_HomeView.checkWelcomeToPage(driver); //TODO W7
     }
-//    [Prueba2] Registro de Usuario con datos inválidos (email, nombre, apellidos y fecha de nacimiento vacíos).
-//    [Prueba3] Registro de Usuario con datos inválidos (repetición de contraseña inválida).
-//    [Prueba4] Registro de Usuario con datos inválidos (email existente).
+
+    //    [Prueba2] Registro de Usuario con datos inválidos (email, nombre, apellidos y fecha de nacimiento vacíos).
+    @Test
+    @Order(2)
+    void PR02() {
+        //Nos movemos al formulario de registro
+        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos INVALIDOS
+        PO_SignUpView.fillForm(driver, "", "", "", "", "77777", "77777");
+        //Comprobamos que seguimos en la pantalla de registro
+        PO_SignUpView.checkSignUpPage(driver);
+    }
+
+    //    [Prueba3] Registro de Usuario con datos inválidos (repetición de contraseña inválida).
+    @Test
+    @Order(3)
+    void PR03() {
+        //Nos movemos al formulario de registro
+        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos INVALIDOS
+        PO_SignUpView.fillForm(driver, "JoseFo@gmail.com", "Josefo", "2023-05-22", "Perez", "77777", "773777");
+        //Comprobamos que seguimos en la pantalla de registro
+        PO_SignUpView.checkSignUpPage(driver);
+    }
+
+    //    [Prueba4] Registro de Usuario con datos inválidos (email existente).
+    @Test
+    @Order(4)
+    void PR04() {
+        //Nos movemos al formulario de registro
+        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo",  "Perez","2023-05-22", "77777", "77777");
+        //Comprobamos que hemos ido a la pagina de home, confirmando que el registro se ha completado con exito
+        PO_HomeView.checkWelcomeToPage(driver);
+
+        //Nos movemos al formulario de registro
+        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos INVALIDOS
+        PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo", "Perez", "2023-05-22", "77777", "77777");
+        //Comprobamos que seguimos en la pantalla de registro
+        PO_SignUpView.checkSignUpPage(driver);
+    }
 
     //    [Prueba1] Registro de Usuario con datos válidos.
 //    @Test
@@ -89,48 +130,48 @@ class Sdi2223Entrega1NApplicationTests {
 //    }
 
     //    [Prueba2] Registro de Usuario con datos inválidos (email vacío, nombre vacío, apellidos vacíos).
-    @Test
-    @Order(2)
-    void PR02() {
-        //Nos movemos al formulario de registro
-        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-        //Cumplimentamos el registro con datos INVALIDOS
-        PO_SignUpView.fillForm(driver, "", "", "", "", "77777", "77777");
-        //Comprobamos que seguimos en la pantalla de registro
-        PO_SignUpView.checkSignUpPage(driver, PO_Properties.getSPANISH());
-    }
+//    @Test
+//    @Order(2)
+//    void PR02() {
+//        //Nos movemos al formulario de registro
+//        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+//        //Cumplimentamos el registro con datos INVALIDOS
+//        PO_SignUpView.fillForm(driver, "", "", "", "", "77777", "77777");
+//        //Comprobamos que seguimos en la pantalla de registro
+//        PO_SignUpView.checkSignUpPage(driver, PO_Properties.getSPANISH());
+//    }
 
-    //    [Prueba3] Registro de Usuario con datos inválidos (repetición de contraseña inválida).
-    @Test
-    @Order(3)
-    void PR03() {
-        //Nos movemos al formulario de registro
-        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-        //Cumplimentamos el registro con datos INVALIDOS
-        PO_SignUpView.fillForm(driver, "JoseFo@gmail.com", "Josefo", "01111997","Perez", "77777", "773777");
-        //Comprobamos que seguimos en la pantalla de registro
-        PO_SignUpView.checkSignUpPage(driver, PO_Properties.getSPANISH());
-    }
+//    //    [Prueba3] Registro de Usuario con datos inválidos (repetición de contraseña inválida).
+//    @Test
+//    @Order(3)
+//    void PR03() {
+//        //Nos movemos al formulario de registro
+//        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+//        //Cumplimentamos el registro con datos INVALIDOS
+//        PO_SignUpView.fillForm(driver, "JoseFo@gmail.com", "Josefo", "2023-05-22", "Perez", "77777", "773777");
+//        //Comprobamos que seguimos en la pantalla de registro
+//        PO_SignUpView.checkSignUpPage(driver);
+//    }
 
-    //    [Prueba4] Registro de Usuario con datos inválidos (email existente).
-    @Test
-    @Order(4)
-    void PR04() {
-        //Nos movemos al formulario de registro
-        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-        //Cumplimentamos el registro con datos VALIDOS
-        PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo", "01111997","Perez", "77777", "77777");
-        //Comprobamos que seguimos en la pantalla de registro
-        PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
-
-        //Nos movemos al formulario de registro
-        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
-        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-        //Cumplimentamos el registro con datos INVALIDOS
-        PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo", "01111997","Perez", "77777", "77777");
-        //Comprobamos que seguimos en la pantalla de registro
-        PO_SignUpView.checkSignUpPage(driver, PO_Properties.getSPANISH());
-    }
+//    //    [Prueba4] Registro de Usuario con datos inválidos (email existente).
+//    @Test
+//    @Order(4)
+//    void PR04() {
+//        //Nos movemos al formulario de registro
+//        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+//        //Cumplimentamos el registro con datos VALIDOS
+//        PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo", "2023-05-22", "Perez", "77777", "77777");
+//        //Comprobamos que seguimos en la pantalla de registro
+//        PO_HomeView.checkWelcomeToPage(driver);
+//
+//        //Nos movemos al formulario de registro
+//        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+//        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+//        //Cumplimentamos el registro con datos INVALIDOS
+//        PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo", "Perez", "2023-05-22", "77777", "77777");
+//        //Comprobamos que seguimos en la pantalla de registro
+//        PO_SignUpView.checkSignUpPage(driver);
+//    }
 
     //[Prueba5] Inicio de sesión con datos válidos (administrador).
     @Test
@@ -141,7 +182,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Rellenamos con datos validos del usuario administrador
         PO_LoginView.fillForm(driver, "admin@email.com", "admin");
         //Comprobamos que hemos ido a la pagina de home, confirmando que el inicio de sesión se ha completado con exito
-        PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
+        PO_HomeView.checkWelcomeToPage(driver);
     }
 
     //[Prueba6] Inicio de sesión con datos válidos (usuario estándar).
@@ -153,7 +194,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Rellenamos con datos validos del usuario estandar
         PO_LoginView.fillForm(driver, "user01@email.com", "user01");
         //Comprobamos que hemos ido a la pagina de home, confirmando que el inicio de sesión se ha completado con exito
-        PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
+        PO_HomeView.checkWelcomeToPage(driver);
     }
 
     //[Prueba7] Inicio de sesión con datos inválidos (usuario estándar, campo email y contraseña vacíos)
@@ -186,7 +227,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Rellenamos con datos validos del usuario estandar
         PO_LoginView.fillForm(driver, "user01@email.com", "user01");
         //Comprobamos que hemos ido a la pagina de home, confirmando que el inicio de sesión se ha completado con exito
-        PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
+        PO_HomeView.checkWelcomeToPage(driver);
         //Nos movemos al formulario de inicio de sesión
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
         //Comprobamos que estamos en la pantalla de inicio de sesión
@@ -211,7 +252,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Cumplimentamos el registro con datos VALIDOS
         PO_LoginView.fillForm(driver, "admin@email.com", "admin");
         //Comprobamos que seguimos en la pantalla de registro
-        PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
+        PO_HomeView.checkWelcomeToPage(driver);
         //Accedemos a la lista de users
         driver.get("http://localhost:8090/user/list");
 
@@ -235,7 +276,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Cumplimentamos el registro con datos VALIDOS
         PO_LoginView.fillForm(driver, "admin@email.com", "admin");
         //Comprobamos que seguimos en la pantalla de registro
-        PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
+        PO_HomeView.checkWelcomeToPage(driver);
         //Accedemos a la lista de users
         driver.get("http://localhost:8090/user/list");
 
@@ -268,7 +309,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Cumplimentamos el registro con datos VALIDOS
         PO_LoginView.fillForm(driver, "admin@email.com", "admin");
         //Comprobamos que seguimos en la pantalla de registro
-        PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
+        PO_HomeView.checkWelcomeToPage(driver);
         //Accedemos a la lista de users
         driver.get("http://localhost:8090/user/list");
 
@@ -299,7 +340,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Cumplimentamos el registro con datos VALIDOS
         PO_LoginView.fillForm(driver, "admin@email.com", "admin");
         //Comprobamos que seguimos en la pantalla de registro
-        PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
+        PO_HomeView.checkWelcomeToPage(driver);
         //Accedemos a la lista de users
         driver.get("http://localhost:8090/user/list");
 

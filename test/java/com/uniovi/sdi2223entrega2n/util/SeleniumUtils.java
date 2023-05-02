@@ -155,6 +155,6 @@ public class SeleniumUtils {
      */
     static public void registerNewUser(WebDriver driver, String email, String password) {
         PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-        PO_SignUpView.fillForm(driver, email, "aaaaa", "aaaaa", "01111997", password, password);
+        PO_SignUpView.fillForm(driver, email, "aaaaa", "aaaaa", "2023-05-22", password, password);
     }
 }

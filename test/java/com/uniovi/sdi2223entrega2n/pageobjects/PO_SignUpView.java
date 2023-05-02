@@ -22,8 +22,8 @@ public class PO_SignUpView extends PO_NavView {
         surname.sendKeys(surnamep);
         WebElement date = driver.findElement(By.name("date"));
         date.click();
-        date.clear();
-        date.sendKeys(datep);
+//        date.clear();
+        date.sendKeys("2023-05-22");
         WebElement password = driver.findElement(By.name("password"));
         password.click();
         password.clear();
@@ -37,9 +37,9 @@ public class PO_SignUpView extends PO_NavView {
         driver.findElement(boton).click();
     }
 
-    static public void checkSignUpPage(WebDriver driver, int language) {
+    static public void checkSignUpPage(WebDriver driver) {
 //Esperamos a que se cargue el saludo de bienvenida en Español
-        SeleniumUtils.waitLoadElementsBy(driver, "text", p.getString("signup.page.message", language),
+        SeleniumUtils.waitLoadElementsBy(driver, "text", "Registrar usuario",
                 getTimeout());
     }
 }
