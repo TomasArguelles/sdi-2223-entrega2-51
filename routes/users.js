@@ -55,7 +55,9 @@ module.exports = function (app, usersRepository) {
                     "&messageType=alert-danger ");
             } else {
                 req.session.user = user.email;
-                res.redirect("/publications");
+
+                // Redireccionar a la pagina de ofertas propias
+                res.redirect("/offers");
             }
         }).catch(error => {
             req.session.user = null;

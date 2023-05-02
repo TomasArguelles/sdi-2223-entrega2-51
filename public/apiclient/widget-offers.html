@@ -1,0 +1,50 @@
+<div id="widget-songs">
+    <input type="text" class="form-control" placeholder="Filtrar por nombre"
+           id="filter-by-name"/>
+    <button class="btn btn-primary" onclick="widgetAddSong()">Nueva Canción
+    </button>
+    <button class="btn" onclick="loadAllAvaiableOffers()">Actualizar</button>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Título</th>
+            <th>Detalle</th>
+            <th>Precio</th>
+            <th>Fecha publicación</th>
+            <th>Email del vendedor</th>
+        </tr>
+        </thead>
+        <tbody id="offersTableBody"></tbody>
+    </table>
+</div>
+
+<script>
+    window.history.pushState("", "", "/apiclient/client.html?w=offers");
+    var offers;
+
+    /**
+     * Actualiza la tabla de ofertas con los datos de la lista de ofertas
+     * disponibles. Se excluyen las ofertas publicadas por el usuario en
+     * sesión.
+     *
+     */
+    function loadAllAvaiableOffers() {
+        $.ajax({
+            url: URLbase + "/offers",
+            type: "GET",
+            data: {},
+            dataType: 'json',
+            headers: {"token": token},
+            success: function (response) {
+                offers = response.offers;
+                updateOffersTable(offers);
+            },
+            error: function (error) {
+                // TODO: Mostrar mensaje de error
+                $("#main-container").load("widget-login.html");
+            }
+        });
+    }
+
+    loadAllAvaiableOffers();
+</script>

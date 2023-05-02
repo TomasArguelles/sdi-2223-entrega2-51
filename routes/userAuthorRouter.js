@@ -1,10 +1,9 @@
 const express = require('express');
 const path = require("path");
 const {ObjectId} = require("mongodb");
-const songsRepository = require("../repositories/songsRepository");
+const songsRepository = require("../repositories/offersRepository");
 const userAuthorRouter = express.Router();
 userAuthorRouter.use(function (req, res, next) {
-    console.log("userAuthorRouter");
     let songId = path.basename(req.originalUrl);
     let filter = {_id: ObjectId(songId)};
     songsRepository.findSong(filter, {}).then(song => {
