@@ -41,7 +41,8 @@ app.set('connectionStrings', localUrl);
 const customLogger = require('./middlewares/loggerMiddleware');
 app.use("/offer/", customLogger);
 app.use("/offers/", customLogger);
-app.use("/users/login/", customLogger);
+app.use("/users/login", customLogger);
+
 //TODO: Añadir el resto de rutas
 
 // ----------------------------------------------
@@ -77,6 +78,11 @@ require("./routes/comments.js")(app, commentsRepository);
 let offersRepository = require("./repositories/offersRepository.js");
 offersRepository.init(app, MongoClient);
 require("./routes/offers.js")(app, offersRepository, commentsRepository);
+
+// Logs
+let logsRepository = require("./repositories/loggingRepository.js");
+logsRepository.init(app, MongoClient);
+require("./routes/logsRouter.js")(app, logsRepository);
 
 require('./routes/authors.js')(app);
 

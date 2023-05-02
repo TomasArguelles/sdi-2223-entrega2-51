@@ -1,5 +1,6 @@
 const express = require('express');
 const log4js = require("log4js");
+const logginRepository = require("../repositories/loggingRepository");
 const logger = log4js.getLogger();
 
 const loggerRouter = express.Router();
@@ -42,12 +43,14 @@ const getLogType = function (req, res) {
 
     // Login realizado correctamente
     if (req.url.includes("login") && req.method === "POST"
-        && res.status === 200 && req.session.user) {
+        && res.status === 200) {
         return LOG_TYPES.LOGIN_EX;
     }
 
     // Login incorrecto
-    if (req.url.includes("login") && req.method === "POST" && !req.session.user) {
+    if (req.url.includes("login") && req.method === "POST"
+        && req.params && Object.keys(req.params).length > 0
+        && res.status === 401) {
         return LOG_TYPES.LOGIN_ERR;
     }
 
@@ -60,33 +63,40 @@ const getLogType = function (req, res) {
     return LOG_TYPES.PET;
 }
 
-loggerRouter.use(function (req, res, next) {
-
-    // Obtener la url de la petición (basename)
-    const urlBasename = req.originalUrl
-
-    // Texto descriptivo del log
-    let logDescription = {
-        method: req.method,
-        url: req.originalUrl,
-    }
-
-    if(req.params && Object.keys(req.params).length > 0){
-        logDescription.params = req.params;
-    }
-
+/**
+ * Genera el contenido del log.
+ * @param req
+ * @param res
+ * @returns {{description: {method, params, url: (*|string|string)}, type: string, timestamp: string}}
+ */
+const generateLogContent = async function (req, res) {
     const logContent = {
         type: getLogType(req, res),
-        description: logDescription,
+        description: {
+            method: req.method,
+            url: req.originalUrl,
+        },
         timestamp: new Date().toISOString(),
     }
 
-    // Si la url no está en la lista de excluidos, la logueamos
-    if (isUrlIncludedToLog(urlBasename)) {
-        console.log("logger: ", logContent);
-        logger.debug(logContent);
+    // Si la peticion contiene parametros, los añadimos al contenido del log
+    if (req.params && Object.keys(req.params).length > 0) {
+        logContent.description.params = req.params;
     }
-    //logger.debug("request received. url: " + urlBasename);
+
+    await logginRepository.addNewLog(logContent, (id) => {
+        console.log(`Log ${id} registrado correctamente.`);
+    });
+}
+
+loggerRouter.use(function (req, res, next) {
+
+
+    // Si la url no está en la lista de excluidos, la logueamos
+    if (isUrlIncludedToLog(req.originalUrl)) {
+        generateLogContent(req, res);
+        //logger.debug(logContent);
+    }
     next();
 });
 
