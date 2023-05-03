@@ -34,11 +34,21 @@ module.exports = function (app, logsRepository) {
      * GET /logs/:logType
      * Listado de logs, filtrado por tipo de log.
      */
-    app.get("/logs/:logType", async function (req, res) {
-        // TODO: Comprobar param
+    app.get("/logs/filter", async function (req, res) {
+
+        // TODO: Validar que el tipo de log es correcto (param)
+
+        const {logType} = req.query;
+
+        if(logType === 'TODO'){
+            res.redirect("/admin");
+            return;
+        }
+
         try {
-            const logs = await logsRepository.filterLogByType(req.params.logType);
-            //res.render("logs/list", {logs});
+            const logs = await logsRepository.filterLogByType(logType);
+            res.render("admin", {logs});
+
         } catch (err) {
             res.status(500).json({error: "Error al listar los logs. " + err});
         }

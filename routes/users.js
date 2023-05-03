@@ -6,12 +6,13 @@ module.exports = function (app, usersRepository) {
     })
 
     app.get('/users/logout', function (req, res) {
-        req.session.user = null;
         generateLogContent(req, res);
+        req.session.user = null;
         res.send("El usuario se ha desconectado correctamente");
     })
 
     app.get('/users/signup', function (req, res) {
+        generateLogContent(req, res);
         res.render("signup.twig");
     })
 
@@ -25,12 +26,14 @@ module.exports = function (app, usersRepository) {
         usersRepository.findUser({email: user.email}, {}).then(us => {
             if (us === null)
                 usersRepository.insertUser(user).then(userId => {
+                    generateLogContent(req, res);
                     res.redirect("/users/login" +
                         "?message=Nuevo usuario registrado"+
                         "&messageType=alert-info ");
                 })
-            else
+            else{
                 res.redirect("/users/login");
+            }
         }).catch(error => {
             res.redirect("/users/singup" +
                 "?message=Se ha producido un error al registrar el usuario"+

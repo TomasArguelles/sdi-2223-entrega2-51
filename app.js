@@ -41,7 +41,6 @@ app.set('connectionStrings', localUrl);
 const customLogger = require('./middlewares/loggerMiddleware');
 app.use("/offer/", customLogger.loggerRouter);
 app.use("/offers/", customLogger.loggerRouter);
-app.use("/users/signup", customLogger.loggerRouter);
 
 //TODO: Añadir el resto de rutas
 
