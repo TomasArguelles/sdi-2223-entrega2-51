@@ -65,11 +65,6 @@ let bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-// Logs
-let logsRepository = require("./repositories/loggingRepository.js");
-logsRepository.init(app, MongoClient);
-require("./routes/logsRouter.js")(app, logsRepository);
-
 const usersRepository = require("./repositories/usersRepository.js");
 usersRepository.init(app, MongoClient);
 require("./routes/users.js")(app, usersRepository);
@@ -83,6 +78,11 @@ require("./routes/comments.js")(app, commentsRepository);
 let offersRepository = require("./repositories/offersRepository.js");
 offersRepository.init(app, MongoClient);
 require("./routes/offers.js")(app, offersRepository, commentsRepository);
+
+// Logs
+let logsRepository = require("./repositories/loggingRepository.js");
+logsRepository.init(app, MongoClient);
+require("./routes/logsRouter.js")(app, logsRepository);
 
 require('./routes/authors.js')(app);
 
