@@ -40,10 +40,11 @@ module.exports = function (app, usersRepository, offersRepository) {
         }
     });
 
-    app.get("/api/v1.0/offers/list/:id", function (req, res) {
+    app.get("/api/v1.0/offers", function (req, res) {
+        let filter = {};
+        let options = {};
         let userA = res.user; // email
-        offersRepository.getOffers().then(offers => {
-            let id = offers[0]._id;
+        offersRepository.getOffers(filter, options).then(offers => {
             let userB = offers[0].email;
             if (userA !== userB) {  // offers de los usuarios diferentes al usuario en sesión
                 res.status(200);

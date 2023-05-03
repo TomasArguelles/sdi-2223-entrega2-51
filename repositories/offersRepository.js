@@ -64,14 +64,39 @@ module.exports = {
     },
 
     /**
+     * W9 Usuario registrado: Buscar ofertas
      * Devuelve todas las ofertas de los usuarios.
+     * Puede recibir un filtro (título).
      */
-    getOffers: async function () {
-        const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
-        const database = client.db("sdi-2223-entrega2-51");
-        const offerCollection = database.collection(offersCollectionName);
-        const offers = await offerCollection.find().toArray();
+    getOffers: async function (filter, options) {
+        try {
+            const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
+            const database = client.db("sdi-2223-entrega2-51");
+            const offerCollection = database.collection(offersCollectionName);
+            const offers = await offerCollection.find(filter, options).toArray();
+            return offers;
+        } catch (error) {
+            throw (error);
+        }
+    },
 
-        return offers;
+    /**
+     * W9 Usuario registrado: Buscar ofertas
+     * Devuelve las ofertas correspondientes a una página concreta (paginación).
+     */
+    getOffersPg: async function (filter, options, page) {
+        try {
+            const limit = 5; // 5 ofertas por página
+            const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
+            const database = client.db("sdi-2223-entrega2-51");
+            const offersCollection = database.collection(offersCollectionName);
+            const offersCollectionCount = await offersCollection.count();
+            const cursor = offersCollection.find(filter, options).skip((page - 1) * limit).limit(limit);
+            const offers = await cursor.toArray();
+            const result = {offers: offers, total: offersCollectionCount};
+            return result;
+        } catch (error) {
+            throw (error);
+        }
     }
 };
