@@ -3,7 +3,6 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
-
 let app = express();
 
 let rest = require('request');
@@ -30,12 +29,9 @@ app.set('clave', 'abcdefg');
 app.set('crypto', crypto);
 
 const {MongoClient} = require("mongodb");
-//const url = 'mongodb+srv://admin:sdi@sdi-2223-entrega2-51.287aegb.mongodb.net/?retryWrites=true&w=majority';
-
 // TODO: Reemplazar por URL mongo Altas
 const localUrl = 'mongodb://localhost:27017';
 app.set('connectionStrings', localUrl);
-
 
 //---  Logger middleware ------------------------
 const customLogger = require('./middlewares/loggerMiddleware');
@@ -47,7 +43,6 @@ app.use("/offers/", customLogger.loggerRouter);
 // ----------------------------------------------
 
 const userSessionRouter = require('./routes/userSessionRouter');
-const userAudiosRouter = require('./routes/userAudiosRouter');
 
 // Auth middleware
 app.use("/offers/",userSessionRouter);
@@ -83,10 +78,7 @@ let logsRepository = require("./repositories/loggingRepository.js");
 logsRepository.init(app, MongoClient);
 require("./routes/logsRouter.js")(app, logsRepository);
 
-require('./routes/authors.js')(app);
-
-require("./routes/api/songsAPIv1.0.js")(app, offersRepository, usersRepository);
-require("./routes/api/wallapopAPI.js")(app, usersRepository);
+require("./routes/api/wallapopAPI.js")(app, usersRepository, offersRepository);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
