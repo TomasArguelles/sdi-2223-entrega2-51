@@ -37,6 +37,7 @@
             headers: {"token": token},
             success: function (response) {
                 offers = response.offers;
+                console.log("offers: " + offers);
                 updateOffersTable(offers);
             },
             error: function (error) {
@@ -44,6 +45,35 @@
                 $("#main-container").load("widget-login.html");
             }
         });
+    }
+
+    /**
+     * Actualiza la tabla con todas las ofertas de los usuarios, salvo aquellas
+     * publicadas por el usuario en sesión.
+     *
+     * @param offers Listado de ofertas disponibles
+     */
+    function updateOffersTable(offers) {
+        $("#offersTableBody").empty(); // Vaciar la tabla
+        if (offers.length === 0) {
+            $("#offersTableBody").append(
+                "<tr>" +
+                "<td colspan='5'>No hay ofertas disponibles</td>" +
+                "</tr>");
+        } else {
+
+            for (i = 0; i < offers.length; i++) {
+                $("#offersTableBody").append(
+                    "<tr id=" + offers[i].title + ">" +
+                    "<td>" + offers[i].title + "</td>" +
+                    "<td>" + offers[i].description + "</td>" +
+                    "<td>" + offers[i].price + "€</td>" +
+                    "<td>" + offers[i].date + "</td>" +
+                    "<td>" + offers[i].seller + "</td>" +
+                    "<td>" +
+                    "</tr>");
+            }
+        }
     }
 
     loadAllAvaiableOffers();

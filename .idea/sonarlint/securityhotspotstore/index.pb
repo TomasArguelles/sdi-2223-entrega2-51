@@ -3,22 +3,16 @@ D
 views/songs/add.twig,3\f\3f9cd411c7a49b37cac9666480c4a40f4d645967
 J
 routes/api/songsAPIv1.0.js,5\9\593edca837d34bb0fb1cf6bf1ded6a537a9ff6e5
-I
-routes/api/wallapopAPI.js,7\9\79f44395764f2ed6a98b25498274c92e86630d63
 7
 bin/www,f\9\f9f3ad31c1666c9d010b84cbbe24e70370a40411
 s
 Ctest/java/com/uniovi/sdi2223entrega1n/pageobjects/PO_LoginView.java,2\e\2e4db8a66941f543fc6b23952e0eacacf615657a
-R
-"public/apiclient/widget-login.html,3\e\3efd3a60a097d48eb8e965bd293a92d42516f7a4
 A
 util/validator.js,6\e\6e6f6d52a953e679fa003257b919a37bfd2033bc
 =
 test/test.iml,8\e\8ec4fd9b8f0455e512313a7c992dfe21786be81c
 w
 G.idea/sonarlint/issuestore/3/f/3f9cd411c7a49b37cac9666480c4a40f4d645967,8\a\8aabf46ac2c2d754de5358d5fe4c38abd2be117d
-A
-util/dateUtils.js,a\f\afd7ebe6edbe0a05f633ba42f9b00f10c527f5a0
 Å
 Q.idea/sonarlint/securityhotspotstore/3/f/3f9cd411c7a49b37cac9666480c4a40f4d645967,d\8\d8cc8719de2be875704af9c7bf3513fcf693196e
 D
@@ -43,8 +37,6 @@ J
 routes/userAudiosRouter.js,c\3\c396b453f41a428900735f87c7a99f938b97c4cc
 @
 routes/offers.js,a\3\a3966e5b4f1ae11212e585a0191244da421f4446
-P
- repositories/offersRepository.js,1\9\19d9e7e5a4f35488889b872d147538948bcf6145
 Å
 Q.idea/sonarlint/securityhotspotstore/a/3/a3966e5b4f1ae11212e585a0191244da421f4446,b\0\b0d14e94dbaf98884f2db4014bde7db4d060a384
 w
@@ -146,12 +138,6 @@ E
 views/offer/list.twig,0\1\0161806e1e8e6ab410b0cf08b89c64d1e3aa5dcd
 {
 Ktest/java/com/uniovi/sdi2223entrega1n/Sdi2223Entrega1NApplicationTests.java,d\7\d7b30737fab945ab898879aec78ee4a72c6d4a16
-S
-#public/apiclient/widget-offers.html,7\a\7a829514f4c592523a5d8c90745198b928ee8831
-L
-public/apiclient/client.html,2\a\2aa891c4f5e71f6b2acb4eb7fbbee41271ab7546
-O
-repositories/usersRepository.js,5\9\59eec077761f04a33a5f4c3ab7e5c70852ca968e
 L
 public/stylesheets/style.css,3\7\373d337c32dec564fe0da458c6478733eec21e5a
 Q

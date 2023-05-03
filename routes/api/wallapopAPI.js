@@ -1,4 +1,5 @@
 const {ObjectId} = require("mongodb");
+const {formatDate} = require("../../util/dateUtils");
 module.exports = function (app, usersRepository, offersRepository) {
     app.post('/api/v1.0/users/login', function (req, res) {
         try {
@@ -45,10 +46,15 @@ module.exports = function (app, usersRepository, offersRepository) {
         let options = {};
         let userA = res.user; // email
         offersRepository.getOffers(filter, options).then(offers => {
-            let userB = offers[0].email;
+            let userB = offers[0].seller;
             if (userA !== userB) {  // offers de los usuarios diferentes al usuario en sesión
                 res.status(200);
-                res.send({offers: offers});
+                // Mostrar la hora en formato dd/mm/yyyy hh:mm
+                let formatedOffers = offers?.map(offer => {
+                    offer.date = formatDate(offer.date);
+                    return offer;
+                });
+                res.send({offers: formatedOffers});
             }
         }).catch(() => {
             res.status(500);
