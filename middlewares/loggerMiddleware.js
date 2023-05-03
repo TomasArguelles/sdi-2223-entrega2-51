@@ -19,6 +19,7 @@ log4js.configure({
 // Tipos de logs en la aplicación
 const LOG_TYPES = {
     PET: "PET", // Cualquier peticion HTTP
+    ALTA: "ALTA", // Alta de un usuario
     LOGIN_EX: "LOGIN_EX", // Login exitoso
     LOGIN_ERR: "LOGIN_ERR", // Login incorrecto
     LOGOUT: "LOGOUT", // Cierre de sesión
@@ -43,15 +44,21 @@ const getLogType = function (req, res) {
 
     // Login realizado correctamente
     if (req.url.includes("login") && req.method === "POST"
-        && res.status === 200) {
+        && req.session.user && req.url !== "/users") {
         return LOG_TYPES.LOGIN_EX;
     }
 
     // Login incorrecto
     if (req.url.includes("login") && req.method === "POST"
-        && req.params && Object.keys(req.params).length > 0
-        && res.status === 401) {
+        && !req.session.user && req.url !== "/users") {
         return LOG_TYPES.LOGIN_ERR;
+    }
+
+    // Alta de usuario
+    if (req.url.includes("signup")
+        && (req.method === "POST" || req.method === "GET")
+        && req.url !== "/users") {
+        return LOG_TYPES.ALTA;
     }
 
     // Cierre de sesión
@@ -75,13 +82,32 @@ const generateLogContent = async function (req, res) {
         description: {
             method: req.method,
             url: req.originalUrl,
+            status: res.statusCode,
+            ip: req.remoteAddress || req.ip,
+            family: req.connection.remoteFamily,
+            agent: req.headers['user-agent'],
+            httpVersion: req.httpVersion,
         },
         timestamp: new Date().toISOString(),
     }
 
+    const logType = getLogType(req, res);
+
+    // Si la petición es de logout, añadimos el usuario a la descripción del log
+    if(logType === LOG_TYPES.LOGOUT){
+        logContent.description.user = req.session.user;
+    }
+
     // Si la peticion contiene parametros, los añadimos al contenido del log
-    if (req.params && Object.keys(req.params).length > 0) {
-        logContent.description.params = req.params;
+    if (req.query && Object.keys(req.query).length > 0) {
+        const allParams = req.query;
+        const splitedParams = Object.keys(allParams).map(key => {
+            return {
+                key: key,
+                value: allParams[key]
+            };
+        });
+        logContent.description.params = splitedParams;
     }
 
     await logginRepository.addNewLog(logContent, (id) => {
@@ -100,5 +126,5 @@ loggerRouter.use(function (req, res, next) {
     next();
 });
 
-module.exports = loggerRouter;
+module.exports = {loggerRouter, generateLogContent};
 

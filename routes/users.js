@@ -1,14 +1,18 @@
+const {generateLogContent} = require("../middlewares/loggerMiddleware");
 module.exports = function (app, usersRepository) {
     app.get('/users', function (req, res) {
+        generateLogContent(req, res);
         res.send('lista de usuarios');
     })
 
     app.get('/users/logout', function (req, res) {
+        generateLogContent(req, res);
         req.session.user = null;
         res.send("El usuario se ha desconectado correctamente");
     })
 
     app.get('/users/signup', function (req, res) {
+        generateLogContent(req, res);
         res.render("signup.twig");
     })
 
@@ -22,12 +26,14 @@ module.exports = function (app, usersRepository) {
         usersRepository.findUser({email: user.email}, {}).then(us => {
             if (us === null)
                 usersRepository.insertUser(user).then(userId => {
+                    generateLogContent(req, res);
                     res.redirect("/users/login" +
                         "?message=Nuevo usuario registrado"+
                         "&messageType=alert-info ");
                 })
-            else
+            else{
                 res.redirect("/users/login");
+            }
         }).catch(error => {
             res.redirect("/users/singup" +
                 "?message=Se ha producido un error al registrar el usuario"+
@@ -36,6 +42,7 @@ module.exports = function (app, usersRepository) {
     });
 
     app.get('/users/login', function (req, res) {
+        generateLogContent(req, res);
         res.render("login.twig");
     })
 
@@ -50,11 +57,16 @@ module.exports = function (app, usersRepository) {
         usersRepository.findUser(filter, options).then(user => {
             if (user === null) {
                 req.session.user = null;
+
+                generateLogContent(req, res);
+
                 res.redirect("/users/login" +
                     "?message=Email o password incorrecto"+
                     "&messageType=alert-danger ");
             } else {
                 req.session.user = user.email;
+
+                generateLogContent(req, res);
 
                 // Redireccionar a la pagina de ofertas propias
                 res.redirect("/offers");

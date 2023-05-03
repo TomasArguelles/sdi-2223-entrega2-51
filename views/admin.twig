@@ -1,0 +1,83 @@
+{% extends "layout.twig" %}
+
+{% block title %} Dashboard del administrador | My Wallapop {% endblock %}
+
+{% block main_container %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Dashboard del administrador</h1>
+                <p>Registro de logs de la aplicación</p>
+                <div class="row">
+                    Filtrar por tipo de log:
+                    <form action="/logs/filter" method="GET"
+                          class="d-flex flex-row justify-content-start mb-4 gap-3">
+                        <select class="form-select form-select-lg mb-3"
+                                name="logType">
+                            <option selected value="TODO">Mostrar todo
+                            </option>
+                            <option value="PET">PET</option>
+                            <option value="ALTA">ALTA</option>
+                            <option value="LOGIN-EX">LOGIN-EX</option>
+                            <option value="LOGIN-ERR">LOGIN-ERR</option>
+                            <option value="LOGOUT">LOGOUT</option>
+                        </select>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary"
+                                   value="Filtar"
+                                   title="Pulsa aquí para filtrar los logs por el tipo de log seleccionado en el desplegable">
+                        </div>
+                    </form>
+                </div>
+                <br/>
+                {% if logs is empty %}
+                    <p>No hay logs registrados</p>
+                {% else %}
+                    <table class="table table-striped px-3 my-3">
+                        <thead>
+                        <tr>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">URL</th>
+                            <th scope="col">Método HTTP</th>
+                            <th scope="col">IP origen</th>
+                            <th scope="col">Parámetros</th>
+                            <th scope="col">Usuario</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for log in logs %}
+                            <tr class="{{ log.type == 'LOGIN_ERR' ? 'table-warning' : '' }}">
+                                <td>
+                                    <span class="{{ log.type == 'LOGIN_EX' ? 'badge badge-success' :
+                                    log.type == 'LOGOUT' ? 'badge badge-pill badge-warning' :
+                                    log.type == 'LOGIN_ERR' ? 'badge badge-pill badge-error' : 'badge badge-pill badge-secondary' }}">{{ log.type }}</span>
+                                </td>
+                                <td>{{ log.timestamp }}</td>
+                                <td>{{ log.description.url }}</td>
+                                <td>{{ log.description.method }}</td>
+                                <td>{{ log.description.ip }}</td>
+                                {% if log.description.params %}
+                                    <td>
+                                        <ul style="list-style-type: none">
+                                            {% for param in log.description.params %}
+                                                <li>
+                                                    <b>{{ param.key }}</b><br/>{{ param.value }}
+                                                </li>
+                                                <hr/>
+                                            {% endfor %}
+                                        </ul>
+                                    </td>
+                                {% else %}
+                                    <td>-</td>
+                                {% endif %}
+                                <td>{{ log.description.user }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

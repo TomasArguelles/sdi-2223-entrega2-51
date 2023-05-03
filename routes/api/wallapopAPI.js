@@ -1,5 +1,6 @@
 const {ObjectId} = require("mongodb");
-module.exports = function (app, usersRepository,conversationsRepository, messagesRepository) {
+const {formatDate} = require("../../util/dateUtils");
+module.exports = function (app, usersRepository, offersRepository) {
     app.post('/api/v1.0/users/login', function (req, res) {
         try {
             let securePassword = app.get("crypto").createHmac('sha256', app.get('clave'))
@@ -38,6 +39,27 @@ module.exports = function (app, usersRepository,conversationsRepository, message
                 authenticated: false
             });
         }
+    });
+
+    app.get("/api/v1.0/offers", function (req, res) {
+        let filter = {};
+        let options = {};
+        let userA = res.user; // email
+        offersRepository.getOffers(filter, options).then(offers => {
+            let userB = offers[0].seller;
+            if (userA !== userB) {  // offers de los usuarios diferentes al usuario en sesión
+                res.status(200);
+                // Mostrar la hora en formato dd/mm/yyyy hh:mm
+                let formatedOffers = offers?.map(offer => {
+                    offer.date = formatDate(offer.date);
+                    return offer;
+                });
+                res.send({offers: formatedOffers});
+            }
+        }).catch(() => {
+            res.status(500);
+            res.json({error: "Se ha producido un error al obtener las ofertas."})
+        });
     });
 
     app.post('/api/v1.0/messages/add', function (req, res) {
@@ -116,7 +138,4 @@ module.exports = function (app, usersRepository,conversationsRepository, message
             res.json({error: "Se ha producido un error al recuperar las ofertas."})
         });
     });
-
-
-
 }
