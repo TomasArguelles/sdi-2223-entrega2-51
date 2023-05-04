@@ -72,7 +72,7 @@ class Sdi2223Entrega1NApplicationTests {
         PO_SignUpView.fillForm(driver, "JoseFo@gmail.com", "Josefo", "Perez", "2023-05-22",
                 "77777", "77777");
         //Comprobamos que hemos ido a la pagina de home, confirmando que el registro se ha completado con exito
-        PO_HomeView.checkWelcomeToPage(driver); //TODO W7
+        PO_HomeView.checkWelcomeToPage(driver);
     }
 
     //    [Prueba2] Registro de Usuario con datos inválidos (email, nombre, apellidos y fecha de nacimiento vacíos).
