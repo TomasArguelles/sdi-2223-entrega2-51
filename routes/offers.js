@@ -57,6 +57,7 @@ module.exports = function (app, offersRepository) {
             }
         });
     });
+
     /**
      * W10 Usuario registrado: Comprar oferta
      * Comprueba si fue comprada la oferta
@@ -67,27 +68,46 @@ module.exports = function (app, offersRepository) {
             return purchases.length === 1 || user === offer.user;
         });
     }
+
     /**
      * W10 Usuario registrado: Comprar oferta
      * Obtener las compras
      */
     app.get('/purchases', function (req, res) {
-        let filter = {user: req.session.user};
-        let options = {projection: {_id: 0, offerId: 1}};
-        offersRepository.getPurchases(filter, options).then(purchasedIds => {
-            let purchasedOffers = [];
-            for (let i = 0; i < purchasedIds.length; i++) {
-                purchasedOffers.push(purchasedIds[i].offerId);
+            let filter = {user: req.session.user};
+            let options = {projection: {_id: 0, offerId: 1}};
+            let page = parseInt(req.query.page); // Es String !!!
+            if (typeof req.query.page === "undefined" || req.query.page === null || req.query.page === "0") {
+                // Puede no venir el param
+                page = 1;
             }
-            let filter = {"_id": {$in: purchasedOffers}};
-            let options = {sort: {title: 1}};
-            offersRepository.getOffers(filter, options).then(offers => {
-                res.render("purchase.twig", {offers: offers});
+            offersRepository.getPurchasesPg(filter, options, page).then(purchasedIds => {
+                let lastPage = purchasedIds.total / 5;
+                if (purchasedIds.total % 5 > 0) {
+                    // Sobran decimales
+                    lastPage = lastPage + 1;
+                }
+                let pages = []; // Páginas a mostrar
+                for (let i = page - 2; i <= page + 2; i++) {
+                    if (i > 0 && i <= lastPage) {
+                        pages.push(i);
+                    }
+                }
+                let purchasedOffers = [];
+                for (let i = 0; i < purchasedIds.length; i++) {
+                    purchasedOffers.push(purchasedIds[i].offerId);
+                }
+                let filter = {"_id": {$in: purchasedOffers}};
+                let options = {sort: {title: 1}};
+                offersRepository.getOffers(filter, options).then(offers => {
+                    res.render("purchase.twig", {offers: offers, pages: pages, currentPage: page});
+                }).catch(error => {
+                    res.send("Se ha producido un error al listar las ofertas compradas por el usuario: " + error);
+                });
             }).catch(error => {
-                res.send("Se ha producido un error al listar las ofertas compradas por el usuario: " + error);
+                res.send("Se ha producido un error al listar las ofertas del usuario " + error);
             });
-        }).catch(error => {
-            res.send("Se ha producido un error al listar las ofertas del usuario " + error);
-        });
-    });
+        }
+    )
+    ;
 }

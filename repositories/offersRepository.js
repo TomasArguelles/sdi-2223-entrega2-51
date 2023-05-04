@@ -99,6 +99,7 @@ module.exports = {
             throw (error);
         }
     },
+
     /**
      * W10 Usuario registrado: Comprar oferta
      */
@@ -117,6 +118,7 @@ module.exports = {
             }
         });
     },
+
     /**
      * W10 Usuario registrado: Comprar oferta
      * Obtiene las ofertas compradas
@@ -131,5 +133,26 @@ module.exports = {
         } catch (error) {
             throw (error);
         }
-    }
+    },
+
+    /**
+     * W11 Usuario registrado: Listar ofertas compradas
+     * Devuelve las ofertas correspondientes a una página concreta (paginación).
+     */
+    getPurchasesPg: async function (filter, options, page) {
+        try {
+            const limit = 5; // 5 ofertas por página
+            const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
+            const database = client.db("sdi-2223-entrega2-51");
+            const collectionName = 'purchases';
+            const purchasesCollection = database.collection(collectionName);
+            const purchasesCollectionCount = await purchasesCollection.count();
+            const cursor = purchasesCollection.find(filter, options).skip((page - 1) * limit).limit(limit);
+            const purchases = await cursor.toArray();
+            const result = {purchases: purchases, total: purchasesCollectionCount};
+            return result;
+        } catch (error) {
+            throw (error);
+        }
+    },
 };
