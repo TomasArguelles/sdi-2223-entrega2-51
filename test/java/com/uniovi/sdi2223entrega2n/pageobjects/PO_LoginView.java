@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 public class PO_LoginView extends PO_NavView {
 
     static public void fillForm(WebDriver driver, String emailp, String passwordp) {
-        WebElement email = driver.findElement(By.name("username"));
+        WebElement email = driver.findElement(By.name("email"));
         email.click();
         email.clear();
         email.sendKeys(emailp);
@@ -23,9 +23,9 @@ public class PO_LoginView extends PO_NavView {
         driver.findElement(boton).click();
     }
 
-    static public void checkLoginPage(WebDriver driver, int language) {
+    static public void checkLoginPage(WebDriver driver) {
 //Esperamos a que se cargue el saludo de bienvenida en Español
-        SeleniumUtils.waitLoadElementsBy(driver, "text", p.getString("login.page.message", language),
+        SeleniumUtils.waitLoadElementsBy(driver, "text", "Identificación de usuario",
                 getTimeout());
     }
 }

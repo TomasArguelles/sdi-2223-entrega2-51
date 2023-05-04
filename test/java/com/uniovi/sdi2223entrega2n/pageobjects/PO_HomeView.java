@@ -10,7 +10,7 @@ import java.util.List;
 public class PO_HomeView extends PO_NavView {
     static public void checkWelcomeToPage(WebDriver driver) {
 //Esperamos a que se cargue el saludo de bienvenida en Español
-        SeleniumUtils.waitLoadElementsBy(driver, "text", "Listado de ofertas propias",
+        SeleniumUtils.waitLoadElementsBy(driver, "text", "publicaciones",
                 getTimeout());
     }
 
