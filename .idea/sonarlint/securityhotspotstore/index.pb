@@ -142,3 +142,25 @@ L
 public/stylesheets/style.css,3\7\373d337c32dec564fe0da458c6478733eec21e5a
 Q
 !repositories/loggingRepository.js,9\d\9d5b7cd73f8e883d8353abbe88023be7c217a880
+L
+public/stylesheets/admin.css,1\4\14f0ceb298fa437f8c36dd9e0691ca4e72e88621
+@
+views/admin.twig,c\c\ccec310121f42287055e91ce94f294b1d7020f8d
+O
+middlewares/loggerMiddleware.js,f\c\fc0421e38c4be67fcee1f45259de3bcb9ad22a88
+L
+public/apiclient/client.html,2\a\2aa891c4f5e71f6b2acb4eb7fbbee41271ab7546
+A
+util/dateUtils.js,a\f\afd7ebe6edbe0a05f633ba42f9b00f10c527f5a0
+O
+repositories/usersRepository.js,5\9\59eec077761f04a33a5f4c3ab7e5c70852ca968e
+R
+"public/apiclient/widget-login.html,3\e\3efd3a60a097d48eb8e965bd293a92d42516f7a4
+S
+#public/apiclient/widget-offers.html,7\a\7a829514f4c592523a5d8c90745198b928ee8831
+I
+routes/api/wallapopAPI.js,7\9\79f44395764f2ed6a98b25498274c92e86630d63
+?
+routes/users.js,0\1\0183ca13e8b379ffbb27ca8371a09f05510b35e8
+P
+ repositories/offersRepository.js,1\9\19d9e7e5a4f35488889b872d147538948bcf6145
