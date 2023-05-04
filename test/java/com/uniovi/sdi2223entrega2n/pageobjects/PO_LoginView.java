@@ -34,13 +34,9 @@ public class PO_LoginView extends PO_NavView {
     /**
      * Acción de rellenar el formulario de login con credenciales válidas
      * y enviarlo.
-     *
-     * @param driver
-     * @param emailp
-     * @param passwordp
      */
     static public void simulateLogin(WebDriver driver, String emailp, String passwordp) {
         fillForm(driver, emailp, passwordp);
-        PO_View.checkElement(driver, "text", LOGIN_BUTTON_TEXT);
+        PO_View.checkElementBy(driver, "text", LOGIN_BUTTON_TEXT);
     }
 }
