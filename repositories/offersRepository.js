@@ -98,5 +98,38 @@ module.exports = {
         } catch (error) {
             throw (error);
         }
+    },
+    /**
+     * W10 Usuario registrado: Comprar oferta
+     */
+    buyOffer: function (shop, callbackFunction) {
+        this.mongoClient.connect(this.app.get('connectionStrings'), function (err, dbClient) {
+            if (err) {
+                callbackFunction(null)
+            } else {
+                const database = dbClient.db("sdi-2223-entrega2-51");
+                const collectionName = 'purchases';
+                const purchasesCollection = database.collection(collectionName);
+                purchasesCollection.insertOne(shop)
+                    .then(result => callbackFunction(result.insertedId))
+                    .then(() => dbClient.close())
+                    .catch(err => callbackFunction({error: err.message}));
+            }
+        });
+    },
+    /**
+     * W10 Usuario registrado: Comprar oferta
+     * Obtiene las ofertas compradas
+     */
+    getPurchases: async function (filter, options) {
+        try {
+            const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
+            const database = client.db("sdi-2223-entrega2-51");
+            const collectionName = 'purchases';
+            const purchasesCollection = database.collection(collectionName);
+            return await purchasesCollection.find(filter, options).toArray();
+        } catch (error) {
+            throw (error);
+        }
     }
 };

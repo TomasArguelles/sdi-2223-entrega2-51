@@ -23,16 +23,14 @@
                     <a href="/offers/{{ offer._id }}">
                         <div>{{ offer.title }}</div>
                         <div class="small">{{ offer.description }}</div>
-                        <div class="small">{{ offer.date }}</div>
+                        <div class="small">{{ offer.dateUpload }}</div>
                         <div class="text-right">{{ offer.price }} €</div>
-                        <div {% if {{offer.sold}} == true %}>
-                            <p>Vendido</p>
-                            {% endif %}
-                        </div>
-                        <div {% if {{offer.sold}} == false %}>
-                            <a href="/offers/buy/{{ offer._id }}">Comprar</a>
-                            {% endif %}
-                        </div>
+                        {% if buy %}
+                            <a class="btn btn-primary pull-right"
+                               href="/offers/buy/{{ offer._id }}">Comprar</a>
+                        {% else %}
+                            <div>Vendida</div>
+                        {% endif %}
                     </a>
                 </div>
             </div>

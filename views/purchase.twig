@@ -6,21 +6,15 @@
 		<table class="table table-hover">
 			<thead>
 			<tr>
-				<th>Nombre</th>
-				<th>Genero</th>
-				<th class="col-md-1"></th>
+				<th>Título</th>
+				<th>Descripcion</th>
 			</tr>
 			</thead>
 			<tbody>
-			{% for song in songs %}
+			{% for offer in offers %}
 				<tr>
-					<td>{{ song.title }}</td>
-					<td>{{ song.kind }}</td>
-					<td>
-						<audio controls>
-							<source src="/audios/{{ song._id }}.mp3" type="audio/mpeg">
-						</audio>
-					</td>
+					<td>{{ offer.title }}</td>
+					<td>{{ offer.description }}</td>
 				</tr>
 			{% endfor %}
 			</tbody>
