@@ -79,7 +79,9 @@ module.exports = function (app, offersRepository) {
                 return res.status(422).json({errors: errors.array()});
 
             } else {
-                await offersRepository.deleteOffer(ObjectId(req.params.offerId), (isDeleted) => {
+
+                const {offerId} = req.params;
+                await offersRepository.deleteOffer(ObjectId(offerId), (isDeleted) => {
                     if(isDeleted){
                         res.redirect("/offers");
                     }

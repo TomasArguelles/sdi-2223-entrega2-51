@@ -38,16 +38,6 @@ module.exports = {
         }
     },
 
-    deleteOffer: async function (offerId, callback) {
-        const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
-        const database = client.db("sdi-2223-entrega2-51");
-        const offerCollection = database.collection(offersCollectionName);
-
-        await offerCollection.deleteOne({_id: offerId}).then((result) => {
-            callback(result.deletedCount === 1);
-        });
-    },
-
     /**
      * Devuelve todas las ofertas publicadas por el usuario en sesion.
      *
@@ -78,6 +68,16 @@ module.exports = {
         } catch (error) {
             throw (error);
         }
+    },
+
+    deleteOffer: async function (offerId, callback) {
+        const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
+        const database = client.db("sdi-2223-entrega2-51");
+        const offerCollection = database.collection(offersCollectionName);
+
+        await offerCollection.deleteOne({_id: offerId}).then((result) => {
+            callback(result.deletedCount === 1);
+        });
     },
 
     /**
