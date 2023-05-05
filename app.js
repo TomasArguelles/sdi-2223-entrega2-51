@@ -79,7 +79,10 @@ let logsRepository = require("./repositories/loggingRepository.js");
 logsRepository.init(app, MongoClient);
 require("./routes/logsRouter.js")(app, logsRepository);
 
-require("./routes/api/wallapopAPI.js")(app, usersRepository, offersRepository);
+let conversationsRepository = require("./repositories/conversationsRepository");
+let messagesRepository = require("./repositories/messagesRepository");
+
+require("./routes/api/wallapopAPI.js")(app, usersRepository, offersRepository,conversationsRepository,messagesRepository);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
