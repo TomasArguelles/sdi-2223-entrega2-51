@@ -88,13 +88,15 @@
                 "</tr>");
         }else{
             for(let i = 0; i<messages.length; i++){
-                $("#messagesTableBody").append(
-                    "<tr>" +
-                    "<td>"+ messages[i].idSender +"</td>" +
-                    "<td>"+ messages[i].texto +"</td>" +
-                    "<td>"+ messages[i].leido +"</td>" +
-                    "</tr>"
-                );
+                if(messages[i].idReceiver == offer.seller && messages[i].idOffer == selectedId) {
+                    $("#messagesTableBody").append(
+                        "<tr>" +
+                        "<td>" + messages[i].idSender + "</td>" +
+                        "<td>" + messages[i].texto + "</td>" +
+                        "<td>" + messages[i].leido + "</td>" +
+                        "</tr>"
+                    );
+                }
             }
         }
     }
