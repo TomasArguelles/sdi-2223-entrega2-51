@@ -1,0 +1,80 @@
+<div id="widget-songs">
+    <input type="text" class="form-control" placeholder="Filtrar por nombre"
+           id="filter-by-name"/>
+    <button class="btn btn-primary" onclick="widgetAddSong()">Nueva Canción
+    </button>
+    <button class="btn" onclick="loadAllAvaiableOffers()">Actualizar</button>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Título</th>
+            <th>Detalle</th>
+            <th>Precio</th>
+            <th>Fecha publicación</th>
+            <th>Email del vendedor</th>
+        </tr>
+        </thead>
+        <tbody id="offersTableBody"></tbody>
+    </table>
+</div>
+
+<script>
+    window.history.pushState("", "", "/apiclient/client.html?w=offers");
+    var offers;
+
+    /**
+     * Actualiza la tabla de ofertas con los datos de la lista de ofertas
+     * disponibles. Se excluyen las ofertas publicadas por el usuario en
+     * sesión.
+     *
+     */
+    function loadAllAvaiableOffers() {
+        $.ajax({
+            url: URLbase + "/offers",
+            type: "GET",
+            data: {},
+            dataType: 'json',
+            headers: {"token": token},
+            success: function (response) {
+                offers = response.offers;
+                console.log("offers: " + offers);
+                updateOffersTable(offers);
+            },
+            error: function (error) {
+                // TODO: Mostrar mensaje de error
+                $("#main-container").load("widget-login.html");
+            }
+        });
+    }
+
+    /**
+     * Actualiza la tabla con todas las ofertas de los usuarios, salvo aquellas
+     * publicadas por el usuario en sesión.
+     *
+     * @param offers Listado de ofertas disponibles
+     */
+    function updateOffersTable(offers) {
+        $("#offersTableBody").empty(); // Vaciar la tabla
+        if (offers.length === 0) {
+            $("#offersTableBody").append(
+                "<tr>" +
+                "<td colspan='5'>No hay ofertas disponibles</td>" +
+                "</tr>");
+        } else {
+
+            for (i = 0; i < offers.length; i++) {
+                $("#offersTableBody").append(
+                    "<tr id=" + offers[i].title + ">" +
+                    "<td>" + offers[i].title + "</td>" +
+                    "<td>" + offers[i].description + "</td>" +
+                    "<td>" + offers[i].price + "€</td>" +
+                    "<td>" + offers[i].date + "</td>" +
+                    "<td>" + offers[i].seller + "</td>" +
+                    "<td>" +
+                    "</tr>");
+            }
+        }
+    }
+
+    loadAllAvaiableOffers();
+</script>

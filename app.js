@@ -29,17 +29,27 @@ app.set('clave', 'abcdefg');
 app.set('crypto', crypto);
 
 const {MongoClient} = require("mongodb");
+// TODO: Reemplazar por URL mongo Altas
 const url = 'mongodb+srv://admin:sdi@sdi-2223-entrega2-51.287aegb.mongodb.net/?retryWrites=true&w=majority';
-app.set('connectionStrings', url);
+const localUrl = 'mongodb://localhost:27017';
+app.set('connectionStrings', localUrl);
+
+//---  Logger middleware ------------------------
+const customLogger = require('./middlewares/loggerMiddleware');
+app.use("/offer/", customLogger.loggerRouter);
+app.use("/offers/", customLogger.loggerRouter);
+
+//TODO: Añadir el resto de rutas
+
+// ----------------------------------------------
 
 const userSessionRouter = require('./routes/userSessionRouter');
-const userAudiosRouter = require('./routes/userAudiosRouter');
 
-app.use("/songs/add",userSessionRouter);
-app.use("/publications",userSessionRouter);
+// Auth middleware
+app.use("/offers/",userSessionRouter);
+app.use("/offer/",userSessionRouter);
 app.use("/offers/buy",userSessionRouter);
 app.use("/purchases",userSessionRouter);
-app.use("/audios/",userAudiosRouter);
 app.use("/shop/",userSessionRouter);
 
 const userAuthorRouter = require('./routes/userAuthorRouter');
@@ -65,7 +75,12 @@ require("./routes/comments.js")(app, commentsRepository);
 
 let offersRepository = require("./repositories/offersRepository.js");
 offersRepository.init(app, MongoClient);
-require("./routes/offers.js")(app, offersRepository);
+require("./routes/offers.js")(app, offersRepository, commentsRepository);
+
+// Logs
+let logsRepository = require("./repositories/loggingRepository.js");
+logsRepository.init(app, MongoClient);
+require("./routes/logsRouter.js")(app, logsRepository);
 
 require("./routes/api/wallapopAPI.js")(app, usersRepository, offersRepository);
 

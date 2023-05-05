@@ -1,14 +1,20 @@
+const {generateLogContent} = require("../middlewares/loggerMiddleware");
 module.exports = function (app, usersRepository) {
     app.get('/users', function (req, res) {
+        generateLogContent(req, res);
         res.send('lista de usuarios');
     })
 
     app.get('/users/logout', function (req, res) {
+        generateLogContent(req, res);
         req.session.user = null;
-        res.send("El usuario se ha desconectado correctamente");
+        res.redirect("/users/login" +
+            "?message=El usuario se ha desconectado correctamente"+
+            "&messageType=alert-success ");
     })
 
     app.get('/users/signup', function (req, res) {
+        generateLogContent(req, res);
         res.render("signup.twig");
     })
 
@@ -36,9 +42,19 @@ module.exports = function (app, usersRepository) {
     });
 
     app.get('/users/login', function (req, res) {
+        generateLogContent(req, res);
         res.render("login.twig");
     })
 
+    /**
+     * Suministrando su email y contraseña, un usuario registrado podrá autenticarse ante el sistema. Sólo los
+     * usuarios que proporcionen correctamente su email y su contraseña podrán iniciar sesión con éxito.
+     * En caso de que el inicio de sesión fracase, será necesario mostrar un mensaje de error indicando el
+     * problema.
+     * En caso de que el inicio de sesión sea correcto se enviará al usuiario a diferentes lugares:
+     * * Usuario Administrador: “listado de todos los usuarios de la aplicación”
+     * * Usuario Registrado: "listado de ofertas propias"
+     */
     app.post('/users/login', function (req, res) {
         let securePassword = app.get("crypto").createHmac('sha256', app.get('clave')).update(req.body.password)
             .digest('hex')
@@ -50,12 +66,22 @@ module.exports = function (app, usersRepository) {
         usersRepository.findUser(filter, options).then(user => {
             if (user === null) {
                 req.session.user = null;
+
+                generateLogContent(req, res);
+
                 res.redirect("/users/login" +
                     "?message=Email o password incorrecto"+
                     "&messageType=alert-danger ");
             } else {
                 req.session.user = user.email;
-                res.redirect("/publications");
+
+                generateLogContent(req, res);
+                if(user.kind === "Usuario Administrador"){
+                    res.redirect("/offers"); //TODO “listado de todos los usuarios de la aplicación”
+                }
+                else{
+                    res.redirect("/offers"); //listado de ofertas propias
+                }
             }
         }).catch(error => {
             req.session.user = null;
