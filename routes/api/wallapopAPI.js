@@ -127,12 +127,12 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
 
     app.get('/api/v1.0/messages/:offerId', function (req, res) {
         const userId = req.user.id;
-        const offerId = req.params.idOffer;
+        const offerId = req.body.idOffer;
         let filter = {sender:userId,offer: offerId};
         let options = {};
-        conversationsRepository.getConversations(filter, options).then(songs => {
+        conversationsRepository.getConversations(filter, options).then(messages => {
             res.status(200);
-            res.send({songs: songs})
+            res.send({messages: messages})
         }).catch(error => {
             res.status(500);
             res.json({error: "Se ha producido un error al recuperar las ofertas."})

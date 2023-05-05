@@ -26,7 +26,7 @@
                                 <th>Leido</th>
                             </tr>
                             </thead>
-                            <tbody id="MessagesTableBody">
+                            <tbody id="messagesTableBody">
 
                             </tbody>
                         </table>
@@ -43,7 +43,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-primary">Enviar</button>
+                            <button type="submit" onclick="addMessages()" class="btn btn-primary">Enviar</button>
                         </div>
                     </div>
                 </form>
@@ -53,5 +53,68 @@
     </div>
 </div>
 <script>
+    let messages;
 
+    function loadAllMessages(){
+
+       $.ajax({
+           url: URLbase + "/messages/" + selectedId,
+           type : "GET",
+           data: {idOffer: selectedId}, // creo q aqui va el comprador
+           dataType: 'json',
+           headers: {
+               "token" : token
+           },
+           success: function (response){
+                messages = response.messages;
+                console.log(messages);
+                updateMessages(messages);
+           },error: function (error){
+
+           }
+       });
+    }
+
+    function updateMessages(messages){
+        $("#messagesTableBody").empty();
+        if(messages.length === 0){
+            $("#messagesTableBody").append(
+                "<tr>" +
+                "<td colspan='5'>No hay mensajes disponibles</td>" +
+                "</tr>");
+        }else{
+            for(let i = 0; i<messages.length; i++){
+                $("#messagesTableBody").append(
+                    "<tr>" +
+                    "<td>"+ messages[i].idSender +"</td>" +
+                    "<td>"+ messages[i].texto +"</td>" +
+                    "<td>"+ messages[i].leido +"</td>" +
+                    "</tr>"
+                );
+            }
+        }
+    }
+
+    function addMessages(){
+        $.ajax({
+            url: URLbase + "/messages/add",
+            type: "POST",
+            data: {
+                idOffer: selectedId,
+                idReceiver: offer.seller,
+                texto: $("#text").val()
+            },
+            dataType: 'json',
+            headers: {
+                "token": token
+            },
+            success: function (response) {
+                console.log("añadido");
+            }, error: function (error) {
+
+            }
+        })
+    }
+
+    loadAllMessages();
 </script>

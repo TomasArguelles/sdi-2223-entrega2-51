@@ -21,6 +21,7 @@
     window.history.pushState("", "", "/apiclient/client.html?w=offers");
     var offers;
     let selectedId;
+    let offer;
     /**
      * Actualiza la tabla de ofertas con los datos de la lista de ofertas
      * disponibles. Se excluyen las ofertas publicadas por el usuario en
@@ -62,7 +63,7 @@
         } else {
 
             for (let i = 0; i < offers.length; i++) {
-                let id = offers[i]._id;
+                console.log(JSON.stringify(offers[i]));
                 $("#offersTableBody").append(
                     "<tr id=" + offers[i].title + ">" +
                     "<td>" + offers[i].title + "</td>" +
@@ -70,9 +71,9 @@
                     "<td>" + offers[i].price + "€</td>" +
                     "<td>" + offers[i].date + "</td>" +
                     "<td>" + offers[i].seller + "</td>" +
-                    "<td> <button class=\"btn btn-primary\" onclick=offerConversation(\"a\")  > Conversacion</button> </td>" +
-                    "<td>" +
-                    "</tr>");
+                    "<td><button class=\"btn btn-primary\" onclick=\"offerConversation('"+ offers[i] +"')\">Conversacion</button></td>" +
+                    "</tr>"
+                );
             }
         }
     }
@@ -81,8 +82,9 @@
      * Cambia la vista a la conversacion propia de la oferta
      * @param _id de la oferta
      */
-    function offerConversation(_id){
-        selectedId = _id;
+    function offerConversation(offerP){
+        offer = offerP;
+        selectedId = offer._id;
         $("#main-container").load("widget-conversation.html");
     }
 
