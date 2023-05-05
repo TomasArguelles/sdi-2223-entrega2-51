@@ -71,7 +71,6 @@
            },
            success: function (response){
                 messages = response.messages;
-                console.log(messages);
                 updateMessages(messages);
            },error: function (error){
                clearInterval(refreshEachSecond);
