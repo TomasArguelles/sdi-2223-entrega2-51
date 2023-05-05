@@ -62,7 +62,6 @@
         } else {
 
             for (let i = 0; i < offers.length; i++) {
-                console.log(offers[i]);
                 $("#offersTableBody").append(
                     "<tr id=" + offers[i].title + ">" +
                     "<td>" + offers[i].title + "</td>" +
@@ -84,7 +83,6 @@
     function offerConversation(index){
         offer = offers[index];
         selectedId = offer._id;
-
         $("#main-container").load("widget-conversation.html");
     }
 
