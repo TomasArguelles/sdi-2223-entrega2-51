@@ -96,9 +96,10 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
                         });
                     } else {
                         let conv = {
-                            sender: msg.idSender,
-                            receiver: msg.idReceiver,
-                            oferta: msg.idOffer
+                            buyer: msg.idSender,
+                            seller: msg.idReceiver,
+                            oferta: msg.idOffer,
+                            tituloOferta: req.body.offerTitle
                         };
                         console.log(conv);
                         conversationsRepository.addConversation(conv, async function (conversationId) {
@@ -152,26 +153,36 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
         let options = {};
         let comoVendedor = [];
         let comoInteresado = [];
+        let todas=[]
         conversationsRepository.getConversations(filterUsuarioVendedor, options).then(convs => {
             convs.forEach(c => {
-                comoVendedor.push(c);
+
+                convs.forEach(c => {
+                    //comoVendedor.push(c);
+                    todas.push(c);
+                })
+
+
+
             })
 
 
         });
         conversationsRepository.getConversations(filterUsuarioInteresado, options).then(convs => {
             convs.forEach(c => {
-                comoInteresado.push(c);
+                //comoInteresado.push(c);
+                todas.push(c);
             })
 
 
         })
+        console.log(todas);
         res.status(200);
-        res.json({
-            asSeller: comoVendedor,
-            asInterested: comoInteresado
+        res.send({
+            listadoConversaciones: todas
+
         })
-            
+
         .catch(error => {
                 res.status(500);
                 res.json({error: "Se ha producido un error al obtener las conversaciones."});
