@@ -73,7 +73,8 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
                 timestamp: Date.now()
             }
             let filter = {sender:msg.idSender,receiver: msg.idReceiver,offer: msg.idOffer};
-            conversationsRepository.findConversation(filter, async function (conversation) {
+            let options = {};
+            conversationsRepository.findConversation(filter, options).then(conversation=> {
                 try {
                     if (conversation) {
                         messagesRepository.addMessage(msg, function (messageId) {
