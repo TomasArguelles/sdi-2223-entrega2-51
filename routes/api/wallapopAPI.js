@@ -1,6 +1,6 @@
 const {ObjectId} = require("mongodb");
 const {formatDate} = require("../../util/dateUtils");
-module.exports = function (app, usersRepository, offersRepository) {
+module.exports = function (app, usersRepository, offersRepository,conversationsRepository,messagesRepository) {
     app.post('/api/v1.0/users/login', function (req, res) {
         try {
             let securePassword = app.get("crypto").createHmac('sha256', app.get('clave'))
@@ -65,7 +65,7 @@ module.exports = function (app, usersRepository, offersRepository) {
     app.post('/api/v1.0/messages/add', function (req, res) {
         try {
             let msg = {
-                idOffer: req.body.offerId,
+                idOffer: req.body.idOffer,
                 idSender: req.session.email,
                 idReceiver: req.body.receiver,
                 leido: req.session.leido,
@@ -99,7 +99,7 @@ module.exports = function (app, usersRepository, offersRepository) {
                                 res.status(409);
                                 res.json({error: "No se ha podido crear la conversación."});
                             } else {
-                                messagesRepository.addMessage(msg, { conversationId: conversationId }, function (messageId) {
+                                messagesRepository.addMessage(msg, {conversationId: conversationId}, function (messageId) {
                                     if (messageId === null) {
                                         res.status(409);
                                         res.json({error: "No se ha podido añadir el mensaje."});
@@ -127,7 +127,7 @@ module.exports = function (app, usersRepository, offersRepository) {
 
     app.get('/api/v1.0/messages/:offerId', function (req, res) {
         const userId = req.user.id;
-        const offerId = req.params.offerId;
+        const offerId = req.params.idOffer;
         let filter = {sender:userId,offer: offerId};
         let options = {};
         conversationsRepository.getConversations(filter, options).then(songs => {
