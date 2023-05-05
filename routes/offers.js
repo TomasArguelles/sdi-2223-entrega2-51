@@ -6,6 +6,12 @@ const {
 } = require("../middlewares/validationMiddleware");
 const {formatDate} = require("../util/dateUtils");
 
+const ADD_OFFER_VIEW = "offers/add";
+const LIST_OFFERS_VIEW = "offers/offersList";
+const LIST_USER_OFFERS_VIEW = "offers/listUserOffers";
+
+const OFFERS_ENPOINT = "/offers";
+
 module.exports = function (app, offersRepository) {
 
     /**
@@ -13,7 +19,7 @@ module.exports = function (app, offersRepository) {
      * Muestra el formulario para añadir una nueva oferta
      */
     app.get("/offer/add", function (req, res) {
-        res.render("offer/add");
+        res.render(ADD_OFFER_VIEW);
     });
 
     /**
@@ -25,8 +31,7 @@ module.exports = function (app, offersRepository) {
             const errors = validationResult(req);
 
             if (!errors.isEmpty()) {
-                res.render("offer/add", {errors: errors.array()});
-                //return res.status(422).json({errors: errors.array()});
+                res.render(ADD_OFFER_VIEW, {errors: errors.array()});
 
             } else {
                 const {title, description, price} = req.body;
@@ -41,7 +46,7 @@ module.exports = function (app, offersRepository) {
 
                 await offersRepository.addNewOffer(offer, (result) => {
                     if (result) {
-                        res.redirect("/offers")
+                        res.redirect("/user/offers")
                     }
                 });
             }
@@ -56,7 +61,7 @@ module.exports = function (app, offersRepository) {
      *s
      * Muestra todas las ofertas publicadas por el usuario en sesion.
      */
-    app.get("/offers", async function (req, res) {
+    app.get("/user/offers", async function (req, res) {
         try {
             const offers = await offersRepository.getAllUserInSessionOffers(req.session.user);
 
@@ -65,7 +70,7 @@ module.exports = function (app, offersRepository) {
                 offer.date = formatDate(offer.date);
                 return offer;
             });
-            res.render("offer/list", {offers: formatedOffers});
+            res.render(LIST_USER_OFFERS_VIEW, {offers: formatedOffers});
         } catch (err) {
             res.status(500).json({error: "Error al listar las ofertas"});
         }
@@ -79,9 +84,11 @@ module.exports = function (app, offersRepository) {
                 return res.status(422).json({errors: errors.array()});
 
             } else {
-                await offersRepository.deleteOffer(ObjectId(req.params.offerId), (isDeleted) => {
+
+                const {offerId} = req.params;
+                await offersRepository.deleteOffer(ObjectId(offerId), (isDeleted) => {
                     if(isDeleted){
-                        res.redirect("/offers");
+                        res.redirect(OFFERS_ENPOINT);
                     }
                 });
             }
@@ -94,11 +101,7 @@ module.exports = function (app, offersRepository) {
     /**
      * W9 Usuario registrado: Buscar ofertas
      */
-    app.get("/shop", function (req, res) {
-        if (req.session.user == null) { // ¿Usuario registrado?
-            res.redirect("/shop");
-            return;
-        }
+    app.get("/offer/all", function (req, res) {
         let filter = {};
         let options = {sort: {title: 1}}; // Búsqueda de ofertas por título
         if (req.query.search != null && typeof (req.query.search) != "undefined" && req.query.search !== "") {

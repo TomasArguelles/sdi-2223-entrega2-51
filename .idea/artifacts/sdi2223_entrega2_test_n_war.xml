@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="sdi2223-entrega2-test-n:war">
+    <output-path>$PROJECT_DIR$/sdi2223-entrega2-test-51/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>sdi2223-entrega2-test-n</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="sdi2223-entrega2-test-n-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="sdi2223-entrega2-test-n:war exploded" />
+    </root>
+  </artifact>
+</component>
