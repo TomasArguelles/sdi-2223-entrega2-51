@@ -58,22 +58,25 @@
 
     function loadAllMessages(){
 
-       $.ajax({
-           url: URLbase + "/messages/" + selectedId,
-           type : "GET",
-           data: {idOffer: selectedId}, // creo q aqui va el comprador
-           dataType: 'json',
-           headers: {
-               "token" : token
-           },
-           success: function (response){
+        $.ajax({
+            url: URLbase + "/messages/",
+            type : "GET",
+            data: {
+                idOffer: selectedId,
+                idReceiver: offer.seller,
+            }, // creo q aqui va el comprador
+            dataType: 'json',
+            headers: {
+                "token" : token
+            },
+            success: function (response){
                 messages = response.messages;
                 console.log(messages);
                 updateMessages(messages);
-           },error: function (error){
+            },error: function (error){
 
-           }
-       });
+            }
+        });
     }
 
     function updateMessages(messages){

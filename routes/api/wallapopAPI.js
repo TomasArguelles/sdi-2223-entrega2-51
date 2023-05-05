@@ -134,7 +134,7 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
 
     app.get('/api/v1.0/messages/', function (req, res) {
 
-        let filter = {idSender:res.user,idReceiver: req.body.idReceiver,idOffer: req.body.idOffer};
+        let filter = {idSender:res.user};
         let options = {};
         messagesRepository.getMessages(filter, options).then(messages => {
             res.status(200);
@@ -144,4 +144,37 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
             res.json({error: "Se ha producido un error al recuperar las ofertas."})
         });
     });
+
+    app.get('/api/v1.0/conversations/', function (req, res) {
+        let user = res.user;
+        let filterUsuarioVendedor = {sender: user};
+        let filterUsuarioInteresado = {receiver: user};
+        let options = {};
+        let comoVendedor = [];
+        let comoInteresado = [];
+        conversationsRepository.getConversations(filterUsuarioVendedor, options).then(convs => {
+            convs.forEach(c => {
+                comoVendedor.push(c);
+            })
+
+
+        });
+        conversationsRepository.getConversations(filterUsuarioInteresado, options).then(convs => {
+            convs.forEach(c => {
+                comoInteresado.push(c);
+            })
+
+
+        })
+        res.status(200);
+        res.json({
+            asSeller: comoVendedor,
+            asInterested: comoInteresado
+        })
+            
+        .catch(error => {
+                res.status(500);
+                res.json({error: "Se ha producido un error al obtener las conversaciones."});
+            });
+        });
 }
