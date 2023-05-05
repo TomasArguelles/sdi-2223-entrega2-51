@@ -59,9 +59,12 @@
     function loadAllMessages(){
 
        $.ajax({
-           url: URLbase + "/messages/" + selectedId,
+           url: URLbase + "/messages/",
            type : "GET",
-           data: {idOffer: selectedId}, // creo q aqui va el comprador
+           data: {
+               idOffer: selectedId,
+               idReceiver: offer.seller,
+           }, // creo q aqui va el comprador
            dataType: 'json',
            headers: {
                "token" : token

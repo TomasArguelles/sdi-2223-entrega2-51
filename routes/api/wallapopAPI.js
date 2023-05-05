@@ -132,11 +132,12 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
         }
     });
 
-    app.get('/api/v1.0/messages/', function (req, res) {
-
-        let filter = {idSender:res.user,idReceiver: req.body.idReceiver,idOffer: req.body.idOffer};
+    app.get('/api/v1.0/messages', function (req, res) {
+        const userId = req.user.id;
+        const offerId = req.body.idOffer;
+        let filter = {sender:userId,offer: offerId};
         let options = {};
-        messagesRepository.getMessages(filter, options).then(messages => {
+        conversationsRepository.getConversations(filter, options).then(messages => {
             res.status(200);
             res.send({messages: messages})
         }).catch(error => {
