@@ -1,5 +1,6 @@
 const {ObjectId} = require("mongodb");
-module.exports = function (app, usersRepository,conversationsRepository, messagesRepository) {
+const {formatDate} = require("../../util/dateUtils");
+module.exports = function (app, usersRepository, offersRepository,conversationsRepository,messagesRepository) {
     app.post('/api/v1.0/users/login', function (req, res) {
         try {
             let securePassword = app.get("crypto").createHmac('sha256', app.get('clave'))
@@ -40,10 +41,31 @@ module.exports = function (app, usersRepository,conversationsRepository, message
         }
     });
 
+    app.get("/api/v1.0/offers", function (req, res) {
+        let filter = {};
+        let options = {};
+        let userA = res.user; // email
+        offersRepository.getOffers(filter, options).then(offers => {
+            let userB = offers[0].seller;
+            if (userA !== userB) {  // offers de los usuarios diferentes al usuario en sesión
+                res.status(200);
+                // Mostrar la hora en formato dd/mm/yyyy hh:mm
+                let formatedOffers = offers?.map(offer => {
+                    offer.date = formatDate(offer.date);
+                    return offer;
+                });
+                res.send({offers: formatedOffers});
+            }
+        }).catch(() => {
+            res.status(500);
+            res.json({error: "Se ha producido un error al obtener las ofertas."})
+        });
+    });
+
     app.post('/api/v1.0/messages/add', function (req, res) {
         try {
             let msg = {
-                idOffer: req.body.offerId,
+                idOffer: req.body.idOffer,
                 idSender: req.session.email,
                 idReceiver: req.body.receiver,
                 leido: req.session.leido,
@@ -77,7 +99,7 @@ module.exports = function (app, usersRepository,conversationsRepository, message
                                 res.status(409);
                                 res.json({error: "No se ha podido crear la conversación."});
                             } else {
-                                messagesRepository.addMessage(msg, { conversationId: conversationId }, function (messageId) {
+                                messagesRepository.addMessage(msg, {conversationId: conversationId}, function (messageId) {
                                     if (messageId === null) {
                                         res.status(409);
                                         res.json({error: "No se ha podido añadir el mensaje."});
@@ -105,18 +127,15 @@ module.exports = function (app, usersRepository,conversationsRepository, message
 
     app.get('/api/v1.0/messages/:offerId', function (req, res) {
         const userId = req.user.id;
-        const offerId = req.params.offerId;
+        const offerId = req.body.idOffer;
         let filter = {sender:userId,offer: offerId};
         let options = {};
-        conversationsRepository.getConversations(filter, options).then(songs => {
+        conversationsRepository.getConversations(filter, options).then(messages => {
             res.status(200);
-            res.send({songs: songs})
+            res.send({messages: messages})
         }).catch(error => {
             res.status(500);
             res.json({error: "Se ha producido un error al recuperar las ofertas."})
         });
     });
-
-
-
 }

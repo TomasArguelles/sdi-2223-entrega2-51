@@ -1,0 +1,56 @@
+/* Bootstrap overrides */
+
+.badge {
+    padding: 4px 9px;
+    font-size: 12.025px;
+    font-weight: bold;
+    white-space: nowrap;
+    color: #ffffff;
+    background-color: #70b9c5;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 20px;
+}
+
+.badge:hover {
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.badge-error {
+    background-color: #bc4749;
+}
+
+.badge-error:hover {
+    background-color: #a83e40;
+}
+
+.badge-warning {
+    background-color: #fca311;
+}
+
+.badge-warning:hover {
+    background-color: #e8980d;
+}
+
+.badge-success {
+    background-color: #386641;
+}
+
+.badge-success:hover {
+    background-color: #2d5132;
+}
+
+.badge-secondary {
+    background-color: #e5e5e5;
+    color: #000000;
+}
+
+.badge-secondary:hover {
+    background-color: #d1d1d1;
+}
+
+.table-warning > td{
+    background: #fabfaf;
+}

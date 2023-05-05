@@ -29,18 +29,25 @@ app.set('clave', 'abcdefg');
 app.set('crypto', crypto);
 
 const {MongoClient} = require("mongodb");
+// TODO: Reemplazar por URL mongo Altas
 const url = 'mongodb+srv://admin:sdi@sdi-2223-entrega2-51.287aegb.mongodb.net/?retryWrites=true&w=majority';
-app.set('connectionStrings', url);
+const localUrl = 'mongodb://localhost:27017';
+app.set('connectionStrings', localUrl);
+
+//---  Logger middleware ------------------------
+const customLogger = require('./middlewares/loggerMiddleware');
+app.use("/offer/", customLogger.loggerRouter);
+app.use("/offers/", customLogger.loggerRouter);
+
+//TODO: Añadir el resto de rutas
+
+// ----------------------------------------------
 
 const userSessionRouter = require('./routes/userSessionRouter');
-const userAudiosRouter = require('./routes/userAudiosRouter');
 
-app.use("/songs/add",userSessionRouter);
-app.use("/publications",userSessionRouter);
-app.use("/songs/buy",userSessionRouter);
-app.use("/purchases",userSessionRouter);
-app.use("/audios/",userAudiosRouter);
-app.use("/shop/",userSessionRouter);
+// Auth middleware
+app.use("/offers/",userSessionRouter);
+app.use("/offer/",userSessionRouter);
 
 const userAuthorRouter = require('./routes/userAuthorRouter');
 app.use("/songs/edit",userAuthorRouter);
@@ -63,20 +70,19 @@ let commentsRepository = require("./repositories/commentsRepository.js");
 commentsRepository.init(app, MongoClient);
 require("./routes/comments.js")(app, commentsRepository);
 
-let songsRepository = require("./repositories/songsRepository.js");
-songsRepository.init(app, MongoClient);
+let offersRepository = require("./repositories/offersRepository.js");
+offersRepository.init(app, MongoClient);
+require("./routes/offers.js")(app, offersRepository, commentsRepository);
 
-let conversationsRepository = require("./repositories/conversationsRepository.js");
-conversationsRepository.init(app, MongoClient);
-let messagesRepository = require("./repositories/messagesRepository.js");
-messagesRepository.init(app, MongoClient);
+// Logs
+let logsRepository = require("./repositories/loggingRepository.js");
+logsRepository.init(app, MongoClient);
+require("./routes/logsRouter.js")(app, logsRepository);
 
-require("./routes/songs.js")(app, songsRepository, commentsRepository);
-require('./routes/authors.js')(app);
-// require("./routes/songs.js")(app, MongoClient);
+let conversationsRepository = require("./repositories/conversationsRepository");
+let messagesRepository = require("./repositories/messagesRepository");
 
-require("./routes/api/songsAPIv1.0.js")(app, songsRepository, usersRepository);
-require("./routes/api/wallapopAPI.js")(app, usersRepository, conversationsRepository, messagesRepository);
+require("./routes/api/wallapopAPI.js")(app, usersRepository, offersRepository,conversationsRepository,messagesRepository);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
