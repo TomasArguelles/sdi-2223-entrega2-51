@@ -57,6 +57,7 @@
     loadAllMessages();
     function loadAllMessages(){
 
+
        $.ajax({
            url: URLbase + "/messages/",
            type : "GET",
@@ -77,6 +78,7 @@
                $("#main-container").load("widget-login.html");
            }
        });
+
     }
 
     function updateMessages(messages){
@@ -108,7 +110,8 @@
             data: {
                 idOffer: selectedId,
                 idReceiver: offer.seller,
-                texto: $("#text").val()
+                texto: $("#text").val(),
+                offerTitle: offer.title,
             },
             dataType: 'json',
             headers: {

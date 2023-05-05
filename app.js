@@ -56,6 +56,7 @@ app.use("/songs/delete",userAuthorRouter);
 const userTokenRouter = require('./routes/api/userTokenRouter');
 app.use("/api/v1.0/offers", userTokenRouter);
 app.use("/api/v1.0/messages", userTokenRouter);
+app.use("/api/v1.0/conversations", userTokenRouter);
 
 let bodyParser = require('body-parser');
 app.use(bodyParser.json());
