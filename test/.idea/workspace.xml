@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8012043d-38bf-496e-b36d-9fa27555907a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sdi-2223-entrega2-51.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../sdi-2223-entrega2-51.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega1n/Sdi2223Entrega1NApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega2n/Sdi2223Entrega1NApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega1n/pageobjects/PO_AdminView.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_AdminView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega1n/pageobjects/PO_AllOfferView.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_AllOfferView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega1n/pageobjects/PO_ConversationsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_ConversationsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega1n/pageobjects/PO_HomeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_HomeView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega1n/pageobjects/PO_LoginView.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_LoginView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega1n/pageobjects/PO_NavView.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_NavView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega1n/pageobjects/PO_OfferView.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_OfferView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega1n/pageobjects/PO_Properties.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_Properties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega1n/pageobjects/PO_SignUpView.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_SignUpView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega1n/pageobjects/PO_UserListView.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_UserListView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega1n/pageobjects/PO_View.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega1n/util/SeleniumUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/java/com/uniovi/sdi2223entrega2n/util/SeleniumUtils.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="2P11uEyH8ZX7bSlap0CYlQbUnUV" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/Tomás/IdeaProjects/sdi-2223-entrega2-51/test",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8012043d-38bf-496e-b36d-9fa27555907a" name="Changes" comment="" />
+      <created>1682609994538</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1682609994538</updated>
+      <workItem from="1682609995798" duration="724000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

@@ -4,53 +4,86 @@
     <title>{% block title %}uoMusic {% endblock %}</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    {#    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/> #}
+
     <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+          crossorigin="anonymous">
+
+    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> #}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="/stylesheets/admin.css"/>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     {% block scripts %}{% endblock %}
 </head>
 <body>
 
 <!-- Barra de Navegación superior -->
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                    data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <img src="/images/logo.png" alt="logo"/>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li id="myshop" class="active"><a href="/shop">Tienda</a></li>
-                <li id="mypublication"><a href="/publications">Publicaciones</a>
-                </li>
-                <li id="mybuy"><a href="/purchases">Compras</a></li>
-            </ul>
-
-            {% if app.session %}
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/logs/delete/all">Borrar logs</a></li>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <img src="/images/logo.png" alt="logo"/>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarApp">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li id="myshop"><a href="/shop" class="nav-link active">Tienda</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#"
+                   id="gestionOfertasMenu" role="button"
+                   data-toggle="dropdown" aria-expanded="false"> Gestión de
+                    ofertas
+                </a>
+                <ul class="dropdown-menu" role="menu"
+                    aria-labelledby="navbarDropdown"
+                    id="gestionOfertasDropdown">
+                    <a class="dropdown-item" id="addOfferMenu"
+                       href="/offer/add">Añadir
+                        oferta</a>
+                    <a class="dropdown-item" href="/offer/all"
+                       id="listAllOfferMenu">Ver ofertas para
+                        comprar </a>
+                    <a class="dropdown-item" href="/user/offers"
+                       id="listOfferMenu">Ver ofertas
+                        propias</a>
+                    <a class="dropdown-item" href="/offer/boughtList"
+                       id="listBoughtOffers">Ver ofertas compradas</a>
                 </ul>
-            {% endif %}
+            </li>
+            <li id="mybuy" class="nav-item"><a href="/purchases" class="nav-link">Compras</a>
+            </li>
+        </ul>
 
+        {% if app.session %}
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/users/signup"><span
-                                class="glyphicon glyphicon-user"></span>
-                        Registrate</a></li>
-                <li><a href="/users/login"><span
-                                class="glyphicon glyphicon-log-in"></span>
-                        Identifícate</a></li>
+                <li><a href="/logs/delete/all" class="nav-link">Borrar logs</a></li>
             </ul>
-        </div>
+        {% endif %}
+
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="/users/signup" class="nav-link"><span
+                            class="glyphicon glyphicon-user"></span>
+                    Registrate</a></li>
+            <li><a href="/users/login" class="nav-link"><span
+                            class="glyphicon glyphicon-log-in"></span>
+                    Identifícate</a></li>
+            <li><a href="/users/logout" class="nav-link"><span
+                            class="glyphicon glyphicon-log-out"></span>
+                    Desconectate</a></li>
+        </ul>
     </div>
 </nav>
 

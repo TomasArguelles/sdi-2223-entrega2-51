@@ -30,6 +30,7 @@ app.set('crypto', crypto);
 
 const {MongoClient} = require("mongodb");
 // TODO: Reemplazar por URL mongo Altas
+const url = 'mongodb+srv://admin:sdi@sdi-2223-entrega2-51.287aegb.mongodb.net/?retryWrites=true&w=majority';
 const localUrl = 'mongodb://localhost:27017';
 app.set('connectionStrings', localUrl);
 
