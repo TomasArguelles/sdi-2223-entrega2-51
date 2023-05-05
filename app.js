@@ -53,8 +53,10 @@ const userAuthorRouter = require('./routes/userAuthorRouter');
 app.use("/songs/edit",userAuthorRouter);
 app.use("/songs/delete",userAuthorRouter);
 
-const userTokenRouter = require('./routes/userTokenRouter');
-app.use("/api/v1.0/songs/", userTokenRouter);
+const userTokenRouter = require('./routes/api/userTokenRouter');
+app.use("/api/v1.0/offers", userTokenRouter);
+app.use("/api/v1.0/messages", userTokenRouter);
+app.use("/api/v1.0/conversations", userTokenRouter);
 
 let bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -80,7 +82,9 @@ logsRepository.init(app, MongoClient);
 require("./routes/logsRouter.js")(app, logsRepository);
 
 let conversationsRepository = require("./repositories/conversationsRepository");
+conversationsRepository.init(app, MongoClient);
 let messagesRepository = require("./repositories/messagesRepository");
+messagesRepository.init(app, MongoClient);
 
 require("./routes/api/wallapopAPI.js")(app, usersRepository, offersRepository,conversationsRepository,messagesRepository);
 

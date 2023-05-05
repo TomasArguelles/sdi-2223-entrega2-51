@@ -12,7 +12,6 @@
                                       id="price" readonly/></div>
     </div>
     <button onclick="widgetOffers()" class="btn">Volver</button>
-    <button onclick="loadAllMessages()" class="btn">Actualizar</button>
 
     <div>
         <div class="media col-xs-10">
@@ -55,25 +54,30 @@
 </div>
 <script>
     let messages;
-
+    loadAllMessages();
     function loadAllMessages(){
 
+
        $.ajax({
-           url: URLbase + "/messages/" + selectedId,
+           url: URLbase + "/messages/",
            type : "GET",
-           data: {idOffer: selectedId}, // creo q aqui va el comprador
+           data: {
+               idOffer: selectedId,
+               idReceiver: offer.seller,
+           }, // creo q aqui va el comprador
            dataType: 'json',
            headers: {
                "token" : token
            },
            success: function (response){
                 messages = response.messages;
-                console.log(messages);
                 updateMessages(messages);
            },error: function (error){
-
+               clearInterval(refreshEachSecond);
+               $("#main-container").load("widget-login.html");
            }
        });
+
     }
 
     function updateMessages(messages){
@@ -85,13 +89,15 @@
                 "</tr>");
         }else{
             for(let i = 0; i<messages.length; i++){
-                $("#messagesTableBody").append(
-                    "<tr>" +
-                    "<td>"+ messages[i].idSender +"</td>" +
-                    "<td>"+ messages[i].texto +"</td>" +
-                    "<td>"+ messages[i].leido +"</td>" +
-                    "</tr>"
-                );
+                if(messages[i].idReceiver == offer.seller && messages[i].idOffer == selectedId) {
+                    $("#messagesTableBody").append(
+                        "<tr>" +
+                        "<td>" + messages[i].idSender + "</td>" +
+                        "<td>" + messages[i].texto + "</td>" +
+                        "<td>" + messages[i].leido + "</td>" +
+                        "</tr>"
+                    );
+                }
             }
         }
     }
@@ -103,7 +109,8 @@
             data: {
                 idOffer: selectedId,
                 idReceiver: offer.seller,
-                texto: $("#text").val()
+                texto: $("#text").val(),
+                offerTitle: offer.title,
             },
             dataType: 'json',
             headers: {
@@ -111,13 +118,17 @@
             },
             success: function (response) {
                 loadAllMessages();
+                $("#text").val("");
             }, error: function (error) {
-
+                clearInterval(refreshEachSecond);
+                $("#main-container").load("widget-login.html");
             }
         })
     }
 
-
+    var refreshEachSecond = window.setInterval(() => {
+        updateMessages(messages);
+    }, 1000);
 
 
 </script>

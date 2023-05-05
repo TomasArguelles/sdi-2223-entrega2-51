@@ -22,6 +22,9 @@
     let selectedId;
     let offers;
     let offer;
+
+    loadAllAvaiableOffers();
+
     /**
      * Actualiza la tabla de ofertas con los datos de la lista de ofertas
      * disponibles. Se excluyen las ofertas publicadas por el usuario en
@@ -63,6 +66,7 @@
 
             for (let i = 0; i < offers.length; i++) {
                 $("#offersTableBody").append(
+
                     "<tr id=" + offers[i].title + ">" +
                     "<td>" + offers[i].title + "</td>" +
                     "<td>" + offers[i].description + "</td>" +
@@ -86,5 +90,5 @@
         $("#main-container").load("widget-conversation.html");
     }
 
-    loadAllAvaiableOffers();
+
 </script>
