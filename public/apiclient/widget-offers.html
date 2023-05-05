@@ -1,8 +1,6 @@
 <div id="widget-songs">
     <input type="text" class="form-control" placeholder="Filtrar por nombre"
            id="filter-by-name"/>
-    <button class="btn btn-primary" onclick="widgetAddSong()">Nueva Canción
-    </button>
     <button class="btn" onclick="loadAllAvaiableOffers()">Actualizar</button>
     <table class="table table-hover">
         <thead>
@@ -12,6 +10,7 @@
             <th>Precio</th>
             <th>Fecha publicación</th>
             <th>Email del vendedor</th>
+            <th>Conversación</th>
         </tr>
         </thead>
         <tbody id="offersTableBody"></tbody>
@@ -21,7 +20,7 @@
 <script>
     window.history.pushState("", "", "/apiclient/client.html?w=offers");
     var offers;
-
+    let selectedId;
     /**
      * Actualiza la tabla de ofertas con los datos de la lista de ofertas
      * disponibles. Se excluyen las ofertas publicadas por el usuario en
@@ -62,7 +61,8 @@
                 "</tr>");
         } else {
 
-            for (i = 0; i < offers.length; i++) {
+            for (let i = 0; i < offers.length; i++) {
+                let id = offers[i]._id;
                 $("#offersTableBody").append(
                     "<tr id=" + offers[i].title + ">" +
                     "<td>" + offers[i].title + "</td>" +
@@ -70,10 +70,20 @@
                     "<td>" + offers[i].price + "€</td>" +
                     "<td>" + offers[i].date + "</td>" +
                     "<td>" + offers[i].seller + "</td>" +
+                    "<td> <button class=\"btn btn-primary\" onclick=offerConversation(\"a\")  > Conversacion</button> </td>" +
                     "<td>" +
                     "</tr>");
             }
         }
+    }
+
+    /**
+     * Cambia la vista a la conversacion propia de la oferta
+     * @param _id de la oferta
+     */
+    function offerConversation(_id){
+        selectedId = _id;
+        $("#main-container").load("widget-conversation.html");
     }
 
     loadAllAvaiableOffers();
