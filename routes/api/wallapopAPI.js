@@ -75,7 +75,9 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
                 timestamp: Date.now()
             }
 
+
             let filter = {buyer:msg.idSender ,seller: msg.idReceiver , oferta: msg.idOffer};
+
 
             let options = {};
             conversationsRepository.findConversation(filter, options).then(conversation=> {
@@ -150,23 +152,74 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
         let filterUsuarioVendedor = {seller: user};
         let filterUsuarioInteresado = {buyer: user};
         let options = {};
+
         let todas = []
         conversationsRepository.getConversations(filterUsuarioVendedor, options).then(convs => {
             convs.forEach(c => {
                 todas.push(c);
+
             })
         })
         conversationsRepository.getConversations(filterUsuarioInteresado, options).then(convs => {
             convs.forEach(c => {
                 todas.push(c);
             })
-            res.status(200);
-            res.send({
-                listadoConversaciones: todas
-            })
-        }).catch(error => {
+
+        })
+        res.status(200);
+        res.send({
+            listadoConversaciones: todas
+
+        })
+
+            .catch(error => {
                 res.status(500);
                 res.json({error: "Se ha producido un error al obtener las conversaciones."});
-        });
-    })
+            });
+    });
+
+
+    app.put('/api/v1.0/messages/:id', function (req, res) {
+        try {
+            let msgId = ObjectId(req.params.id);
+            let filter = {_id: msgId};
+            //Si la _id NO no existe, no crea un nuevo documento.
+            const options = {upsert: false};
+            let actu;
+
+            messagesRepository.markAsReadMessage(filter, options).then(result => {
+                actu=result;
+            });
+
+
+        } catch (e) {
+            res.status(500);
+            res.json({error: "Se ha producido un error al intentar modificar la canción: "+ e})
+        }
+    });
+    app.delete('/api/v1.0/messages/:id', function (req, res) {
+        try {
+            let msgId = ObjectId(req.params.id);
+            let filter = {_id: msgId};
+            //Si la _id NO no existe, no crea un nuevo documento.
+            const options = {upsert: false};
+            let actu;
+
+            messagesRepository.deleteMessage(filter, options).then(result => {
+                if (result.deletedCount === 0) {
+                    res.status(404);
+                    res.json({error: "ID inválido o no existe, no se ha borrado el registro."});
+                } else {
+                    res.status(200);
+                    res.send(JSON.stringify(result));
+                }
+            });
+
+
+        } catch (e) {
+            res.status(500);
+            res.json({error: "Se ha producido un error al intentar modificar la canción: "+ e})
+        }
+    });
+
 }

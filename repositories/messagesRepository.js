@@ -46,5 +46,14 @@ module.exports = {
         } catch (error) {
             throw (error);
         }
-    }
+    },
+    deleteMessage: async function (offerId, callback) {
+        const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
+        const database = client.db("sdi-2223-entrega2-51");
+        const offerCollection = database.collection('messages');
+
+        await offerCollection.deleteOne({_id: offerId}).then((result) => {
+            callback(result.deletedCount === 1);
+        });
+    },
 }
