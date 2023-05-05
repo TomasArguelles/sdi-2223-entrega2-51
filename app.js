@@ -53,8 +53,9 @@ const userAuthorRouter = require('./routes/userAuthorRouter');
 app.use("/songs/edit",userAuthorRouter);
 app.use("/songs/delete",userAuthorRouter);
 
-const userTokenRouter = require('./routes/userTokenRouter');
-app.use("/api/v1.0/songs/", userTokenRouter);
+const userTokenRouter = require('./routes/api/userTokenRouter');
+app.use("/api/v1.0/offers", userTokenRouter);
+app.use("/api/v1.0/messages", userTokenRouter);
 
 let bodyParser = require('body-parser');
 app.use(bodyParser.json());

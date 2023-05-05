@@ -5,7 +5,10 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
         try {
             let securePassword = app.get("crypto").createHmac('sha256', app.get('clave'))
                 .update(req.body.password).digest('hex');
-            let filter = {email: req.body.email, password: securePassword};
+            let filter = {
+                email: req.body.email,
+                password: securePassword
+            };
             let options = {};
             usersRepository.findUser(filter, options).then(user => {
                 if (user == null) {
@@ -15,9 +18,8 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
                         authenticated: false
                     });
                 } else {
-                    let token = app.get('jwt').sign({
-                        user: user.email, time: Date.now() / 1000
-                    }, "secreto");
+                    let token = app.get('jwt').sign(
+                        {user: user.email, time: Date.now() / 1000}, "secreto");
                     res.status(200);
                     res.json({
                         message: "usuario autorizado",
@@ -46,7 +48,7 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
         let options = {};
         let userA = res.user; // email
         offersRepository.getOffers(filter, options).then(offers => {
-            let userB = offers[0].seller;
+            let userB = offers.seller;
             if (userA !== userB) {  // offers de los usuarios diferentes al usuario en sesión
                 res.status(200);
                 // Mostrar la hora en formato dd/mm/yyyy hh:mm
@@ -63,17 +65,17 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
     });
 
     app.post('/api/v1.0/messages/add', function (req, res) {
-        let userA = res.user; // email
-        console.log(userA);
+
         try {
             let msg = {
                 idOffer: req.body.idOffer,
-                idSender: userA,
+                idSender: res.user,
                 idReceiver: req.body.idReceiver,
                 leido: false,
                 texto: req.body.texto,
                 timestamp: Date.now()
             }
+
             let filter = {sender:msg.idSender,receiver: msg.idReceiver,offer: msg.idOffer};
             let options = {};
             conversationsRepository.findConversation(filter, options).then(conversation=> {
@@ -95,14 +97,15 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
                         let conv = {
                             sender: msg.idSender,
                             receiver: msg.idReceiver,
-                            oferta: req.body.idOffer
+                            oferta: msg.idOffer
                         };
+                        console.log(conv);
                         conversationsRepository.addConversation(conv, async function (conversationId) {
                             if (conversationId === null) {
                                 res.status(409);
                                 res.json({error: "No se ha podido crear la conversación."});
                             } else {
-                                messagesRepository.addMessage(msg, {conversationId: conversationId}, function (messageId) {
+                                messagesRepository.addMessage(msg,  function (messageId) {
                                     if (messageId === null) {
                                         res.status(409);
                                         res.json({error: "No se ha podido añadir el mensaje."});
