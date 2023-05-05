@@ -63,12 +63,14 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
     });
 
     app.post('/api/v1.0/messages/add', function (req, res) {
+        let userA = res.user; // email
+        console.log(userA);
         try {
             let msg = {
                 idOffer: req.body.idOffer,
-                idSender: req.session.email,
-                idReceiver: req.body.receiver,
-                leido: req.session.leido,
+                idSender: userA,
+                idReceiver: req.body.idReceiver,
+                leido: false,
                 texto: req.body.texto,
                 timestamp: Date.now()
             }

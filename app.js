@@ -80,7 +80,9 @@ logsRepository.init(app, MongoClient);
 require("./routes/logsRouter.js")(app, logsRepository);
 
 let conversationsRepository = require("./repositories/conversationsRepository");
+conversationsRepository.init(app, MongoClient);
 let messagesRepository = require("./repositories/messagesRepository");
+messagesRepository.init(app, MongoClient);
 
 require("./routes/api/wallapopAPI.js")(app, usersRepository, offersRepository,conversationsRepository,messagesRepository);
 
