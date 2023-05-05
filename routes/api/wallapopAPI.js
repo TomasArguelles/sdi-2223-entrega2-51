@@ -65,7 +65,6 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
     });
 
     app.post('/api/v1.0/messages/add', function (req, res) {
-
         try {
             let msg = {
                 idOffer: req.body.idOffer,
@@ -76,7 +75,7 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
                 timestamp: Date.now()
             }
 
-            let filter = {sender:msg.idSender,receiver: msg.idReceiver,oferta: msg.idOffer};
+            let filter = {buyer:msg.idSender ,seller: msg.idReceiver , oferta: msg.idOffer};
 
             let options = {};
             conversationsRepository.findConversation(filter, options).then(conversation=> {
@@ -101,7 +100,7 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
                             oferta: msg.idOffer,
                             tituloOferta: req.body.offerTitle
                         };
-                        console.log(conv);
+
                         conversationsRepository.addConversation(conv, async function (conversationId) {
                             if (conversationId === null) {
                                 res.status(409);
@@ -148,44 +147,26 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
 
     app.get('/api/v1.0/conversations/', function (req, res) {
         let user = res.user;
-        let filterUsuarioVendedor = {sender: user};
-        let filterUsuarioInteresado = {receiver: user};
+        let filterUsuarioVendedor = {seller: user};
+        let filterUsuarioInteresado = {buyer: user};
         let options = {};
-        let comoVendedor = [];
-        let comoInteresado = [];
-        let todas=[]
+        let todas = []
         conversationsRepository.getConversations(filterUsuarioVendedor, options).then(convs => {
             convs.forEach(c => {
-
-                convs.forEach(c => {
-                    //comoVendedor.push(c);
-                    todas.push(c);
-                })
-
-
-
-            })
-
-
-        });
-        conversationsRepository.getConversations(filterUsuarioInteresado, options).then(convs => {
-            convs.forEach(c => {
-                //comoInteresado.push(c);
                 todas.push(c);
             })
-
-
         })
-        console.log(todas);
-        res.status(200);
-        res.send({
-            listadoConversaciones: todas
-
-        })
-
-        .catch(error => {
+        conversationsRepository.getConversations(filterUsuarioInteresado, options).then(convs => {
+            convs.forEach(c => {
+                todas.push(c);
+            })
+            res.status(200);
+            res.send({
+                listadoConversaciones: todas
+            })
+        }).catch(error => {
                 res.status(500);
                 res.json({error: "Se ha producido un error al obtener las conversaciones."});
-            });
         });
+    })
 }
