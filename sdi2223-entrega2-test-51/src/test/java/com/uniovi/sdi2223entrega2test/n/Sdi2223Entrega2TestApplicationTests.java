@@ -15,7 +15,10 @@ class Sdi2223Entrega2TestApplicationTests {
     static String BASE_API_CLIENT_URL = "http://localhost:8081/api/v1.0"; // URL base del API del cliente
 
     // Kiko
-    static String Geckodriver = "C:\\Users\\kikoc\\Desktop\\SDI\\geckodriver-v0.30.0-win64.exe";
+    // static String Geckodriver = "C:\\Users\\kikoc\\Desktop\\SDI\\geckodriver-v0.30.0-win64.exe";
+    // Teresa
+    static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
+
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
     static String URL = "http://localhost:8081";
 
@@ -210,7 +213,128 @@ class Sdi2223Entrega2TestApplicationTests {
 //
 //        // Comprobar que la oferta no se borra
 //    }
-//
+
+    /**
+     * [Prueba23] Hacer una búsqueda con el campo vacío
+     * y comprobar que se muestra la página que corresponde con el listado de las ofertas existentes
+     * en el sistema
+     */
+    @Test
+    @Order(23)
+    public void PR023() {
+        // Iniciar sesión
+        // PO_LoginView.simulateLogin(driver, "prueba2@prueba2.com", "prueba2");
+
+        // Acceder a la vista del listado de todas las ofertas
+        // Realizar una búsqueda con el campo vacío
+        // y comprobar que se muentra el listado de todas las ofertas existentes en el sistema
+
+        // Cerrar sesión
+        // PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+    }
+
+    /**
+     * [Prueba24] Hacer una búsqueda escribiendo en el campo un texto que no exista
+     * y comprobar que se muestra la página que corresponde, con la lista de ofertas vacía.
+     */
+    @Test
+    @Order(24)
+    public void PR024() {
+        // Iniciar sesión
+
+        // Acceder a la vista del listado de todas las ofertas
+        // Realizar una búsqueda de un título que no corresponda con ninguna oferta
+        // y comprobar que no se muentra ninguna oferta
+
+        // Cerrar sesión
+    }
+
+    /**
+     * [Prueba25] Hacer una búsqueda escribiendo en el campo un texto en minúscula o mayúscula
+     * y comprobar que se muestra la página que corresponde, con la lista de ofertas que contengan
+     * dicho texto, independientemente que el título esté almacenado en minúsculas o mayúscula
+     */
+    @Test
+    @Order(25)
+    public void PR025() {
+        // Iniciar sesión
+
+        // Acceder a la vista del listado de todas las ofertas
+        // Realizar una búsqueda de un título existente, pero en mayúsculas
+        // y comprobar que se muentra la oferta correspondiente aunque su título esté en minúsculas
+
+        // Cerrar sesión
+    }
+
+    /**
+     * [Prueba26] Sobre una búsqueda determinada,
+     * comprar una oferta que deja un saldo positivo en el contador del comprobador.
+     * Y comprobar que el contador se actualiza correctamente en la vista del comprador.
+     */
+    @Test
+    @Order(26)
+    public void PR026() {
+        // Iniciar sesión
+
+        // Acceder a la vista del listado de todas las ofertas
+        // Realizar una búsqueda de un título existente
+        // y comprar dicha oferta dejando positivo el saldo del comprador
+        // Comprobar que el contador se actualiza correctamente en la vista del comprador
+
+        // Cerrar sesión
+    }
+
+    /**
+     * [Prueba27] Sobre una búsqueda determinada,
+     * comprar una oferta que deja un saldo 0 en el contador del comprobador.
+     * Y comprobar que el contador se actualiza correctamente en la vista del comprador.
+     */
+    @Test
+    @Order(27)
+    public void PR027() {
+        // Iniciar sesión
+
+        // Acceder a la vista del listado de todas las ofertas
+        // Realizar una búsqueda de un título existente
+        // y comprar dicha oferta dejando nulo el saldo del comprador
+        // Comprobar que el contador se actualiza correctamente en la vista del comprador
+
+        // Cerrar sesión
+    }
+
+    /**
+     * [Prueba28] Sobre una búsqueda determinada,
+     * intentar comprar una oferta que esté por encima de saldo disponible del comprador.
+     * Y comprobar que se muestra el mensaje de saldo no suficiente.
+     */
+    @Test
+    @Order(28)
+    public void PR028() {
+        // Iniciar sesión
+
+        // Acceder a la vista del listado de todas las ofertas
+        // Realizar una búsqueda de un título existente
+        // e intentar comprar dicha oferta con precio mayor al saldo del comprador
+        // Comprobar que se muestra el mensaje de saldo insuficiente
+
+        // Cerrar sesión
+    }
+
+    /**
+     * [Prueba29] Ir a la opción de ofertas compradas del usuario y mostrar la lista.
+     * Comprobar que aparecen las ofertas que deben aparecer.
+     */
+    @Test
+    @Order(29)
+    public void PR029() {
+        // Iniciar sesión
+
+        // Acceder a la vista del listado de ofertas compradas por el usuario
+        // Comprobar que se muestra la lista de ofertas correspondientes
+
+        // Cerrar sesión
+    }
+
 //    // -------------------------------------
 //    // Parte 2B - Cliente ligero JQuery/AJAX
 //    // -------------------------------------

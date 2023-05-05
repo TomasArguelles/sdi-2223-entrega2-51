@@ -1,17 +1,19 @@
 {% extends "layout.twig" %}
 {% block title %} My Wallapoop {% endblock %}
 {% block main_container %}
+    <!-- W9 Usuario registrado: Buscar ofertas -->
     <div class="row">
         <div id="custom-search-input ">
-            <form method="get" action="/shop">
+            <form method="get" action="/offers/all">
                 <div class="input-group col-xs-8 col-sm-6 col-md-4 col-lg-5 pull-right">
-                    <input id="search"
-                           type="text"
-                           class="search-query form-control"
-                           placeholder="Título de la oferta"
-                           name="search"/><span
-                            class="input-group-btn"><button class="btn" type="submit"><span
-                                    class="glyphicon glyphicon-search"></span></button></span></div>
+                    <input id="search" type="text" class="search-query form-control" placeholder="Título de la oferta"
+                           name="search"/>
+                    <span class="input-group-btn">
+                        <button class="btn" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
             </form>
         </div>
     </div>
@@ -41,7 +43,7 @@
         <ul class="pagination">
             {% for page in pages %}
                 <li class="page-item" id="pi-{{ page }}">
-                    <a class="page-link" href="/shop/?page={{ page }}">{{ page }}</a>
+                    <a class="page-link" href="/offers/all/?page={{ page }}">{{ page }}</a>
                 </li>
             {% endfor %}
             <script>

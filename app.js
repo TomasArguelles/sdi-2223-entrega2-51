@@ -48,9 +48,9 @@ const userSessionRouter = require('./routes/userSessionRouter');
 // Auth middleware
 app.use("/offers/",userSessionRouter);
 app.use("/offer/",userSessionRouter);
+app.use("/offers/all",userSessionRouter);
 app.use("/offers/buy",userSessionRouter);
 app.use("/purchases",userSessionRouter);
-app.use("/shop/",userSessionRouter);
 
 const userAuthorRouter = require('./routes/userAuthorRouter');
 app.use("/songs/edit",userAuthorRouter);

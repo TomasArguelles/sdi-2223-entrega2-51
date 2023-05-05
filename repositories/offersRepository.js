@@ -53,23 +53,6 @@ module.exports = {
         return offers;
     },
 
-    /**
-     * W9 Usuario registrado: Buscar ofertas
-     * Devuelve todas las ofertas de los usuarios.
-     * Puede recibir un filtro (título).
-     */
-    getOffers: async function (filter, options) {
-        try {
-            const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
-            const database = client.db("sdi-2223-entrega2-51");
-            const offerCollection = database.collection(offersCollectionName);
-            const offers = await offerCollection.find(filter, options).toArray();
-            return offers;
-        } catch (error) {
-            throw (error);
-        }
-    },
-
     deleteOffer: async function (offerId, callback) {
         const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
         const database = client.db("sdi-2223-entrega2-51");
@@ -83,6 +66,7 @@ module.exports = {
     /**
      * W9 Usuario registrado: Buscar ofertas
      * Devuelve las ofertas correspondientes a una página concreta (paginación).
+     * Puede recibir un filtro (título).
      */
     getOffersPg: async function (filter, options, page) {
         try {
@@ -102,6 +86,7 @@ module.exports = {
 
     /**
      * W10 Usuario registrado: Comprar oferta
+     * Cada compra registrará el email del usuario y la id de la oferta comprada
      */
     buyOffer: function (shop, callbackFunction) {
         this.mongoClient.connect(this.app.get('connectionStrings'), function (err, dbClient) {
@@ -120,7 +105,21 @@ module.exports = {
     },
 
     /**
-     * W10 Usuario registrado: Comprar oferta
+     * Obtiene la oferta buscada
+     */
+    findOffer: async function (filter, options) {
+        try {
+            const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
+            const database = client.db("sdi-2223-entrega2-51");
+            const offersCollection = database.collection(offersCollectionName);
+            const song = await offersCollection.findOne(filter, options);
+            return song;
+        } catch (error) {
+            throw (error);
+        }
+    },
+
+    /**
      * Obtiene las ofertas compradas
      */
     getPurchases: async function (filter, options) {
