@@ -1,6 +1,7 @@
 package com.uniovi.sdi2223entrega2n.pageobjects;
 
 import com.uniovi.sdi2223entrega2n.util.SeleniumUtils;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -39,7 +40,13 @@ public class PO_SignUpView extends PO_NavView {
 
     static public void checkSignUpPage(WebDriver driver) {
 //Esperamos a que se cargue el saludo de bienvenida en Español
-        SeleniumUtils.waitLoadElementsBy(driver, "text", "Registrar usuario",
-                getTimeout());
+        if(driver.findElements(By.xpath("//*[contains(text(),'Registrar usuario')]")).size()>0){
+            Assertions.assertTrue(true);
+        } else {
+            Assertions.fail();
+        }
+
+//        SeleniumUtils.waitLoadElementsBy(driver, "text", "Registrar usuario",
+//                getTimeout());
     }
 }
