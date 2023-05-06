@@ -76,7 +76,7 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
                 timestamp: Date.now()
             }
 
-            let filter = {seller:msg.idSender,buyer: msg.idReceiver,oferta: msg.idOffer};
+            let filter = {buyer:msg.idSender,seller: msg.idReceiver,oferta: msg.idOffer};
 
             let options = {};
             conversationsRepository.findConversation(filter, options).then(conversation=> {
