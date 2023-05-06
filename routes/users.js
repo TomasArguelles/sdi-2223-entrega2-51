@@ -28,14 +28,12 @@ module.exports = function (app, usersRepository) {
         usersRepository.findUser({email: user.email}, {}).then(us => {
             if (us === null)
                 usersRepository.insertUser(user).then(userId => {
-                    res.redirect("/users/login" +
-                        "?message=Nuevo usuario registrado"+
-                        "&messageType=alert-info ");
+                    res.redirect("/user/offers");
                 })
             else
                 res.redirect("/users/login");
         }).catch(error => {
-            res.redirect("/users/singup" +
+            res.redirect("/users/signup" +
                 "?message=Se ha producido un error al registrar el usuario"+
                 "&messageType=alert-danger ");
         });

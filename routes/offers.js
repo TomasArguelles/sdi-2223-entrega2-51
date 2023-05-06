@@ -88,7 +88,7 @@ module.exports = function (app, offersRepository) {
                 const {offerId} = req.params;
                 await offersRepository.deleteOffer(ObjectId(offerId), (isDeleted) => {
                     if(isDeleted){
-                        res.redirect(OFFERS_ENPOINT);
+                        res.redirect("/user/offers");
                     }
                 });
             }

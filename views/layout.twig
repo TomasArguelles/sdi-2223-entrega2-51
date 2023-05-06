@@ -63,19 +63,20 @@
                        id="listBoughtOffers">Ver ofertas compradas</a>
                 </ul>
             </li>
-            <li id="mybuy" class="nav-item"><a href="/purchases" class="nav-link">Compras</a>
+            <li id="mybuy" class="nav-item"><a href="/purchases"
+                                               class="nav-link">Compras</a>
             </li>
         </ul>
 
         {% if app.session %}
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/logs/delete/all" class="nav-link">Borrar logs</a></li>
+                <li><a href="/logs/delete/all" class="nav-link">Borrar logs</a>
+                </li>
             </ul>
         {% endif %}
 
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="/users/signup" class="nav-link"><span
-                            class="glyphicon glyphicon-user"></span>
+            <li><a href="/users/signup" class="nav-link"><span class="glyphicon glyphicon-user"></span>
                     Registrate</a></li>
             <li><a href="/users/login" class="nav-link"><span
                             class="glyphicon glyphicon-log-in"></span>

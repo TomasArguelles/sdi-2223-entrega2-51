@@ -1,8 +1,8 @@
 package com.uniovi.sdi2223entrega2test.n;
 
-import com.uniovi.sdi2223entrega2test.n.pageobjects.PO_OfferView;
-import com.uniovi.sdi2223entrega2test.n.pageobjects.PO_View;
+import com.uniovi.sdi2223entrega2test.n.pageobjects.*;
 import com.uniovi.sdi2223entrega2test.n.util.DatabaseUtils;
+import com.uniovi.sdi2223entrega2test.n.util.SeleniumUtils;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -28,7 +28,7 @@ class Sdi2223Entrega2TestApplicationTests {
 
     @BeforeEach
     public void setUp() {
-        //driver.navigate().to(URL);
+        driver.navigate().to(URL);
     }
 
     //Después de cada prueba se borran las cookies del navegador
@@ -45,13 +45,138 @@ class Sdi2223Entrega2TestApplicationTests {
     //Al finalizar la última prueba
     @AfterAll
     static public void end() {
-//Cerramos el navegador al finalizar las pruebas
+        // Cerramos el navegador al finalizar las pruebas
         driver.quit();
     }
 
     // -------------------------------------
     // Parte 1 - Aplicacion Web
     // -------------------------------------
+    //    [Prueba1] Registro de Usuario con datos válidos.
+    //    [Prueba1] Registro de Usuario con datos válidos.
+    @Test
+    @Order(1)
+    void PR01() {
+        //Nos movemos al formulario de registro
+        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_SignUpView.fillForm(driver, "JoseFo@gmail.com", "Josefo", "Perez", "2023-05-22",
+                "77777", "77777");
+        //Comprobamos que hemos ido a la pagina de home, confirmando que el registro se ha completado con exito
+        PO_HomeView.checkWelcomeToPage(driver);
+    }
+
+    //    [Prueba2] Registro de Usuario con datos inválidos (email, nombre, apellidos y fecha de nacimiento vacíos).
+    @Test
+    @Order(2)
+    void PR02() {
+        //Nos movemos al formulario de registro
+        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos INVALIDOS
+        PO_SignUpView.fillForm(driver, "", "", "", "", "77777", "77777");
+        //Comprobamos que seguimos en la pantalla de registro
+        PO_SignUpView.checkSignUpPage(driver);
+    }
+
+    //    [Prueba3] Registro de Usuario con datos inválidos (repetición de contraseña inválida).
+    @Test
+    @Order(3)
+    void PR03() {
+        //Nos movemos al formulario de registro
+        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos INVALIDOS
+        PO_SignUpView.fillForm(driver, "JoseFo@gmail.com", "Josefo", "2023-05-22", "Perez", "77777", "773777");
+        //Comprobamos que seguimos en la pantalla de registro
+        PO_SignUpView.checkSignUpPage(driver);
+    }
+
+    //    [Prueba4] Registro de Usuario con datos inválidos (email existente).
+    @Test
+    @Order(4)
+    void PR04() {
+        //Nos movemos al formulario de registro
+        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo", "Perez", "2023-05-22", "77777", "77777");
+        //Comprobamos que hemos ido a la pagina de home, confirmando que el registro se ha completado con exito
+        PO_HomeView.checkWelcomeToPage(driver);
+
+        //Nos movemos al formulario de registro
+        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos INVALIDOS
+        PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo", "Perez", "2023-05-22", "77777", "77777");
+        //Comprobamos que seguimos en la pantalla de registro
+        PO_SignUpView.checkSignUpPage(driver);
+    }
+
+    //[Prueba5] Inicio de sesión con datos válidos (administrador).
+    @Test
+    @Order(5)
+    void PR05() {
+        //Nos movemos al formulario de inicio de sesión
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos con datos validos del usuario administrador
+        PO_LoginView.fillLoginForm(driver, "admin@email.com", "admin");
+        //Comprobamos que hemos ido a la pagina de home, confirmando que el inicio de sesión se ha completado con exito
+        PO_HomeView.checkWelcomeToPage(driver);
+    }
+
+    //[Prueba6] Inicio de sesión con datos válidos (usuario estándar).
+    @Test
+    @Order(6)
+    void PR06() {
+        //Nos movemos al formulario de inicio de sesión
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos con datos validos del usuario estandar
+        PO_LoginView.fillLoginForm(driver, "user01@email.com", "user01");
+        //Comprobamos que hemos ido a la pagina de home, confirmando que el inicio de sesión se ha completado con exito
+        PO_HomeView.checkWelcomeToPage(driver);
+    }
+
+    //[Prueba7] Inicio de sesión con datos válidos (usuario estándar, email existente, pero contraseña incorrecta)
+    @Test
+    @Order(7)
+    void PR07() {
+        // Insertar contraseña incorrecta
+        SeleniumUtils.signInIntoAccount(driver, "STANDARD", "user01@email.com", "123");
+        PO_LoginView.checkLoginPage(driver);
+    }
+
+    //[Prueba8] Inicio de sesión con datos inválidos (usuario estándar, campo contraseña vacío)
+    @Test
+    @Order(8)
+    void PR08() {
+        // Insertar contraseña incorrecta
+        SeleniumUtils.signInIntoAccount(driver, "STANDARD", "user01@email.com", "");
+        //Comprobamos que seguimos en la pantalla de inicio de sesión
+        PO_LoginView.checkLoginPage(driver);
+    }
+
+    //[Prueba9] Hacer clic en la opción de salir de sesión y comprobar que se redirige a la página de inicio de sesión (Login).
+    @Test
+    @Order(9)
+    void PR09() {
+        //Nos movemos al formulario de inicio de sesión
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos con datos validos del usuario estandar
+        PO_LoginView.fillLoginForm(driver, "user01@email.com", "user01");
+        //Comprobamos que hemos ido a la pagina de home, confirmando que el inicio de sesión se ha completado con exito
+        PO_HomeView.checkWelcomeToPage(driver);
+        //Nos movemos al formulario de inicio de sesión
+        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+        //Comprobamos que estamos en la pantalla de inicio de sesión
+        PO_LoginView.checkLoginPage(driver);
+    }
+
+    //[Prueba10] Comprobar que el botón cerrar sesión no está visible si el usuario no está autenticado.
+    @Test
+    @Order(10)
+    void PR010() {
+        //Buscamos que tenga el tex
+        SeleniumUtils.textIsNotPresentOnPage(driver, "Desconectate");
+    }
+
 
     /**
      * Parte 1 - Aplicacion Web - W6
@@ -156,6 +281,7 @@ class Sdi2223Entrega2TestApplicationTests {
         // Añadir dos ofertas de prueba
         PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10");
         PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3");
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 3", "Descripcion de la oferta de prueba 3", "2");
 
         // Obtener la ultima oferta de la lista y borrarla
         PO_OfferView.deleteOfferFromUserOffersList(driver, 3);
@@ -180,6 +306,7 @@ class Sdi2223Entrega2TestApplicationTests {
         // Añadir dos ofertas de prueba
         PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10");
         PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3");
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 3", "Descripcion de la oferta de prueba 3", "2");
 
         // Borrar una oferta de otro usuario
         PO_OfferView.deleteOfferFromUserOffersList(driver, 3);
