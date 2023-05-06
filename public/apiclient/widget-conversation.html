@@ -42,7 +42,7 @@
 <script>
     let messages;
     loadAllMessages();
-    let idConver;
+
     function loadAllMessages(){
 
         $.ajax({
@@ -57,6 +57,7 @@
                "token" : token
            },
            success: function (response){
+               console.log(idConver);
                 messages = response.messages;
                 updateMessages(messages);
            },error: function (error){

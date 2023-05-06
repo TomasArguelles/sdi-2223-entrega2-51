@@ -89,11 +89,11 @@
     function offerConversation(index){
         offer = offers[index];
         selectedId = offer._id;
-        loadAllAvaiableConversInOffers();
-
+        loadAllAvaiableConvers()
+        $("#main-container").load("widget-conversation.html");
     }
 
-    function loadAllAvaiableConversInOffers(){
+    function loadAllAvaiableConvers(){
         $.ajax({
             url: URLbase + "/conversations/",
             type: "GET",
@@ -102,18 +102,19 @@
             headers: {"token": token},
             success: function (response) {
                 convers = response.listadoConversaciones;
+
                 for(let i = 0; i< convers.length; i++){
-                    if(selectedId === convers[i].idOffer){
-                        idConver = convers[i].idOffer;
+                    if(selectedId === convers[i].oferta){
+                        idConver = convers[i]._id;
                     }
                 }
-                $("#main-container").load("widget-conversation.html");
             },
             error: function (error) {
-                
+               
                 $("#main-container").load("widget-login.html");
             }
         });
     }
+
 
 </script>

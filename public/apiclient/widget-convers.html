@@ -19,28 +19,8 @@
 <script>
 
 
-    loadAllAvaiableConvers();
 
-    function loadAllAvaiableConvers(){
-        $.ajax({
-            url: URLbase + "/conversations/",
-            type: "GET",
-            data: {},
-            dataType: 'json',
-            headers: {"token": token},
-            success: function (response) {
-                convers = response.listadoConversaciones;
-                console.log(convers);
-                updateConversTable(convers);
-            },
-            error: function (error) {
-                // TODO: Mostrar mensaje de error
-                $("#main-container").load("widget-login.html");
-            }
-        });
-    }
-
-
+    updateConversTable(convers);
 
     function updateConversTable(convers){
         $("#conversationsTableBody").empty(); // Vaciar la tabla

@@ -83,14 +83,6 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
             receiver = idSeller;
         }
         try {
-            let msg = {
-                idConver:idConver,
-                idSender:sender,
-                idReceiver:receiver,
-                leido:leido,
-                texto:message,
-                timestamp:date
-            }
 
             //Comprueno si existe esa conversacion
             let filter = {
@@ -100,6 +92,14 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
             conversationsRepository.findConversation(filter, options).then(conversation=> {
                 try {
                     if (conversation) {
+                        let msg = {
+                            idConver:idConver,
+                            idSender:sender,
+                            idReceiver:receiver,
+                            leido:leido,
+                            texto:message,
+                            timestamp:date
+                        }
                         messagesRepository.addMessage(msg, function (messageId) {
                             if (messageId === null) {
                                 res.status(409);
@@ -124,6 +124,14 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
                                 res.status(409);
                                 res.json({error: "No se ha podido crear la conversación."});
                             } else {
+                                let msg = {
+                                    idConver:conversationId,
+                                    idSender:sender,
+                                    idReceiver:receiver,
+                                    leido:leido,
+                                    texto:message,
+                                    timestamp:date
+                                }
                                 messagesRepository.addMessage(msg,  function (messageId) {
                                     if (messageId === null) {
                                         res.status(409);
