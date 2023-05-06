@@ -154,4 +154,19 @@ module.exports = {
             throw (error);
         }
     },
+
+    /**
+     * W12 Usuario registrado: Destacar oferta
+     */
+    featuredOffer: async function (offer, filter, options) {
+        try {
+            const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
+            const database = client.db("sdi-2223-entrega2-51");
+            const offersCollection = database.collection(offersCollectionName);
+            const result = await offersCollection.findOneAndUpdate(filter, {$set: offer}, options);
+            return result;
+        } catch (error) {
+            throw (error);
+        }
+    }
 };

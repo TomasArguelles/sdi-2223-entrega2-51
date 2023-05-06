@@ -34,12 +34,19 @@ module.exports = function (app, offersRepository) {
                 res.render(ADD_OFFER_VIEW, {errors: errors.array()});
 
             } else {
-                const {title, description, price} = req.body;
+                let {title, description, price, featured} = req.body;
+
+                // W12 Marcar oferta como destacada
+                if (featured && req.session.user.wallet < 20)
+                    res.send("Dinero insuficiente para destacar la oferta (precio: 20€)");
+                else if (featured && req.session.user.wallet >= 20)
+                    req.session.user.wallet -= 20; // coste de destacar una oferta
 
                 const offer = {
                     title,
                     description,
                     price,
+                    featured, //destacada (boolean)
                     date: new Date(),
                     seller: req.session.user
                 };
@@ -125,7 +132,7 @@ module.exports = function (app, offersRepository) {
                     pages.push(i);
             }
             let response = {songs: result.songs, pages: pages, currentPage: page};
-            res.render("offers/offersList.twig", response);
+            res.render(LIST_OFFERS_VIEW, response);
         }).catch(error => {
             res.send("Se ha producido un error al listar las ofertas " + error)
         });
@@ -141,14 +148,14 @@ module.exports = function (app, offersRepository) {
         let options = {};
         offersRepository.findOffer(filter, options).then(async offer => {
             let check = await isBought(offer, options);
-            if (!check && offer.seller.id != user.id && offer.price <= user.money) {
-                user.money -= offer.price;
+            if (!check && offer.seller.id !== user.id && offer.price <= user.wallet) {
+                user.wallet -= offer.price;
                 offersRepository.buyOffer({user: user, offerId: offerId}, function (offerId) {
                     if (offerId == null) {
-                        user.money += offer.price; // deshacer operación
-                        res.send("Error al realizar la compra");
+                        user.wallet += offer.price; // deshacer operación
+                        res.render(LIST_OFFERS_VIEW, {buyError: true});
                     } else
-                        res.redirect("/purchases");
+                        res.render(LIST_OFFERS_VIEW, {buyError: false});
                 });
             } else
                 res.send("Error al realizar la compra");
@@ -205,4 +212,28 @@ module.exports = function (app, offersRepository) {
             res.send("Se ha producido un error al listar las ofertas del usuario " + error);
         });
     });
+
+    /**
+     * W12 Usuario registrado: Destacar oferta
+     */
+    app.get('/offers/featured/:id', function (req, res) {
+        let offerId = ObjectId(req.params.id);
+        let user = req.session.user;
+        let filter = {_id: offerId};
+        let options = {};
+        offersRepository.findOffer(filter, options).then(async offer => {
+            if (user.wallet >= 20) { // coste de destacar una oferta
+                user.wallet -= 20;
+                offer.featured = true;
+                offersRepository.featuredOffer(offer,filter, options).then(result => {
+                    if (result == null)
+                        res.send("Error al destacar la oferta");
+                    else
+                        res.redirect(LIST_USER_OFFERS_VIEW);
+                });
+            } else
+                res.send("Error al destacar la oferta");
+        });
+    });
+
 };
