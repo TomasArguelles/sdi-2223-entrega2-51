@@ -34,12 +34,19 @@ module.exports = function (app, offersRepository) {
                 res.render(ADD_OFFER_VIEW, {errors: errors.array()});
 
             } else {
-                const {title, description, price} = req.body;
+                let {title, description, price, featured} = req.body;
+
+                // W12 Marcar oferta como destacada
+                if (featured && req.session.user.wallet < 20)
+                    res.send("Dinero insuficiente para destacar la oferta (precio: 20€)");
+                else if (featured && req.session.user.wallet >= 20)
+                    req.session.user.wallet -= 20; // coste de destacar una oferta
 
                 const offer = {
                     title,
                     description,
                     price,
+                    featured, //destacada (boolean)
                     date: new Date(),
                     seller: req.session.user
                 };
@@ -88,7 +95,7 @@ module.exports = function (app, offersRepository) {
                 const {offerId} = req.params;
                 await offersRepository.deleteOffer(ObjectId(offerId), (isDeleted) => {
                     if(isDeleted){
-                        res.redirect("/user/offers");
+                        res.redirect(OFFERS_ENPOINT);
                     }
                 });
             }
@@ -101,7 +108,11 @@ module.exports = function (app, offersRepository) {
     /**
      * W9 Usuario registrado: Buscar ofertas
      */
-    app.get("/offer/all", function (req, res) {
+    app.get("/offers/all", function (req, res) {
+        if (req.session.user == null) { // ¿Usuario registrado?
+            res.redirect("/offers");
+            return;
+        }
         let filter = {};
         let options = {sort: {title: 1}}; // Búsqueda de ofertas por título
         if (req.query.search != null && typeof (req.query.search) != "undefined" && req.query.search !== "") {
@@ -109,12 +120,74 @@ module.exports = function (app, offersRepository) {
             filter = {"title": {$regex: ".*" + req.query.search + ".*"}}; // Texto de la búsqueda
         }
         let page = parseInt(req.query.page); // Es String!!!
-        if (typeof req.query.page === "undefined" || req.query.page === null || req.query.page === "0") { //
+        if (typeof req.query.page === "undefined" || req.query.page === null || req.query.page === "0")
             page = 1;
-        }
         offersRepository.getOffersPg(filter, options, page).then(result => {
             let lastPage = result.total / 5;
-            if (result.total % 5 > 0) {
+            if (result.total % 5 > 0)
+                lastPage = lastPage + 1; // Sobran decimales
+            let pages = []; // Páginas a mostrar
+            for (let i = page - 2; i <= page + 2; i++) {
+                if (i > 0 && i <= lastPage)
+                    pages.push(i);
+            }
+            let response = {songs: result.songs, pages: pages, currentPage: page};
+            res.render(LIST_OFFERS_VIEW, response);
+        }).catch(error => {
+            res.send("Se ha producido un error al listar las ofertas " + error)
+        });
+    });
+
+    /**
+     * W10 Usuario registrado: Comprar oferta
+     */
+    app.get('/offers/buy/:id', function (req, res) {
+        let offerId = ObjectId(req.params.id);
+        let user = req.session.user;
+        let filter = {_id: offerId};
+        let options = {};
+        offersRepository.findOffer(filter, options).then(async offer => {
+            let check = await isBought(offer, options);
+            if (!check && offer.seller.id !== user.id && offer.price <= user.wallet) {
+                user.wallet -= offer.price;
+                offersRepository.buyOffer({user: user, offerId: offerId}, function (offerId) {
+                    if (offerId == null) {
+                        user.wallet += offer.price; // deshacer operación
+                        res.render(LIST_OFFERS_VIEW, {buyError: true});
+                    } else
+                        res.render(LIST_OFFERS_VIEW, {buyError: false});
+                });
+            } else
+                res.send("Error al realizar la compra");
+        });
+    });
+
+    /**
+     * W10 Usuario registrado: Comprar oferta
+     * Comprueba si fue comprada la oferta
+     */
+    function isBought(offer, options) {
+        let filter = {offer_id: offer._id};
+        return offersRepository.getPurchases(filter, options).then(purchases => {
+            return purchases.length === 1;
+        });
+    }
+
+    /**
+     * W11 Usuario registrado: Listar ofertas compradas
+     * Obtener las compras
+     */
+    app.get('/purchases', function (req, res) {
+        let filter = {user: req.session.user};
+        let options = {projection: {_id: 0, offerId: 1}};
+        let page = parseInt(req.query.page); // Es String !!!
+        if (typeof req.query.page === "undefined" || req.query.page === null || req.query.page === "0") {
+            // Puede no venir el param
+            page = 1;
+        }
+        offersRepository.getPurchasesPg(filter, options, page).then(purchasedIds => {
+            let lastPage = purchasedIds.total / 5;
+            if (purchasedIds.total % 5 > 0) {
                 // Sobran decimales
                 lastPage = lastPage + 1;
             }
@@ -124,10 +197,43 @@ module.exports = function (app, offersRepository) {
                     pages.push(i);
                 }
             }
-            let response = {songs: result.songs, pages: pages, currentPage: page};
-            res.render("shop.twig", response);
+            let purchasedOffers = [];
+            for (let i = 0; i < purchasedIds.length; i++) {
+                purchasedOffers.push(purchasedIds[i].offerId);
+            }
+            let filter = {"_id": {$in: purchasedOffers}};
+            let options = {sort: {title: 1}};
+            offersRepository.getOffers(filter, options).then(offers => {
+                res.render("purchase.twig", {offers: offers, pages: pages, currentPage: page});
+            }).catch(error => {
+                res.send("Se ha producido un error al listar las ofertas compradas por el usuario: " + error);
+            });
         }).catch(error => {
             res.send("Se ha producido un error al listar las ofertas " + error)
         });
     });
+
+    /**
+     * W12 Usuario registrado: Destacar oferta
+     */
+    app.get('/offers/featured/:id', function (req, res) {
+        let offerId = ObjectId(req.params.id);
+        let user = req.session.user;
+        let filter = {_id: offerId};
+        let options = {};
+        offersRepository.findOffer(filter, options).then(async offer => {
+            if (user.wallet >= 20) { // coste de destacar una oferta
+                user.wallet -= 20;
+                offer.featured = true;
+                offersRepository.featuredOffer(offer,filter, options).then(result => {
+                    if (result == null)
+                        res.send("Error al destacar la oferta");
+                    else
+                        res.redirect(LIST_USER_OFFERS_VIEW);
+                });
+            } else
+                res.send("Error al destacar la oferta");
+        });
+    });
+
 };
