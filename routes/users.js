@@ -19,24 +19,32 @@ module.exports = function (app, usersRepository) {
     })
 
     app.post('/users/signup', function (req, res) {
-        let securePassword = app.get("crypto").createHmac('sha256', app.get('clave'))
-            .update(req.body.password).digest('hex');
-        let user = {
-            email: req.body.email,
-            password: securePassword
-        }
-        usersRepository.findUser({email: user.email}, {}).then(us => {
-            if (us === null)
-                usersRepository.insertUser(user).then(userId => {
-                    res.redirect("/user/offers");
-                })
-            else
-                res.redirect("/users/login");
-        }).catch(error => {
+        if(req.body.password !== req.body.passwordConfirm)
             res.redirect("/users/signup" +
                 "?message=Se ha producido un error al registrar el usuario"+
                 "&messageType=alert-danger ");
-        });
+        else {
+            let securePassword = app.get("crypto").createHmac('sha256', app.get('clave'))
+                .update(req.body.password).digest('hex');
+            let user = {
+                email: req.body.email,
+                password: securePassword
+            }
+            usersRepository.findUser({email: user.email}, {}).then(us => {
+                if (us === null)
+                    usersRepository.insertUser(user).then(userId => {
+                        res.redirect("/user/offers");
+                    })
+                else
+                    res.redirect("/users/signup" +
+                        "?message=Se ha producido un error al registrar el usuario" +
+                        "&messageType=alert-danger ");
+            }).catch(error => {
+                res.redirect("/users/signup" +
+                    "?message=Se ha producido un error al registrar el usuario" +
+                    "&messageType=alert-danger ");
+            });
+        }
     });
 
     app.get('/users/login', function (req, res) {
