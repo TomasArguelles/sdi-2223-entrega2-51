@@ -17,8 +17,6 @@ R
 "repositories/commentsRepository.js,1\e\1eecc304dbbf62fd57a5f7145bd040c43ebdb1d3
 B
 routes/comments.js,5\1\512570a6b6daee99894999ff507708b95711e310
-K
-routes/userSessionRouter.js,8\8\8839c934e499e0f03bebcc14b8f32aa68b7240cf
 A
 logs/requests.log,8\7\87ee7563e36cc163346683a965fb0cd4353e5395
 J
@@ -110,8 +108,6 @@ Q
 !repositories/loggingRepository.js,9\d\9d5b7cd73f8e883d8353abbe88023be7c217a880
 A
 util/dateUtils.js,a\f\afd7ebe6edbe0a05f633ba42f9b00f10c527f5a0
-O
-repositories/usersRepository.js,5\9\59eec077761f04a33a5f4c3ab7e5c70852ca968e
 J
 routes/api/songsAPIv1.0.js,5\9\593edca837d34bb0fb1cf6bf1ded6a537a9ff6e5
 p
@@ -628,8 +624,6 @@ w
 G.idea/sonarlint/issuestore/6/6/66b23f6cac226d3234d1bfc06d8d862971043d52,3\0\30c20ad202fbe6f5673a99a5644079bcecd8749e
 w
 G.idea/sonarlint/issuestore/f/a/faa2c4c1d8e8af29bbacaf5dd4a09a1c9fe8c947,1\8\18a2f51929b61d2767a5f0dfd569abd301d89c52
-{
-Ktest/java/com/uniovi/sdi2223entrega2n/Sdi2223Entrega1NApplicationTests.java,b\a\bac9f4e16ec38fd365b4ce1c1be9e8499a539c30
 w
 G.idea/sonarlint/issuestore/6/6/66f614eff071e14a5a476bf07f1bb67abb84197e,a\e\ae43de63771e835a9100cc871677731234c49d57
 w

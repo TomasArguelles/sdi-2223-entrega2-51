@@ -44,6 +44,7 @@ app.use("/offers/", customLogger.loggerRouter);
 // ----------------------------------------------
 
 const userSessionRouter = require('./routes/userSessionRouter');
+const adminSessionRouter = require('./routes/adminRouter');
 
 // Auth middleware
 app.use("/offers/",userSessionRouter);
@@ -56,6 +57,10 @@ app.use("/purchases",userSessionRouter);
 app.use("/api/v1.0/offers",userSessionRouter);
 app.use("/api/v1.0/conversations/",userSessionRouter);
 app.use("/api/v1.0/messages/",userSessionRouter);
+
+// Protección de rutas del usuario administrador
+app.use("/admin", adminSessionRouter);
+app.use("/logs/", adminSessionRouter);
 
 const userAuthorRouter = require('./routes/userAuthorRouter');
 app.use("/songs/edit",userAuthorRouter);

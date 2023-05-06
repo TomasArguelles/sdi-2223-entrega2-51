@@ -15,8 +15,6 @@ R
 "repositories/commentsRepository.js,1\e\1eecc304dbbf62fd57a5f7145bd040c43ebdb1d3
 B
 routes/comments.js,5\1\512570a6b6daee99894999ff507708b95711e310
-K
-routes/userSessionRouter.js,8\8\8839c934e499e0f03bebcc14b8f32aa68b7240cf
 S
 #middlewares/validationMiddleware.js,c\a\ca6b6d08234719bdbe7f0a339b255a1dfe937947
 A
@@ -110,8 +108,6 @@ Q
 !repositories/loggingRepository.js,9\d\9d5b7cd73f8e883d8353abbe88023be7c217a880
 A
 util/dateUtils.js,a\f\afd7ebe6edbe0a05f633ba42f9b00f10c527f5a0
-O
-repositories/usersRepository.js,5\9\59eec077761f04a33a5f4c3ab7e5c70852ca968e
 J
 routes/api/songsAPIv1.0.js,5\9\593edca837d34bb0fb1cf6bf1ded6a537a9ff6e5
 p
@@ -1116,7 +1112,5 @@ n
 >test/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_View.java,e\6\e6ac52b5b181e7a4c635fc9c681dd6409778ded9
 P
  sdi2223-entrega2-test-51/pom.xml,a\7\a7a6b3e6f09464155be42cd9de28870f5c1f71df
-{
-Ktest/java/com/uniovi/sdi2223entrega2n/Sdi2223Entrega1NApplicationTests.java,b\a\bac9f4e16ec38fd365b4ce1c1be9e8499a539c30
 m
 =test/java/com/uniovi/sdi2223entrega2n/util/SeleniumUtils.java,4\9\49046e4b5a21e04ca2d7d78c39b5030c6ae1cd3a

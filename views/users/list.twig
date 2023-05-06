@@ -1,5 +1,32 @@
 {% extends "layout.twig" %}
 {% block title %} My Wallapop {% endblock %}
 {% block main_container %}
+    <h2>Usuarios</h2>
+    <p>Listado de usuario de la aplicación</p>
 
+    <div class="row">
+        {% if offers.length > 0 %}
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ offer.email }}</td>
+                        <td>{{ offer.name }}</td>
+                        <td>{{ offer.surname }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No hay usuarios en el sistema</p>
+        {% endif %}
+
+    </div>
 {% endblock %}
