@@ -59,8 +59,7 @@
                     "<td>" + convers[i].oferta.tituloOferta + "</td>" +
                     "<td>" + convers[i].oferta.seller + "</td>" +
                     "<td>" + calcularMensajesSinLeer(convers[i]) + "</td>" +
-                    "<td> <button class=\"btn btn-primary\" onclick=\"offerConversation('"+i+"')\" >Conversacion</button> " +
-                    "<button class=\"btn btn-primary\" >Eliminar</button> </td>" +
+                    "<td> <button class=\"btn btn-primary\" onclick=\"offerConversation('"+i+"')\" >Conversacion</button> <button class=\"btn btn-primary\" onclick=\"deleteConversation('"+i+"') \">Eliminar</button> </td>" +
                     "</tr>"
                 );
             }
@@ -76,6 +75,25 @@
             }
         }
         $("#main-container").load("widget-conversation.html");
+    }
+
+    function deleteConversation(index){
+        let _id = convers[index]._id;
+        console.log(_id);
+        $.ajax({
+            url: URLbase + "/messages/" + _id,
+            type: "DELETE",
+            data: {},
+            dataType: 'json',
+            headers: {"token": token},
+            success: function (response) {
+                console.log("Conversacion eliminada: " + _id);
+                $("#" + _id).remove(); // eliminar el <tr> de la canción
+            },
+            error: function (error) {
+
+            }
+        });
     }
 
     function calcularMensajesSinLeer(conver) {
