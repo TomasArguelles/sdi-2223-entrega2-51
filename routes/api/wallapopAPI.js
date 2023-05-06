@@ -66,8 +66,8 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
 
     app.post('/api/v1.0/messages/add', function (req, res) {
 
-        let idConver=req.body.idConver;
-        console.log("idconver:" +idConver);
+        let idConver=ObjectId(req.body.idConver);
+
         let idBuyer = res.user;
         let tituloOffer = req.body.offerTitle;
         let idSeller = req.body.idSeller;
@@ -77,22 +77,21 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
         let message = req.body.texto;
         let leido = false;
         let date = Date.now();
-        console.log(res.user)
-        console.log(idSeller);
-        console.log(res.user === idSeller);
+
         if (res.user === idSeller ){
             receiver = idBuyer;
         }else{
             receiver = idSeller;
         }
-        console.log(receiver);
+
         try {
 
             //Comprueno si existe esa conversacion
             let filter = {
-                _id : ObjectId(req.body.idConver)
+                _id : idConver
             };
             let options = {};
+
             conversationsRepository.findConversation(filter, options).then(conversation=> {
                 try {
                     if (conversation) {
@@ -241,7 +240,8 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
 **/
     app.get('/api/v1.0/messages/:id', function (req, res) {
 
-        let filter = {idConver:req.params.id};
+        let filter = {idConver:ObjectId(req.params.id)};
+        console.log(filter);
         let options = {};
         messagesRepository.getMessages(filter, options).then(messages => {
             res.status(200);
