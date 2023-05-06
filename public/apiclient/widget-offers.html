@@ -22,6 +22,9 @@
     let selectedId;
     let offers;
     let offer;
+    let idConver;
+    let convers;
+    let messages;
 
     loadAllAvaiableOffers();
 
@@ -87,7 +90,31 @@
     function offerConversation(index){
         offer = offers[index];
         selectedId = offer._id;
+        loadAllAvaiableConvers()
         $("#main-container").load("widget-conversation.html");
+    }
+
+    function loadAllAvaiableConvers(){
+        $.ajax({
+            url: URLbase + "/conversations/",
+            type: "GET",
+            data: {},
+            dataType: 'json',
+            headers: {"token": token},
+            success: function (response) {
+                convers = response.listadoConversaciones;
+
+                for(let i = 0; i< convers.length; i++){
+                    if(selectedId === convers[i].oferta){
+                        idConver = convers[i]._id;
+                    }
+                }
+            },
+            error: function (error) {
+
+                $("#main-container").load("widget-login.html");
+            }
+        });
     }
 
 

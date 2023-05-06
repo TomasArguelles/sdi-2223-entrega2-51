@@ -65,6 +65,113 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
     });
 
     app.post('/api/v1.0/messages/add', function (req, res) {
+
+        let idConver=ObjectId(req.body.idConver);
+
+        let idBuyer = res.user;
+        let tituloOffer = req.body.offerTitle;
+        let idSeller = req.body.idSeller;
+        let idOffer = req.body.idOffer;
+        let sender = res.user;
+        let receiver;
+        let message = req.body.texto;
+        let leido = false;
+        let date = Date.now();
+
+        if (res.user === idSeller ){
+            receiver = idBuyer;
+        }else{
+            receiver = idSeller;
+        }
+
+        try {
+
+            //Comprueno si existe esa conversacion
+            let filter = {
+                _id : idConver
+            };
+            let options = {};
+
+            conversationsRepository.findConversation(filter, options).then(conversation=> {
+                try {
+                    if (conversation) {
+                        if (res.user === conversation.seller ){
+                            receiver = conversation.buyer;
+                        }else{
+                            receiver = conversation.seller;
+                        }
+                        let msg = {
+                            idConver:idConver,
+                            idSender:sender,
+                            idReceiver:receiver,
+                            leido:leido,
+                            texto:message,
+                            timestamp:date
+                        }
+                        messagesRepository.addMessage(msg, function (messageId) {
+                            if (messageId === null) {
+                                res.status(409);
+                                res.json({error: "No se ha podido añadir el mensaje."});
+                            } else {
+                                res.status(201);
+                                res.json({
+                                    message: "Mensaje añadido correctamente.",
+                                    _id: messageId
+                                });
+                            }
+                        });
+                    } else {
+                        let conv = {
+                            buyer:idBuyer,
+                            seller: idSeller,
+                            oferta: idOffer,
+                            tituloOffer: tituloOffer
+                        };
+                        conversationsRepository.addConversation(conv, async function (conversationId) {
+                            if (conversationId === null) {
+                                res.status(409);
+                                res.json({error: "No se ha podido crear la conversación."});
+                            } else {
+                                let msg = {
+                                    idConver:conversationId,
+                                    idSender:sender,
+                                    idReceiver:receiver,
+                                    leido:leido,
+                                    texto:message,
+                                    timestamp:date
+                                }
+                                messagesRepository.addMessage(msg,  function (messageId) {
+                                    if (messageId === null) {
+                                        res.status(409);
+                                        res.json({error: "No se ha podido añadir el mensaje."});
+                                    } else {
+                                        res.status(201);
+                                        res.json({
+                                            message: "Mensaje añadido correctamente.",
+                                            _id: messageId
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                } catch (error) {
+                    res.status(500);
+                    res.json({error: "Se ha producido un error al intentar añadir el mensaje: " + error});
+                }
+            });
+        } catch (e) {
+            res.status(500);
+            res.json({error: "Se ha producido un error al intentar añadir el mensaje: " + e});
+        }
+    });
+
+
+/**
+    app.post('/api/v1.0/messages/add', function (req, res) {
+
+
+
         try {
             let msg = {
                 idOffer: req.body.idOffer,
@@ -75,9 +182,7 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
                 timestamp: Date.now()
             }
 
-
-            let filter = {buyer:msg.idSender ,seller: msg.idReceiver , oferta: msg.idOffer};
-
+            let filter = {sender:msg.idSender,receiver: msg.idReceiver,oferta: msg.idOffer};
 
             let options = {};
             conversationsRepository.findConversation(filter, options).then(conversation=> {
@@ -97,12 +202,11 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
                         });
                     } else {
                         let conv = {
-                            buyer: msg.idSender,
-                            seller: msg.idReceiver,
+                            sender: msg.idSender,
+                            receiver: msg.idReceiver,
                             oferta: msg.idOffer,
                             tituloOferta: req.body.offerTitle
                         };
-
                         conversationsRepository.addConversation(conv, async function (conversationId) {
                             if (conversationId === null) {
                                 res.status(409);
@@ -133,10 +237,11 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
             res.json({error: "Se ha producido un error al intentar añadir el mensaje: " + e});
         }
     });
+**/
+    app.get('/api/v1.0/messages/:id', function (req, res) {
 
-    app.get('/api/v1.0/messages/', function (req, res) {
-
-        let filter = {idSender:res.user};
+        let filter = {idConver:ObjectId(req.params.id)};
+        console.log(filter);
         let options = {};
         messagesRepository.getMessages(filter, options).then(messages => {
             res.status(200);
@@ -149,33 +254,26 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
 
     app.get('/api/v1.0/conversations/', function (req, res) {
         let user = res.user;
-        let filterUsuarioVendedor = {seller: user};
-        let filterUsuarioInteresado = {buyer: user};
+        let filterUsuarioVendedor = {buyer: user};
+        let filterUsuarioInteresado = {seller: user};
         let options = {};
-
-        let todas = []
+        let todas=[]
         conversationsRepository.getConversations(filterUsuarioVendedor, options).then(convs => {
             convs.forEach(c => {
-                todas.push(c);
-
+                    todas.push(c);
             })
-        })
-        conversationsRepository.getConversations(filterUsuarioInteresado, options).then(convs => {
-            convs.forEach(c => {
-                todas.push(c);
+            conversationsRepository.getConversations(filterUsuarioInteresado, options).then(convs => {
+                convs.forEach(c => {
+                    todas.push(c);
+                })
+                res.status(200);
+                res.send({
+                    listadoConversaciones: todas
+                })
             })
 
-        })
-        res.status(200);
-        res.send({
-            listadoConversaciones: todas
+        });
 
-        })
-
-            .catch(error => {
-                res.status(500);
-                res.json({error: "Se ha producido un error al obtener las conversaciones."});
-            });
     });
 
 
@@ -221,5 +319,4 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
             res.json({error: "Se ha producido un error al intentar modificar la canción: "+ e})
         }
     });
-
 }
