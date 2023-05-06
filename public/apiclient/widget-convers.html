@@ -59,11 +59,23 @@
                     "<td>" + convers[i].oferta.tituloOferta + "</td>" +
                     "<td>" + convers[i].oferta.seller + "</td>" +
                     "<td>" + calcularMensajesSinLeer(convers[i]) + "</td>" +
-                    "<td> <button class=\"btn btn-primary\" >Conversacion</button> <button class=\"btn btn-primary\" >Eliminar</button> </td>" +
+                    "<td> <button class=\"btn btn-primary\" onclick=\"offerConversation('"+i+"')\" >Conversacion</button> " +
+                    "<button class=\"btn btn-primary\" >Eliminar</button> </td>" +
                     "</tr>"
                 );
             }
         }
+    }
+
+    function offerConversation(index){
+        let conver = convers[index];
+        for(let i = 0; i< offers.length; i++){
+            if(conver.oferta == offers[i]._id){
+                offer = offers[i];
+                selectedId = offer._id;
+            }
+        }
+        $("#main-container").load("widget-conversation.html");
     }
 
     function calcularMensajesSinLeer(conver) {
