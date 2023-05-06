@@ -75,10 +75,10 @@ module.exports = function (app, usersRepository) {
 
                 generateLogContent(req, res);
                 if(user.kind === "Usuario Administrador"){
-                    res.redirect("/offers"); //TODO “listado de todos los usuarios de la aplicación”
+                    res.redirect("/user/offers"); //TODO “listado de todos los usuarios de la aplicación”
                 }
                 else{
-                    res.redirect("/offers"); //listado de ofertas propias
+                    res.redirect("/user/offers"); //listado de ofertas propias
                 }
             }
         }).catch(error => {

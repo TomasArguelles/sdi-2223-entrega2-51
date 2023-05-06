@@ -436,8 +436,6 @@ L.idea/libraries/Maven__org_codehaus_mojo_animal_sniffer_annotations_1_14.xml,1
 _sdi2223-entrega2-test-51/src/test/java/com/uniovi/sdi2223entrega2test/n/util/DatabaseUtils.java,e\a\ea366d75321ba47baca7aa4b7b96c5b18bc4e059
 P
  repositories/offersRepository.js,1\9\19d9e7e5a4f35488889b872d147538948bcf6145
-L
-views/offers/offersList.twig,1\7\1716cf5db6ca707a588a49dde28a0ada0585ba5a
 @
 views/login.twig,8\5\858c14f39b540b2c71113cc8d7641ef3eb0900cb
 Å

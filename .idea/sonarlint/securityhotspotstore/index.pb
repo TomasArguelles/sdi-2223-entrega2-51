@@ -436,8 +436,6 @@ d
 4.idea/libraries/Maven__org_hamcrest_hamcrest_2_1.xml,9\4\9441e6b1356fbd398758253cd275774b28325a15
 |
 L.idea/libraries/Maven__org_codehaus_mojo_animal_sniffer_annotations_1_14.xml,1\5\1523e26b366c694a68d6d2a539aabe61cdac77eb
-L
-views/offers/offersList.twig,1\7\1716cf5db6ca707a588a49dde28a0ada0585ba5a
 @
 views/login.twig,8\5\858c14f39b540b2c71113cc8d7641ef3eb0900cb
 Å
