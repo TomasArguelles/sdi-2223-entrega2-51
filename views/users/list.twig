@@ -1,11 +1,11 @@
 {% extends "layout.twig" %}
-{% block title %} My Wallapop {% endblock %}
+{% block title %} My Wallapop | Listado de usuarios{% endblock %}
 {% block main_container %}
     <h2>Usuarios</h2>
     <p>Listado de usuario de la aplicación</p>
 
     <div class="row">
-        {% if offers.length > 0 %}
+        {% if users.length > 0 %}
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -17,9 +17,9 @@
                 <tbody>
                 {% for user in users %}
                     <tr>
-                        <td>{{ offer.email }}</td>
-                        <td>{{ offer.name }}</td>
-                        <td>{{ offer.surname }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.surname }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -28,5 +28,19 @@
             <p>No hay usuarios en el sistema</p>
         {% endif %}
 
+    </div>
+
+    <div class="row text-center">
+        <ul class="pagination">
+            {% for page in pages %}
+                <li class="page-item" id="pi-{{ page }}">
+                    <a class="page-link"
+                       href="/users/list/?page={{ page }}">{{ page }}</a>
+                </li>
+            {% endfor %}
+            <script>
+                $("#pi-" + "{{ currentPage }}").addClass("active");
+            </script>
+        </ul>
     </div>
 {% endblock %}

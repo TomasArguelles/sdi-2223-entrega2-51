@@ -20,11 +20,18 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav" id="barra-menu">
-                <li><a onclick=widgetOffers()>Ofertas</a></li>
-                <li><a onclick=widgetConvers()>Conversaciones</a></li>
+                <li><a onclick="widgetOffers()">Ofertas</a></li>
+                <li><a onclick="widgetConvers()">Conversaciones</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right" id="barra-menu-derecha">
-                <!--Opciones de menú aqui -->
+                <li>
+                    <a onclick="handleLogin()"><span
+                            class="glyphicon glyphicon-log-in"></span> Iniciar sesión</a>
+                </li>
+<!--                <li>-->
+<!--                    <a onclick="handleLogout()"><span-->
+<!--                            class="glyphicon glyphicon-user"></span>Cerrar sesión</a>-->
+<!--                </li>-->
             </ul>
         </div>
     </div>
@@ -33,6 +40,7 @@
 <!--Contenido -->
 <div class="container" id="main-container"> <!--id para identificar --></div>
 <script>
+    let offer;
     let token;
     let URLbase = "http://localhost:8081/api/v1.0";
     if (Cookies.get('token') != null) {
@@ -60,13 +68,39 @@
     }
 
     function widgetOffers() {
+        window.history.pushState("", "", "/apiclient/client.html?w=offers");
         loadAllAvailableOffers();
         $("#main-container").load("widget-offers.html");
     }
 
     function widgetConvers() {
-
+        window.history.pushState("", "", "/apiclient/client.html?w=convers");
+        loadAllAvaiableConvers();
         $("#main-container").load("widget-convers.html");
+    }
+
+    function handleLogout(){
+        $.ajax({
+            url: URLbase + "/logout",
+            type: "GET",
+            success: function success(response) {
+                Cookies.remove('token');
+                $("#main-container").load("widget-login.html");
+            },
+            error: function (error) {
+                Cookies.remove('token');
+                $("#widget-login").prepend("<div class='alert alert-danger'>Credenciales incorrectas. Inténtenlo de nuevo.</div>");
+
+                setTimeout(() => {
+                    $("#widget-login").find(".alert").remove();
+                }, 3000);
+            }
+        });
+        $("#main-container").load("widget-login.html");
+    }
+
+    function handleLogin(){
+        $("#main-container").load("widget-login.html");
     }
 </script>
 </body>

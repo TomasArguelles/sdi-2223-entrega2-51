@@ -122,7 +122,7 @@ public class PO_OfferView {
 
         // Dentro de la vista del listado de ofertas del usuario, pulsar
         // el botón de eliminar oferta
-        PO_View.clickOnButton(driver, "/html/body/div/div[2]/table/tbody/tr[" + row + "]/td[5]/a");
+        PO_View.clickOnButton(driver, "/html/body/div/table/tbody/tr[" + row + "]/td[5]/a");
     }
 
     /**

@@ -24,8 +24,6 @@ A
 A
 package-lock.json,f\a\fa288d1472d29beccb489a676f68739ad365fc47
 J
-routes/userAuthorRouter.js,8\4\8458b34ee725e2c636fa44c9e6f052c15001cc0b
-J
 routes/userAudiosRouter.js,c\3\c396b453f41a428900735f87c7a99f938b97c4cc
 Å
 Q.idea/sonarlint/securityhotspotstore/a/3/a3966e5b4f1ae11212e585a0191244da421f4446,b\0\b0d14e94dbaf98884f2db4014bde7db4d060a384
@@ -104,12 +102,8 @@ Q.idea/sonarlint/securityhotspotstore/c/3/c396b453f41a428900735f87c7a99f938b97c4
 views/shop.twig,2\a\2aed5816665d8d91095554449ca1a439541bca6b
 L
 public/stylesheets/style.css,3\7\373d337c32dec564fe0da458c6478733eec21e5a
-Q
-!repositories/loggingRepository.js,9\d\9d5b7cd73f8e883d8353abbe88023be7c217a880
 A
 util/dateUtils.js,a\f\afd7ebe6edbe0a05f633ba42f9b00f10c527f5a0
-J
-routes/api/songsAPIv1.0.js,5\9\593edca837d34bb0fb1cf6bf1ded6a537a9ff6e5
 p
 @.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_5_8_1.xml,8\5\8577ebd8c1e13812fdcb9f5cc1da21c752a604fd
 w
@@ -420,10 +414,6 @@ d
 4.idea/libraries/Maven__org_hamcrest_hamcrest_2_1.xml,9\4\9441e6b1356fbd398758253cd275774b28325a15
 |
 L.idea/libraries/Maven__org_codehaus_mojo_animal_sniffer_annotations_1_14.xml,1\5\1523e26b366c694a68d6d2a539aabe61cdac77eb
-è
-_sdi2223-entrega2-test-51/src/test/java/com/uniovi/sdi2223entrega2test/n/util/DatabaseUtils.java,e\a\ea366d75321ba47baca7aa4b7b96c5b18bc4e059
-@
-views/login.twig,8\5\858c14f39b540b2c71113cc8d7641ef3eb0900cb
 Å
 Q.idea/sonarlint/securityhotspotstore/1/9/19c636df3e705c261e52473acf3670d011414338,c\9\c95e370449a84776b2da0658db43b1e26371781f
 w

@@ -35,6 +35,7 @@ class Sdi2223Entrega2TestApplicationTests {
     @BeforeEach
     public void setUp() {
         driver.navigate().to(URL);
+
     }
 
     //Después de cada prueba se borran las cookies del navegador
@@ -46,6 +47,9 @@ class Sdi2223Entrega2TestApplicationTests {
     //Antes de la primera prueba
     @BeforeAll
     static public void begin() {
+        // Crear los usuarios de prueba
+        driver.navigate().to(URL);
+        DatabaseUtils.seedUsers();
     }
 
     //Al finalizar la última prueba
@@ -63,6 +67,7 @@ class Sdi2223Entrega2TestApplicationTests {
     @Test
     @Order(1)
     void PR01() {
+        DatabaseUtils.resetUsersCollection();
         //Nos movemos al formulario de registro
         PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
@@ -76,6 +81,7 @@ class Sdi2223Entrega2TestApplicationTests {
     @Test
     @Order(2)
     void PR02() {
+        DatabaseUtils.resetUsersCollection();
         //Nos movemos al formulario de registro
         PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos INVALIDOS

@@ -103,9 +103,7 @@ const generateLogContent = async function (req, res) {
         logContent.description.params = splitedParams;
     }
 
-    await logginRepository.addNewLog(logContent, (id) => {
-        console.log(`Log ${id} registrado correctamente.`);
-    });
+    await logginRepository.addNewLog(logContent, null);
 }
 
 loggerRouter.use(function (req, res, next) {

@@ -87,7 +87,8 @@ module.exports = {
     },
 
     /**
-     * Listado de todas las ofertas disponibles.
+     * Listado de todas las ofertas disponibles. Sin paginación.
+     * <p>
      * @returns {Promise<*>}
      */
     getOffers: async function () {

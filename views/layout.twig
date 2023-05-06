@@ -39,8 +39,6 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarApp">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li id="myshop"><a href="/shop" class="nav-link active">Tienda</a>
-            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#"
                    id="gestionOfertasMenu" role="button"
@@ -63,24 +61,44 @@
                        id="listBoughtOffers">Ver ofertas compradas</a>
                 </ul>
             </li>
-            <li id="mybuy" class="nav-item"><a href="/purchases"
-                                               class="nav-link">Compras</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#"
+                   id="gestionUsuariosMenu" role="button"
+                   data-toggle="dropdown" aria-expanded="false"> Gestión de
+                    usuarios
+                </a>
+                <ul class="dropdown-menu" role="menu"
+                    aria-labelledby="navbarDropdown"
+                    id="gestionUsuariosDropdown">
+                    <li>
+                        <a class="dropdown-item" id="listAllUsers"
+                           href="/users/list">Listado de usuarios</a>
+                    </li>
+                </ul>
             </li>
-
-            <li><a href="/admin" class="nav-link">Visualizar logs</a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#"
+                   id="gestionLogsMenu" role="button"
+                   data-toggle="dropdown" aria-expanded="false">Gestión de logs
+                </a>
+                <ul class="dropdown-menu" role="menu"
+                    aria-labelledby="navbarDropdown"
+                    id="gestionLogsDropdown">
+                    <li>
+                        <a class="dropdown-item" id="listAllLogs"
+                           href="/admin">Visualizar logs</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" id="removeAllLogs"
+                           href="/logs/delete/all">Borrar logs</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
 
-        {% if app.session %}
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="/logs/delete/all" class="nav-link">Borrar logs</a>
-                </li>
-            </ul>
-        {% endif %}
-
-
-
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="/users/signup" class="nav-link"><span class="glyphicon glyphicon-user"></span>
+            <li><a href="/users/signup" class="nav-link"><span
+                            class="glyphicon glyphicon-user"></span>
                     Registrate</a></li>
             <li><a href="/users/login" class="nav-link"><span
                             class="glyphicon glyphicon-log-in"></span>

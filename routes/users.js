@@ -1,19 +1,40 @@
 const {generateLogContent} = require("../middlewares/loggerMiddleware");
 module.exports = function (app, usersRepository) {
-    app.get('/users', function (req, res) {
-        generateLogContent(req, res);
+    app.get('/users/list', function (req, res) {
+            generateLogContent(req, res);
 
-        let filter = {user: req.session.user};
-        let options = {projection: {_id: 0, offerId: 1}};
-        let page = parseInt(req.query.page); // Es String !!!
-        if (typeof req.query.page === "undefined" || req.query.page === null || req.query.page === "0") {
-            // Puede no venir el param
-            page = 1;
+            try {
+                let filter = {user: req.session.user};
+                let page = parseInt(req.query.page);
+                if (typeof req.query.page === "undefined" || req.query.page === null || req.query.page === "0") {
+                    // Puede no venir el param
+                    page = 1;
+                }
+
+                usersRepository.findAllPg(filter, {}, page).then(usersIds => {
+                    let lastPage = usersIds.total / 5;
+                    if (usersIds.total % 5 > 0) {
+                        lastPage = lastPage + 1;
+                    }
+                    let pages = []; // Páginas a mostrar
+                    for (let i = page - 2; i <= page + 2; i++) {
+                        if (i > 0 && i <= lastPage) {
+                            pages.push(i);
+                        }
+                    }
+
+                    res.render("users/list", {
+                        users: usersIds.users,
+                        pages: pages,
+                        currentPage: page
+                    });
+                });
+            } catch
+                (error) {
+                console.log(error);
+            }
         }
-
-        usersRepository.findAllPg()
-        res.render("", users);
-    })
+    )
 
     app.get('/users/logout', function (req, res) {
         generateLogContent(req, res);
@@ -102,9 +123,9 @@ module.exports = function (app, usersRepository) {
 
                 generateLogContent(req, res);
                 if (user.kind === "Usuario Administrador") {
-                    res.redirect("/user/offers"); //TODO “listado de todos los usuarios de la aplicación”
+                    res.redirect("/users/list"); //listado de todos los usuarios de la aplicación
                 } else {
-                    res.redirect("/user/offers"); //listado de ofertas propias
+                    res.redirect("/user/offers"); // listado de ofertas propias
                 }
             }
         }).catch(error => {

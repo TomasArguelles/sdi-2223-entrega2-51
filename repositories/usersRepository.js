@@ -28,7 +28,7 @@ module.exports = {
     /**
      * Listado de usuarios registrados en el sistema.
      * Resultado paginado.
-     * @returns {Promise<void>}
+     * @returns {Promise<{total: *, users: *}>}
      */
     findAllPg: async function (filter, options, page) {
         try {
