@@ -42,11 +42,11 @@
 <script>
     let messages;
     loadAllMessages();
+    let idConver;
     function loadAllMessages(){
 
-
-       $.ajax({
-           url: URLbase + "/messages/",
+        $.ajax({
+           url: URLbase + "/messages/" + idConver,
            type : "GET",
            data: {
                idOffer: selectedId,
@@ -76,7 +76,7 @@
                 "</tr>");
         }else{
             for(let i = 0; i<messages.length; i++){
-                if(messages[i].idReceiver == offer.seller && messages[i].idOffer == selectedId) {
+                if(messages[i].idReceiver == (offer.seller || offer.buyer) && messages[i].idOffer == selectedId) {
                     $("#messagesTableBody").append(
                         "<tr>" +
                         "<td>" + messages[i].idSender + "</td>" +
@@ -90,12 +90,14 @@
     }
 
     function addMessages(){
+
         $.ajax({
             url: URLbase + "/messages/add",
             type: "POST",
             data: {
+                idConver: idConver,
                 idOffer: selectedId,
-                idReceiver: offer.seller,
+                idSeller: offer.seller,
                 texto: $("#text").val(),
                 offerTitle: offer.title,
             },

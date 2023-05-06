@@ -1,7 +1,6 @@
 <div id="widget-songs">
     <input type="text" class="form-control" placeholder="Filtrar por nombre"
            id="filter-by-name"/>
-    <button class="btn" onclick="loadAllAvaiableConvers()">Actualizar</button>
     <button onclick="widgetOffers()" class="btn">Volver</button>
     <table class="table table-hover">
         <thead>
@@ -19,7 +18,6 @@
 
 <script>
 
-    let convers;
 
     loadAllAvaiableConvers();
 
@@ -32,6 +30,7 @@
             headers: {"token": token},
             success: function (response) {
                 convers = response.listadoConversaciones;
+                console.log(convers);
                 updateConversTable(convers);
             },
             error: function (error) {
@@ -79,7 +78,6 @@
 
     function deleteConversation(index){
         let _id = convers[index]._id;
-        console.log(_id);
         $.ajax({
             url: URLbase + "/messages/" + _id,
             type: "DELETE",

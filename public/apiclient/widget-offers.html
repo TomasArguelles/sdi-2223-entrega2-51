@@ -22,6 +22,8 @@
     let selectedId;
     let offers;
     let offer;
+    let idConver;
+    let convers;
 
     loadAllAvaiableOffers();
 
@@ -87,8 +89,31 @@
     function offerConversation(index){
         offer = offers[index];
         selectedId = offer._id;
-        $("#main-container").load("widget-conversation.html");
+        loadAllAvaiableConversInOffers();
+
     }
 
+    function loadAllAvaiableConversInOffers(){
+        $.ajax({
+            url: URLbase + "/conversations/",
+            type: "GET",
+            data: {},
+            dataType: 'json',
+            headers: {"token": token},
+            success: function (response) {
+                convers = response.listadoConversaciones;
+                for(let i = 0; i< convers.length; i++){
+                    if(selectedId === convers[i].idOffer){
+                        idConver = convers[i].idOffer;
+                    }
+                }
+                $("#main-container").load("widget-conversation.html");
+            },
+            error: function (error) {
+                
+                $("#main-container").load("widget-login.html");
+            }
+        });
+    }
 
 </script>

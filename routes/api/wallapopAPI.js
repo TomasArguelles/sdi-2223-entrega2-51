@@ -66,6 +66,96 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
 
     app.post('/api/v1.0/messages/add', function (req, res) {
 
+        let idConver=req.body.idConver;
+        console.log("idconver:" +idConver);
+        let idBuyer = res.user;
+        let tituloOffer = req.body.offerTitle;
+        let idSeller = req.body.idSeller;
+        let idOffer = req.body.idOffer;
+        let sender = res.user;
+        let receiver;
+        let message = req.body.texto;
+        let leido = false;
+        let date = Date.now();
+        if (res.user === idSeller ){
+            receiver = idBuyer;
+        }else{
+            receiver = idSeller;
+        }
+        try {
+            let msg = {
+                idConver:idConver,
+                idSender:sender,
+                idReceiver:receiver,
+                leido:leido,
+                texto:message,
+                timestamp:date
+            }
+
+            //Comprueno si existe esa conversacion
+            let filter = {
+                _id : ObjectId(req.body.idConver)
+            };
+            let options = {};
+            conversationsRepository.findConversation(filter, options).then(conversation=> {
+                try {
+                    if (conversation) {
+                        messagesRepository.addMessage(msg, function (messageId) {
+                            if (messageId === null) {
+                                res.status(409);
+                                res.json({error: "No se ha podido añadir el mensaje."});
+                            } else {
+                                res.status(201);
+                                res.json({
+                                    message: "Mensaje añadido correctamente.",
+                                    _id: messageId
+                                });
+                            }
+                        });
+                    } else {
+                        let conv = {
+                            buyer:idBuyer,
+                            seller: idSeller,
+                            oferta: idOffer,
+                            tituloOffer: tituloOffer
+                        };
+                        conversationsRepository.addConversation(conv, async function (conversationId) {
+                            if (conversationId === null) {
+                                res.status(409);
+                                res.json({error: "No se ha podido crear la conversación."});
+                            } else {
+                                messagesRepository.addMessage(msg,  function (messageId) {
+                                    if (messageId === null) {
+                                        res.status(409);
+                                        res.json({error: "No se ha podido añadir el mensaje."});
+                                    } else {
+                                        res.status(201);
+                                        res.json({
+                                            message: "Mensaje añadido correctamente.",
+                                            _id: messageId
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                } catch (error) {
+                    res.status(500);
+                    res.json({error: "Se ha producido un error al intentar añadir el mensaje: " + error});
+                }
+            });
+        } catch (e) {
+            res.status(500);
+            res.json({error: "Se ha producido un error al intentar añadir el mensaje: " + e});
+        }
+    });
+
+
+/**
+    app.post('/api/v1.0/messages/add', function (req, res) {
+
+
+
         try {
             let msg = {
                 idOffer: req.body.idOffer,
@@ -76,7 +166,7 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
                 timestamp: Date.now()
             }
 
-            let filter = {buyer:msg.idSender,seller: msg.idReceiver,oferta: msg.idOffer};
+            let filter = {sender:msg.idSender,receiver: msg.idReceiver,oferta: msg.idOffer};
 
             let options = {};
             conversationsRepository.findConversation(filter, options).then(conversation=> {
@@ -96,8 +186,8 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
                         });
                     } else {
                         let conv = {
-                            buyer: msg.idSender,
-                            seller: msg.idReceiver,
+                            sender: msg.idSender,
+                            receiver: msg.idReceiver,
                             oferta: msg.idOffer,
                             tituloOferta: req.body.offerTitle
                         };
@@ -131,10 +221,10 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
             res.json({error: "Se ha producido un error al intentar añadir el mensaje: " + e});
         }
     });
+**/
+    app.get('/api/v1.0/messages/:id', function (req, res) {
 
-    app.get('/api/v1.0/messages/', function (req, res) {
-
-        let filter = {idSender:res.user};
+        let filter = {idConver:req.params.id};
         let options = {};
         messagesRepository.getMessages(filter, options).then(messages => {
             res.status(200);
@@ -153,15 +243,12 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
         let todas=[]
         conversationsRepository.getConversations(filterUsuarioVendedor, options).then(convs => {
             convs.forEach(c => {
-                convs.forEach(c => {
                     todas.push(c);
-                })
             })
             conversationsRepository.getConversations(filterUsuarioInteresado, options).then(convs => {
                 convs.forEach(c => {
                     todas.push(c);
                 })
-                console.log(todas);
                 res.status(200);
                 res.send({
                     listadoConversaciones: todas
