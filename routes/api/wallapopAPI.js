@@ -77,11 +77,15 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
         let message = req.body.texto;
         let leido = false;
         let date = Date.now();
+        console.log(res.user)
+        console.log(idSeller);
+        console.log(res.user === idSeller);
         if (res.user === idSeller ){
             receiver = idBuyer;
         }else{
             receiver = idSeller;
         }
+        console.log(receiver);
         try {
 
             //Comprueno si existe esa conversacion
@@ -92,6 +96,11 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
             conversationsRepository.findConversation(filter, options).then(conversation=> {
                 try {
                     if (conversation) {
+                        if (res.user === conversation.seller ){
+                            receiver = conversation.buyer;
+                        }else{
+                            receiver = conversation.seller;
+                        }
                         let msg = {
                             idConver:idConver,
                             idSender:sender,
