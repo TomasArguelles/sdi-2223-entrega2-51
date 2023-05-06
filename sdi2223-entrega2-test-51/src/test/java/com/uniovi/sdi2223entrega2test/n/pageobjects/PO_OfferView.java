@@ -66,9 +66,8 @@ public class PO_OfferView {
         driver.navigate().to(BASE_PATH + "/users/login");
         PO_LoginView.fillLoginForm(driver, "prueba2@prueba2.com", "prueba2");
 
-        // Dentro de la vista del listado de ofertas del usuario, pulsar
-        // el botón de añadir oferta
-        PO_View.clickOnButton(driver, "/html/body/div/div/a");
+        // Pulsar en la opción de menu de agregar oferta:
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
 
         // Rellenar el formulario con datos válidos
         fillAddNewOfferForm(driver, titlep, descriptionp, pricep);
@@ -92,6 +91,9 @@ public class PO_OfferView {
      * @param row    Número de fila de la oferta a eliminar.
      */
     public static void deleteOfferFromUserOffersList(WebDriver driver, int row) {
+        // Pulsar en la opción de menu de listar ofertas propias
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listOfferMenu");
+
         // Dentro de la vista del listado de ofertas del usuario, pulsar
         // el botón de eliminar oferta
         PO_View.clickOnButton(driver, "/html/body/div/table/tbody/tr[" + row + "]/td[5]/a");

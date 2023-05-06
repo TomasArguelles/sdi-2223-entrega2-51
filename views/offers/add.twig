@@ -2,7 +2,7 @@
 {% block title %}Añadir oferta {% endblock %}
 {% block main_container %}
     <div class="container">
-        <a href="/offers" class="btn btn-primary">Ver mis ofertas</a>
+        <a href="/user/offers" class="btn btn-primary">Ver mis ofertas</a>
     </div>
     <br/>
     <h2>Añadir una nueva oferta</h2>
@@ -48,6 +48,14 @@
                        placeholder="Precio de la oferta..."
                 />
                 <span class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- W12 Marcar oferta como destacada -->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="destacar">Destacar</label>
+            <div class="col-sm-10">
+                <input type="checkbox" class="form-control" id="destacar" name="destacar"/>
             </div>
         </div>
 

@@ -1,29 +1,41 @@
 {% extends "layout.twig" %}
 {% block title %} Mis Compras {% endblock %}
 {% block main_container %}
+	<!-- W11 Usuario registrado: Listar ofertas compradas -->
 	<h2>Mis compras</h2>
 	<div class="table-responsive">
 		<table class="table table-hover">
 			<thead>
 			<tr>
-				<th>Nombre</th>
-				<th>Genero</th>
-				<th class="col-md-1"></th>
+				<th>Título</th>
+				<th>Descripcion</th>
+				<th>Precio</th>
+				<th>Email del vendedor</th>
 			</tr>
 			</thead>
 			<tbody>
-			{% for song in songs %}
+			{% for offer in offers %}
 				<tr>
-					<td>{{ song.title }}</td>
-					<td>{{ song.kind }}</td>
-					<td>
-						<audio controls>
-							<source src="/audios/{{ song._id }}.mp3" type="audio/mpeg">
-						</audio>
-					</td>
+					<td>{{ offer.title }}</td>
+					<td>{{ offer.description }}</td>
+					<td>{{ offer.price }}€</td>
+					<td>{{ offer.seller.email }}</td>
 				</tr>
 			{% endfor %}
 			</tbody>
 		</table>
+	</div>
+	<!-- Paginación mostrar la actual y 2 anteriores y dos siguientes -->
+	<div class="row text-center">
+		<ul class="pagination">
+			{% for page in pages %}
+				<li class="page-item" id="pi-{{ page }}">
+					<a class="page-link" href="/purchases/?page={{ page }}">{{ page }}</a>
+				</li>
+			{% endfor %}
+			<script>
+				$("#pi-" + "{{ currentPage }}").addClass("active");
+			</script>
+		</ul>
 	</div>
 {% endblock %}

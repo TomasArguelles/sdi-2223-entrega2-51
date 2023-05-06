@@ -52,4 +52,23 @@ public class PO_NavView extends PO_View {
                 getTimeout());
         Selectedlanguage.get(0).click();
     }
+
+    public static void selectDropdownById(WebDriver driver, String downdownMenuArrowId,
+                                          String downdownMenuId, String drowndownSubmenuId) {
+        // Hacer click en el dropdown
+        List<WebElement> offerManagementDropdown = SeleniumUtils.waitLoadElementsBy(driver, "id", downdownMenuArrowId,
+                getTimeout());
+        offerManagementDropdown.get(0).click();
+
+        // Seleccionar el menu
+        SeleniumUtils.waitLoadElementsBy(driver, "id", downdownMenuId,
+                getTimeout());
+
+        // Seleccionar el submenu
+        if (drowndownSubmenuId != null) {
+            List<WebElement> dropdownSubmenu = SeleniumUtils.waitLoadElementsBy(driver, "id", drowndownSubmenuId,
+                    getTimeout());
+            dropdownSubmenu.get(0).click();
+        }
+    }
 }
