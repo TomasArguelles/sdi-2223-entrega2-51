@@ -26,9 +26,13 @@ public class PO_LoginView extends PO_NavView {
         fillLoginForm(driver, user, password);
     }
 
-    static public void logout(WebDriver driver, String checkKeyText) {
-        String loginText = PO_HomeView.getP().getString(checkKeyText, PO_Properties.getSPANISH());
-        PO_PrivateView.clickOption(driver, "logout", "text", loginText);
+    /**
+     * Simula el proceso de cerrar sesión de un usuario.
+     *
+     * @param driver
+     */
+    static public void logout(WebDriver driver) {
+        PO_NavView.clickOption(driver, "logout", "text", "Desconectate");
     }
 
     static public void checkLoginPage(WebDriver driver) {

@@ -22,6 +22,9 @@ class Sdi2223Entrega2TestApplicationTests {
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
     static String URL = "http://localhost:8081";
 
+    // Url de la vista de listado de ofertas para comprar
+    static String ALL_AVAILABLE_OFFERS_URL = "http://localhost:8081/offers/all";
+
     public static WebDriver getDriver(String PathFirefox, String Geckodriver) {
         System.setProperty("webdriver.firefox.bin", PathFirefox);
         System.setProperty("webdriver.gecko.driver", Geckodriver);
@@ -309,15 +312,20 @@ class Sdi2223Entrega2TestApplicationTests {
         // Añadir dos ofertas de prueba
         PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10");
         PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3");
-        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 3", "Descripcion de la oferta de prueba 3", "2");
+
+        // Iniciar sesión con otro usuario
+        PO_LoginView.logout(driver);
+
+        // Pos: 1
+        PO_OfferView.simulateAddNewOffer(driver, "user02@email.com", "user02", "Oferta de prueba 3", "Descripcion de la oferta de prueba 3", "2");
 
         // Borrar una oferta de otro usuario
-        PO_OfferView.deleteOfferFromUserOffersList(driver, 3);
+        PO_OfferView.deleteOfferFromAllAvailableOfferList(driver, 1);
 
         // Comprobar que la oferta desaparece. Para ello, comprobar que no
         // aparece el título de la oferta en la lista de ofertas.
-        PO_OfferView.checkOfferNotAppearOnList(driver, 2, "Oferta de prueba 3");
-        PO_OfferView.checkOfferNotAppearOnList(driver, 1, "Oferta de prueba 3");
+        driver.navigate().to(ALL_AVAILABLE_OFFERS_URL);
+        PO_OfferView.checkOfferAppearOnAllAvailableOfferList(driver, 1, "Oferta de prueba 1");
     }
 
 //    /**
@@ -557,6 +565,7 @@ class Sdi2223Entrega2TestApplicationTests {
     public void PR030() {
 
     }
+
     /**
      * [Prueba31] Sobre el listado de ofertas de un usuario con más de 20 euros de saldo,
      * pinchar en el enlace Destacada y a continuación comprobar:
@@ -580,6 +589,69 @@ class Sdi2223Entrega2TestApplicationTests {
     public void PR032() {
 
     }
+
+    /**
+     * W13 Seguridad y auditoria de la aplicación.
+     * <p>
+     * [Prueba 33] Intentar acceder sin estar autenticado a la opción de listado de usuarios. Se deberá volver
+     * al formulario de login.
+     */
+    @Test
+    @Order(33)
+    public void PR033() {
+
+    }
+
+    /**
+     * W13 Seguridad y auditoria de la aplicación.
+     * <p>
+     * [Prueba 34] Intentar acceder sin estar autenticado a la opción de listado de conversaciones
+     * [REQUISITO OBLIGATORIO S5]. Se deberá volver al formulario de login.
+     */
+    @Test
+    @Order(34)
+    public void PR034() {
+
+    }
+
+    /**
+     * W13 Seguridad y auditoria de la aplicación.
+     * <p>
+     * [Prueba 35] Estando autenticado como usuario estándar intentar acceder a una opción disponible solo
+     * para usuarios administradores (Añadir menú de auditoria (visualizar logs)). Se deberá indicar un
+     * mensaje de acción prohibida.
+     */
+    @Test
+    @Order(35)
+    public void PR035() {
+
+    }
+
+    /**
+     * W13 Seguridad y auditoria de la aplicación.
+     * <p>
+     * [Prueba 36] Estando autenticado como usuario administrador visualizar todos los logs generados en
+     * una serie de interacciones. Esta prueba deberá generar al menos dos interacciones de cada tipo y
+     * comprobar que el listado incluye los logs correspondientes.
+     */
+    @Test
+    @Order(36)
+    public void PR036() {
+
+    }
+
+    /**
+     * W13 Seguridad y auditoria de la aplicación.
+     * <p>
+     * [Prueba 37] Estando autenticado como usuario administrador, ir a visualización de logs, pulsar el
+     * botón/enlace borrar logs y comprobar que se eliminan los logs de la base de datos.
+     */
+    @Test
+    @Order(37)
+    public void PR037() {
+        
+    }
+
 
 //    // -------------------------------------
 //    // Parte 2B - Cliente ligero JQuery/AJAX

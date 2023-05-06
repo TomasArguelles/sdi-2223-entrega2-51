@@ -108,20 +108,12 @@ L
 public/stylesheets/style.css,3\7\373d337c32dec564fe0da458c6478733eec21e5a
 Q
 !repositories/loggingRepository.js,9\d\9d5b7cd73f8e883d8353abbe88023be7c217a880
-O
-middlewares/loggerMiddleware.js,f\c\fc0421e38c4be67fcee1f45259de3bcb9ad22a88
 A
 util/dateUtils.js,a\f\afd7ebe6edbe0a05f633ba42f9b00f10c527f5a0
 O
 repositories/usersRepository.js,5\9\59eec077761f04a33a5f4c3ab7e5c70852ca968e
-S
-#public/apiclient/widget-offers.html,7\a\7a829514f4c592523a5d8c90745198b928ee8831
-D
-routes/logsRouter.js,f\6\f61a43185e3aad8487e43e15e0abc5f30291142c
 J
 routes/api/songsAPIv1.0.js,5\9\593edca837d34bb0fb1cf6bf1ded6a537a9ff6e5
-I
-routes/api/wallapopAPI.js,7\9\79f44395764f2ed6a98b25498274c92e86630d63
 p
 @.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_5_8_1.xml,8\5\8577ebd8c1e13812fdcb9f5cc1da21c752a604fd
 w
@@ -434,8 +426,6 @@ d
 L.idea/libraries/Maven__org_codehaus_mojo_animal_sniffer_annotations_1_14.xml,1\5\1523e26b366c694a68d6d2a539aabe61cdac77eb
 è
 _sdi2223-entrega2-test-51/src/test/java/com/uniovi/sdi2223entrega2test/n/util/DatabaseUtils.java,e\a\ea366d75321ba47baca7aa4b7b96c5b18bc4e059
-P
- repositories/offersRepository.js,1\9\19d9e7e5a4f35488889b872d147538948bcf6145
 @
 views/login.twig,8\5\858c14f39b540b2c71113cc8d7641ef3eb0900cb
 Å
@@ -1094,8 +1084,6 @@ w
 G.idea/sonarlint/issuestore/5/d/5df679d9b81410f75ab8e52a91c9da57997201e5,0\7\07521aaa9ad1391766a8d488c5f02059f3262ad8
 w
 G.idea/sonarlint/issuestore/6/d/6d1ceb019cd773918e8d9d2401fc207ea6a8cbe7,a\b\ab94afea8e156c16443b5922f48db8db0b0717eb
-6
-app.js,4\a\4a68969ef8e858229267b842dedf42ab5dde4d50
 ?
 routes/index.js,3\0\30dfc417d69af8ed298ed4111dcab68f38ca7f54
 s

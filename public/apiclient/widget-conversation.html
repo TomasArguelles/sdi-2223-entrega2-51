@@ -40,7 +40,7 @@
     </div>
 </div>
 <script>
-
+    window.history.pushState("", "", "/apiclient/client.html?w=singleConversation");
     loadAllMessages();
 
     function loadAllMessages(){
@@ -60,8 +60,8 @@
                 messages = response.messages;
                 updateMessages(messages);
            },error: function (error){
-               clearInterval(refreshEachSecond);
-               $("#main-container").load("widget-login.html");
+              // clearInterval(refreshEachSecond);
+               //$("#main-container").load("widget-login.html");
            }
        });
 

@@ -37,7 +37,7 @@ public class PO_OfferView {
         offerPrice.sendKeys(pricep);
 
         // Pulsar el boton de Alta.
-        By addOfferButton = By.xpath("/html/body/div/form/div[4]/div/button");
+        By addOfferButton = By.xpath("/html/body/div/form/div[5]/div/button");
         driver.findElement(addOfferButton).click();
     }
 
@@ -64,7 +64,31 @@ public class PO_OfferView {
     public static void simulateAddNewOffer(WebDriver driver, String titlep, String descriptionp, String pricep) {
         // Iniciar sesion
         driver.navigate().to(BASE_PATH + "/users/login");
-        PO_LoginView.fillLoginForm(driver, "prueba2@prueba2.com", "prueba2");
+        PO_LoginView.fillLoginForm(driver, "user01@email.com", "user01");
+
+        // Pulsar en la opción de menu de agregar oferta:
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
+
+        // Rellenar el formulario con datos válidos
+        fillAddNewOfferForm(driver, titlep, descriptionp, pricep);
+    }
+
+    /**
+     * Simula el proceso de añadir una nueva oferta. Método sobrecargado para
+     * permitir el inicio de sesión con un usuario determinado.
+     * <p>
+     *
+     * @param driver
+     * @param userEmail
+     * @param userPassword
+     * @param titlep
+     * @param descriptionp
+     * @param pricep
+     */
+    public static void simulateAddNewOffer(WebDriver driver, String userEmail, String userPassword, String titlep, String descriptionp, String pricep) {
+        // Iniciar sesion
+        driver.navigate().to(BASE_PATH + "/users/login");
+        PO_LoginView.fillLoginForm(driver, userEmail, userPassword);
 
         // Pulsar en la opción de menu de agregar oferta:
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
@@ -86,6 +110,8 @@ public class PO_OfferView {
 
     /**
      * Eliminar la oferta de la fila <code>row</code> indicada.
+     * <p>
+     * Acceder al listado de ofertas propias.
      *
      * @param driver
      * @param row    Número de fila de la oferta a eliminar.
@@ -96,7 +122,24 @@ public class PO_OfferView {
 
         // Dentro de la vista del listado de ofertas del usuario, pulsar
         // el botón de eliminar oferta
-        PO_View.clickOnButton(driver, "/html/body/div/table/tbody/tr[" + row + "]/td[5]/a");
+        PO_View.clickOnButton(driver, "/html/body/div/div[2]/table/tbody/tr[" + row + "]/td[5]/a");
+    }
+
+    /**
+     * Eliminar la oferta de la fila <code>row</code> indicada.
+     * <p>
+     * Acceder al listado de ofertas disponibles. Que no pertenecen al usuario.
+     *
+     * @param driver
+     * @param row
+     */
+    public static void deleteOfferFromAllAvailableOfferList(WebDriver driver, int row) {
+        // Pulsar en la opción de menu de listar ofertas para comprar
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listAllOffersMenu");
+
+        // Dentro de la vista del listado de ofertas del usuario, pulsar
+        // el botón de eliminar oferta
+        PO_View.clickOnButton(driver, "/html/body/div/div[2]/table/tbody/tr[" + row + "]/td[5]/a");
     }
 
     /**
@@ -104,11 +147,38 @@ public class PO_OfferView {
      * Para obtener la oferta, se utiliza el título de la oferta.
      *
      * @param driver
-     * @param row   Número de fila de la oferta a eliminar.
+     * @param row        Número de fila de la oferta a eliminar.
      * @param offerTitle Título de la oferta a comprobar.
      */
     public static void checkOfferNotAppearOnList(WebDriver driver, int row, String offerTitle) {
-        WebElement element = driver.findElement(By.xpath("/html/body/div/table/tbody/tr[" + row  + "]/td[1]"));
+        WebElement element = driver.findElement(By.xpath("/html/body/div/table/tbody/tr[" + row + "]/td[1]"));
         Assertions.assertFalse(element.getText().contains(offerTitle));
+    }
+
+    /**
+     * Comprueba que la oferta aparece en la lista de ofertas del usuario.
+     * Para obtener la oferta, se utiliza el título de la oferta.
+     *
+     * @param driver
+     * @param row        Número de fila de la oferta a eliminar.
+     * @param offerTitle Título de la oferta a comprobar.
+     */
+    public static void checkOfferAppearOnList(WebDriver driver, int row, String offerTitle) {
+        WebElement element = driver.findElement(By.xpath("/html/body/div/table/tbody/tr[" + row + "]/td[1]"));
+        Assertions.assertTrue(element.getText().contains(offerTitle));
+    }
+
+    /**
+     * Comprueba que la oferta aparece en la lista de ofertas disponibles.
+     * Para obtener la oferta, se utiliza el título de la oferta.
+     * <p>
+     *
+     * @param driver
+     * @param row
+     * @param offerTitle
+     */
+    public static void checkOfferAppearOnAllAvailableOfferList(WebDriver driver, int row, String offerTitle) {
+        WebElement element = driver.findElement(By.xpath("/html/body/div/div[2]/table/tbody/tr[" + row + "]/td[1]"));
+        Assertions.assertTrue(element.getText().contains(offerTitle));
     }
 }

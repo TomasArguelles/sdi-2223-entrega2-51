@@ -47,10 +47,11 @@ module.exports = function (app, usersRepository, offersRepository,conversationsR
         let filter = {};
         let options = {};
         let userA = res.user; // email
-        offersRepository.getOffers(filter, options).then(offers => {
+        offersRepository.getOffers().then(offers => {
             let userB = offers.seller;
             if (userA !== userB) {  // offers de los usuarios diferentes al usuario en sesión
                 res.status(200);
+
                 // Mostrar la hora en formato dd/mm/yyyy hh:mm
                 let formatedOffers = offers?.map(offer => {
                     offer.date = formatDate(offer.date);

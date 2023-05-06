@@ -9,8 +9,7 @@ log4js.configure({
     appenders: {
         fileAppender: {type: "file", filename: "logs/requests.log"},
         console: {type: "console"}
-    },
-    categories: {
+    }, categories: {
         default: {appenders: ["fileAppender", "console"], level: "debug"}
 
     }
@@ -43,21 +42,17 @@ const isUrlIncludedToLog = function (pathToCheck) {
 const getLogType = function (req, res) {
 
     // Login realizado correctamente
-    if (req.url.includes("login") && req.method === "POST"
-        && req.session.user && req.url !== "/users") {
+    if (req.url.includes("login") && req.method === "POST" && req.session.user && req.url !== "/users") {
         return LOG_TYPES.LOGIN_EX;
     }
 
     // Login incorrecto
-    if (req.url.includes("login") && req.method === "POST"
-        && !req.session.user && req.url !== "/users") {
+    if (req.url.includes("login") && req.method === "POST" && !req.session.user && req.url !== "/users") {
         return LOG_TYPES.LOGIN_ERR;
     }
 
     // Alta de usuario
-    if (req.url.includes("signup")
-        && (req.method === "POST" || req.method === "GET")
-        && req.url !== "/users") {
+    if (req.url.includes("signup") && (req.method === "POST" || req.method === "GET") && req.url !== "/users") {
         return LOG_TYPES.ALTA;
     }
 
@@ -78,23 +73,22 @@ const getLogType = function (req, res) {
  */
 const generateLogContent = async function (req, res) {
     const logContent = {
-        type: getLogType(req, res),
-        description: {
+        type: getLogType(req, res), description: {
             method: req.method,
-            url: req.originalUrl,
+            url: req.originalUrl.includes("?") ? req.originalUrl.split('?')[0]
+                : req.originalUrl,
             status: res.statusCode,
             ip: req.remoteAddress || req.ip,
             family: req.connection.remoteFamily,
             agent: req.headers['user-agent'],
             httpVersion: req.httpVersion,
-        },
-        timestamp: new Date().toISOString(),
+        }, timestamp: new Date().toISOString(),
     }
 
     const logType = getLogType(req, res);
 
     // Si la petición es de logout, añadimos el usuario a la descripción del log
-    if(logType === LOG_TYPES.LOGOUT){
+    if (logType === LOG_TYPES.LOGOUT) {
         logContent.description.user = req.session.user;
     }
 
@@ -103,8 +97,7 @@ const generateLogContent = async function (req, res) {
         const allParams = req.query;
         const splitedParams = Object.keys(allParams).map(key => {
             return {
-                key: key,
-                value: allParams[key]
+                key: key, value: allParams[key]
             };
         });
         logContent.description.params = splitedParams;

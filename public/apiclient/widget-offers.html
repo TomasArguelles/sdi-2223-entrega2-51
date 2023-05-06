@@ -1,7 +1,7 @@
 <div id="widget-songs">
     <input type="text" class="form-control" placeholder="Filtrar por nombre"
            id="filter-by-name"/>
-    <button class="btn" onclick="loadAllAvaiableOffers()">Actualizar</button>
+    <button class="btn" onclick="loadAllAvailableOffers">Actualizar</button>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -26,7 +26,7 @@
     let convers;
     let messages;
 
-    loadAllAvaiableOffers();
+    loadAllAvailableOffers();
 
     /**
      * Actualiza la tabla de ofertas con los datos de la lista de ofertas
@@ -34,7 +34,7 @@
      * sesión.
      *
      */
-    function loadAllAvaiableOffers() {
+    function loadAllAvailableOffers() {
         $.ajax({
             url: URLbase + "/offers",
             type: "GET",

@@ -32,27 +32,6 @@ public class PO_NavView extends PO_View {
         Assertions.assertEquals(1, elements.size());
     }
 
-    /**
-     * Selecciona el enlace de idioma correspondiente al texto textLanguage
-     * P á g i n a 15 | 27
-     * Sistemas Distribuidos e Internet
-     *
-     * @param driver:       apuntando al navegador abierto actualmente.
-     * @param textLanguage: el texto que aparece en el enlace de idioma ("English" o "Spanish")
-     */
-    public static void changeLanguage(WebDriver driver, String textLanguage) {
-        //clickamos la opción Idioma.
-        List<WebElement> languageButton = SeleniumUtils.waitLoadElementsBy(driver, "id", "btnLanguage",
-                getTimeout());
-        languageButton.get(0).click();
-        //Esperamos a que aparezca el menú de opciones.
-        SeleniumUtils.waitLoadElementsBy(driver, "id", "languageDropdownMenuButton", getTimeout());
-        //CLickamos la opción Inglés partiendo de la opción Español
-        List<WebElement> Selectedlanguage = SeleniumUtils.waitLoadElementsBy(driver, "id", textLanguage,
-                getTimeout());
-        Selectedlanguage.get(0).click();
-    }
-
     public static void selectDropdownById(WebDriver driver, String downdownMenuArrowId,
                                           String downdownMenuId, String drowndownSubmenuId) {
         // Hacer click en el dropdown

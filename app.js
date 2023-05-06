@@ -52,6 +52,11 @@ app.use("/offers/all",userSessionRouter);
 app.use("/offers/buy",userSessionRouter);
 app.use("/purchases",userSessionRouter);
 
+// -- Protección rutas API
+app.use("/api/v1.0/offers",userSessionRouter);
+app.use("/api/v1.0/conversations/",userSessionRouter);
+app.use("/api/v1.0/messages/",userSessionRouter);
+
 const userAuthorRouter = require('./routes/userAuthorRouter');
 app.use("/songs/edit",userAuthorRouter);
 app.use("/songs/delete",userAuthorRouter);

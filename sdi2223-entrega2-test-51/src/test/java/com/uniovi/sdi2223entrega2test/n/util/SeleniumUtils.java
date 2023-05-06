@@ -130,4 +130,17 @@ public class SeleniumUtils {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         PO_LoginView.fillLoginForm(driver, role.equals("STANDARD") ? email : "admin@email.com", password);
     }
+
+
+    /**
+     * Comprueba que se muestra el mensaje en la ventana. Obtiene el texto del
+     * mensaje y comprueba contenga el mensaje pasado como parametro.
+     *
+     * @param driver
+     * @param xPath  Expresión xpath para obtener el mensaje de error.
+     */
+    public static void checkErrorMessageIsShown(WebDriver driver, String xPath, String messageText) {
+        WebElement msg = driver.findElement(By.xpath(xPath));
+        Assertions.assertTrue(msg.getText().matches(messageText));
+    }
 }

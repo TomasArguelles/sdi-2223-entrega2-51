@@ -108,20 +108,12 @@ L
 public/stylesheets/style.css,3\7\373d337c32dec564fe0da458c6478733eec21e5a
 Q
 !repositories/loggingRepository.js,9\d\9d5b7cd73f8e883d8353abbe88023be7c217a880
-O
-middlewares/loggerMiddleware.js,f\c\fc0421e38c4be67fcee1f45259de3bcb9ad22a88
 A
 util/dateUtils.js,a\f\afd7ebe6edbe0a05f633ba42f9b00f10c527f5a0
 O
 repositories/usersRepository.js,5\9\59eec077761f04a33a5f4c3ab7e5c70852ca968e
-S
-#public/apiclient/widget-offers.html,7\a\7a829514f4c592523a5d8c90745198b928ee8831
-D
-routes/logsRouter.js,f\6\f61a43185e3aad8487e43e15e0abc5f30291142c
 J
 routes/api/songsAPIv1.0.js,5\9\593edca837d34bb0fb1cf6bf1ded6a537a9ff6e5
-I
-routes/api/wallapopAPI.js,7\9\79f44395764f2ed6a98b25498274c92e86630d63
 p
 @.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_5_8_1.xml,8\5\8577ebd8c1e13812fdcb9f5cc1da21c752a604fd
 w
@@ -378,8 +370,6 @@ s
 C.idea/libraries/Maven__com_google_j2objc_j2objc_annotations_1_1.xml,e\7\e7b149fc9564e07727c38e4d4725bbe66d0fe194
 j
 :.idea/libraries/Maven__com_google_guava_guava_25_0_jre.xml,e\3\e3d05d1b41b176242a73f6bd4bb8fb72612f71c0
-P
- repositories/offersRepository.js,1\9\19d9e7e5a4f35488889b872d147538948bcf6145
 m
 =.idea/libraries/Maven__com_squareup_okhttp3_okhttp_3_11_0.xml,f\6\f6601e77e3d5b0d42788748d3cdcedd3a2472341
 w
@@ -618,8 +608,6 @@ G.idea/sonarlint/issuestore/b/d/bde0cd9d55cbf183585f9d865491337de4ee6f4e,5\5\55
 Q.idea/sonarlint/securityhotspotstore/4/f/4f8704a032982c437db8232edbbbed1086e0930c,0\8\088574413a432b6d447d8901f0a26f1a7324a7e0
 w
 G.idea/sonarlint/issuestore/5/5/553f320b256e19b66cde3cd07e433fbcf2a2da3c,b\b\bbae570cf43a24497733130b0640c3fdbc1f2eeb
-6
-app.js,4\a\4a68969ef8e858229267b842dedf42ab5dde4d50
 Å
 Q.idea/sonarlint/securityhotspotstore/8/8/88754b16d1036c45efce759279be1a1a871e969c,0\3\03dac202de20f9e5320ea794763cc5f9823c8bb7
 H
