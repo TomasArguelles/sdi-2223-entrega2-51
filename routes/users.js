@@ -4,14 +4,13 @@ module.exports = function (app, usersRepository) {
             generateLogContent(req, res);
 
             try {
-                let filter = {user: req.session.user};
                 let page = parseInt(req.query.page);
                 if (typeof req.query.page === "undefined" || req.query.page === null || req.query.page === "0") {
                     // Puede no venir el param
                     page = 1;
                 }
 
-                usersRepository.findAllPg(filter, {}, page).then(usersIds => {
+                usersRepository.findAllPg(page).then(usersIds => {
                     let lastPage = usersIds.total / 5;
                     if (usersIds.total % 5 > 0) {
                         lastPage = lastPage + 1;
@@ -23,7 +22,7 @@ module.exports = function (app, usersRepository) {
                         }
                     }
 
-                    res.render("users/list", {
+                    res.render("users/list.twig", {
                         users: usersIds.users,
                         pages: pages,
                         currentPage: page

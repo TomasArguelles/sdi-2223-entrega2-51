@@ -28,9 +28,13 @@ module.exports = {
     /**
      * Listado de usuarios registrados en el sistema.
      * Resultado paginado.
+     * <p>
+     * @param filter
+     * @param options
+     * @param page Página a mostrar.
      * @returns {Promise<{total: *, users: *}>}
      */
-    findAllPg: async function (filter, options, page) {
+    findAllPg: async function (page, userInSession) {
         try {
             const limit = 5; // 5 ofertas por página
 
@@ -40,10 +44,11 @@ module.exports = {
             const usersCollection = database.collection(userCollectionName);
 
             const usersCollectionCount = await usersCollection.count();
-            const cursor = usersCollection.find(filter, options).skip((page - 1) * limit).limit(limit);
+            const cursor = usersCollection.find().skip((page - 1) * limit).limit(limit);
             const users = await cursor.toArray();
             const result = {
-                users: users, total: usersCollectionCount
+                users: users.filter(user => user.email !== "admin@email.com"),
+                total: usersCollectionCount
             };
 
             return result;

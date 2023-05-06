@@ -5,6 +5,10 @@
     <p>Listado de usuario de la aplicación</p>
 
     <div class="row">
+        <div class="container mb-3">
+            <a href="/users/list" class="btn btn-primary"
+               title="Actualizar datos de la tabla">Recargar</a>
+        </div>
         {% if users.length > 0 %}
             <table class="table table-striped">
                 <thead>
@@ -25,6 +29,7 @@
                 </tbody>
             </table>
         {% else %}
+            <br/>
             <p>No hay usuarios en el sistema</p>
         {% endif %}
 
@@ -32,12 +37,18 @@
 
     <div class="row text-center">
         <ul class="pagination">
+            <li class="page-item"><a class="page-link"
+                                     href="/users/list/?page=1">Primera</a>
+            </li>
             {% for page in pages %}
                 <li class="page-item" id="pi-{{ page }}">
                     <a class="page-link"
                        href="/users/list/?page={{ page }}">{{ page }}</a>
                 </li>
             {% endfor %}
+            <li class="page-item"><a class="page-link"
+                                     href="/users/list/?page={{ pages.length }}">Última</a>
+            </li>
             <script>
                 $("#pi-" + "{{ currentPage }}").addClass("active");
             </script>
