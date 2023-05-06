@@ -1,8 +1,6 @@
 <div id="widget-songs">
     <input type="text" class="form-control" placeholder="Filtrar por nombre"
            id="filter-by-name"/>
-    <button class="btn btn-primary" onclick="widgetAddSong()">Nueva Canción
-    </button>
     <button class="btn" onclick="loadAllAvaiableOffers()">Actualizar</button>
     <table class="table table-hover">
         <thead>
@@ -12,6 +10,7 @@
             <th>Precio</th>
             <th>Fecha publicación</th>
             <th>Email del vendedor</th>
+            <th>Conversación</th>
         </tr>
         </thead>
         <tbody id="offersTableBody"></tbody>
@@ -20,7 +19,14 @@
 
 <script>
     window.history.pushState("", "", "/apiclient/client.html?w=offers");
-    var offers;
+    let selectedId;
+    let offers;
+    let offer;
+    let idConver;
+    let convers;
+    let messages;
+
+    loadAllAvaiableOffers();
 
     /**
      * Actualiza la tabla de ofertas con los datos de la lista de ofertas
@@ -37,7 +43,6 @@
             headers: {"token": token},
             success: function (response) {
                 offers = response.offers;
-                console.log("offers: " + offers);
                 updateOffersTable(offers);
             },
             error: function (error) {
@@ -62,19 +67,55 @@
                 "</tr>");
         } else {
 
-            for (i = 0; i < offers.length; i++) {
+            for (let i = 0; i < offers.length; i++) {
                 $("#offersTableBody").append(
+
                     "<tr id=" + offers[i].title + ">" +
                     "<td>" + offers[i].title + "</td>" +
                     "<td>" + offers[i].description + "</td>" +
                     "<td>" + offers[i].price + "€</td>" +
                     "<td>" + offers[i].date + "</td>" +
                     "<td>" + offers[i].seller + "</td>" +
-                    "<td>" +
-                    "</tr>");
+                    "<td><button class=\"btn btn-primary\" onclick=\"offerConversation('"+i+"')\">Conversacion</button></td>" +
+                    "</tr>"
+                );
             }
         }
     }
 
-    loadAllAvaiableOffers();
+    /**
+     * Cambia la vista a la conversacion propia de la oferta
+     * @param offerP oferta con la que estamos trbajando
+     */
+    function offerConversation(index){
+        offer = offers[index];
+        selectedId = offer._id;
+        loadAllAvaiableConvers()
+        $("#main-container").load("widget-conversation.html");
+    }
+
+    function loadAllAvaiableConvers(){
+        $.ajax({
+            url: URLbase + "/conversations/",
+            type: "GET",
+            data: {},
+            dataType: 'json',
+            headers: {"token": token},
+            success: function (response) {
+                convers = response.listadoConversaciones;
+
+                for(let i = 0; i< convers.length; i++){
+                    if(selectedId === convers[i].oferta){
+                        idConver = convers[i]._id;
+                    }
+                }
+            },
+            error: function (error) {
+
+                $("#main-container").load("widget-login.html");
+            }
+        });
+    }
+
+
 </script>

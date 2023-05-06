@@ -1,0 +1,110 @@
+<div id="widget-songs">
+    <input type="text" class="form-control" placeholder="Filtrar por nombre"
+           id="filter-by-name"/>
+    <button onclick="widgetOffers()" class="btn">Volver</button>
+    <button onclick="widgetConvers()" class="btn">Actualizar</button>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Oferta</th>
+            <th>Vendedor</th>
+            <th>Mensajes sin leer</th>
+            <th>Opciones</th>
+        </tr>
+        </thead>
+        <tbody id="conversationsTableBody"></tbody>
+    </table>
+</div>
+
+
+<script>
+
+    let parcialMessages;
+
+
+    updateConversTable(convers);
+
+    function updateConversTable(convers){
+        $("#conversationsTableBody").empty(); // Vaciar la tabla
+        if (convers.length === 0) {
+            $("#conversationsTableBody").append(
+                "<tr>" +
+                "<td colspan='5'>No hay conversaciones disponibles</td>" +
+                "</tr>");
+        } else {
+
+            for (let i = 0; i < convers.length; i++) {
+                $("#conversationsTableBody").append(
+
+                    "<tr id="  +convers[i]._id  +">" +
+                    "<td>" + convers[i].oferta.tituloOferta + "</td>" +
+                    "<td>" + convers[i].oferta.seller + "</td>" +
+                    "<td>" + calcularMensajesSinLeer(convers[i]) + "</td>" +
+                    "<td> <button class=\"btn btn-primary\" onclick=\"offerConversation('"+i+"')\" >Conversacion</button> <button class=\"btn btn-primary\" onclick=\"deleteConversation('"+i+"') \">Eliminar</button> </td>" +
+                    "</tr>"
+                );
+            }
+        }
+    }
+
+    function offerConversation(index){
+        let conver = convers[index];
+        console.log(convers)
+        for(let i = 0; i< offers.length; i++){
+            if(conver.oferta == offers[i]._id){
+                offer = offers[i];
+                selectedId = offer._id;
+
+            }
+        }
+        $("#main-container").load("widget-conversation.html");
+    }
+
+    function deleteConversation(index){
+        let _id = convers[index]._id;
+        $.ajax({
+            url: URLbase + "/messages/" + _id,
+            type: "DELETE",
+            data: {},
+            dataType: 'json',
+            headers: {"token": token},
+            success: function (response) {
+                console.log("Conversacion eliminada: " + _id);
+                $("#" + _id).remove(); // eliminar el <tr> de la canción
+            },
+            error: function (error) {
+
+            }
+        });
+    }
+
+    function  obtenerMensajesDeLaConver(_id)  {
+        $.ajax({
+            url: URLbase + "/messages/" + _id,
+            type : "GET",
+            data: {
+                idOffer: selectedId,
+                idReceiver: offer.seller,
+            }, // creo q aqui va el comprador
+            dataType: 'json',
+            headers: {
+                "token" : token
+            },
+            success: function (response){
+               messages = response.messages
+
+            },error: function (error){
+                clearInterval(refreshEachSecond);
+                $("#main-container").load("widget-login.html");
+            }
+        });
+    }
+
+    function calcularMensajesSinLeer(conver) {
+
+        obtenerMensajesDeLaConver(conver._id);
+        console.log(messages);
+        return "2";
+    }
+
+</script>
