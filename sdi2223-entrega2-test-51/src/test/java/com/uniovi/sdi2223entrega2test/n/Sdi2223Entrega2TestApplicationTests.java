@@ -789,16 +789,41 @@ class Sdi2223Entrega2TestApplicationTests {
     @Test
     @Order(0)
     public void PR42() {
-        //MongoDB m=new MongoDB();
-        //m.resetMongo();
-        //Añado oferta como u1
-        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10");
+        DatabaseUtils.resetOffersCollection();
 
-        //login como u2
-        PO_Api.loginAs(driver,"user02@email.com","user02");
-        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=offers");
-        WebElement actu = driver.findElement(By.name("actu"));
-        actu.click();
+        // Añadir 3 ofertas con user01
+        PO_OfferView.simulateAddNewOffer(driver, "user01@email.com", "user01", "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "1");
+
+        // Acceder con cliente ajax, al listado de ofertas y comprobar que se muestran 3 ofertas
+        // (las de user01) y no se muestra la oferta de user02
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        // Rellenar formulario de login con contraseña vacía
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a")).click();
+
+        List<WebElement> offers = driver.findElements(By.xpath("/html/body/div/div/table/tbody/tr"));
+        Assertions.assertEquals(1, offers.size());
+        WebElement actualizar = driver.findElement(By.cssSelector("button[onclick='loadAllAvailableOffers']"));
+        actualizar.click();
+        // Comprobar que se muestran las ofertas de user01
+        offers.get(0).findElement(By.xpath("td[1]")).getText().equals("Oferta de prueba 1");
+
+        WebElement ofertaAñadida = driver.findElement(By.cssSelector("#widget-songs table tbody tr:first-child"));
+        WebElement botonConversacion = ofertaAñadida.findElement(By.cssSelector("button[onclick='offerConversation(\\'0\\')']"));
+        botonConversacion.click();
+
+        // ahora ya en la vista de la conversación
+        WebElement mensajeInput = driver.findElement(By.id("input-message"));
+        mensajeInput.sendKeys("Hola, estoy interesado en tu oferta");
+        WebElement enviarButton = driver.findElement(By.id("send-button"));
+        enviarButton.click();
+
 
 
     }
