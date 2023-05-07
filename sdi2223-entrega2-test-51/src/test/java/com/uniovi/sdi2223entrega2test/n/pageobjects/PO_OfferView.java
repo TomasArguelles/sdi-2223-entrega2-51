@@ -104,7 +104,7 @@ public class PO_OfferView {
      * @param numberOfOffersExpected Número de ofertas esperado en la lista.
      */
     public static void checkOfferListingContainsOffers(WebDriver driver, int numberOfOffersExpected) {
-        boolean isOffers = driver.findElements(By.xpath("/html/body/div/table/tbody/tr")).size() == numberOfOffersExpected;
+        boolean isOffers = driver.findElements(By.xpath("/html/body/div/div[2]/table/tbody/tr")).size() == numberOfOffersExpected;
         Assertions.assertTrue(isOffers);
     }
 
@@ -122,7 +122,7 @@ public class PO_OfferView {
 
         // Dentro de la vista del listado de ofertas del usuario, pulsar
         // el botón de eliminar oferta
-        PO_View.clickOnButton(driver, "/html/body/div/table/tbody/tr[" + row + "]/td[5]/a");
+        PO_View.clickOnButton(driver, "/html/body/div/div[2]/table/tbody/tr[" + row + "]/td[5]/a");
     }
 
     /**
@@ -151,7 +151,7 @@ public class PO_OfferView {
      * @param offerTitle Título de la oferta a comprobar.
      */
     public static void checkOfferNotAppearOnList(WebDriver driver, int row, String offerTitle) {
-        WebElement element = driver.findElement(By.xpath("/html/body/div/table/tbody/tr[" + row + "]/td[1]"));
+        WebElement element = driver.findElement(By.xpath("/html/body/div/div[2]/table/tbody/tr[" + row + "]/td[1]"));
         Assertions.assertFalse(element.getText().contains(offerTitle));
     }
 

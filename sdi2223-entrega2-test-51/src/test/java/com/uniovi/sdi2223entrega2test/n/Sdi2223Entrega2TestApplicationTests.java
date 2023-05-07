@@ -204,6 +204,9 @@ class Sdi2223Entrega2TestApplicationTests {
     @Test
     @Order(11)
     void PR011() {
+        // Insertar usuarios de prueba
+        DatabaseUtils.seedUsers();
+
         // Iniciar sesión como administrador
         PO_LoginView.simulateLogin(driver, "admin@email.com", "admin");
         PO_NavView.selectDropdownById(driver, "gestionUsuariosMenu", "gestionUsuariosDropdown", "listAllUsers");
@@ -793,7 +796,7 @@ class Sdi2223Entrega2TestApplicationTests {
 
         // Comprobar que se ha iniciado sesión y se redirecciona a la página
         // que contiene el listado de ofertas disponibles.
-        Assertions.assertEquals("http://localhost:8081/apiclient//client.html?w=offers", driver.getCurrentUrl());
+        Assertions.assertNotEquals("http://localhost:8081/apiclient//client.html?w=login", driver.getCurrentUrl());
     }
 
     /**

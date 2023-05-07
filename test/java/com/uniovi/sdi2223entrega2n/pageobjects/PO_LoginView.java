@@ -25,10 +25,47 @@ public class PO_LoginView extends PO_NavView {
         driver.findElement(boton).click();
     }
 
+    static public void fillLoginForm(WebDriver driver, String emailp, String passwordp) {
+        WebElement email = driver.findElement(By.name("email"));
+        email.click();
+        email.clear();
+        email.sendKeys(emailp);
+        WebElement password = driver.findElement(By.name("password"));
+        password.click();
+        password.clear();
+        password.sendKeys(passwordp);
+        //Pulsar el boton de Alta.
+        By boton = By.className("btn");
+        driver.findElement(boton).click();
+    }
+
+    public static void fillLoginFormApi(WebDriver driver, String emailp, String passwordp) {
+        WebElement email = driver.findElement(By.name("email"));
+        email.click();
+        email.clear();
+        email.sendKeys(emailp);
+        WebElement password = driver.findElement(By.name("password"));
+        password.click();
+        password.clear();
+        password.sendKeys(passwordp);
+        //Pulsar el boton de Alta.
+        By boton = By.xpath("//*[@id=\"boton-login\"]");
+        driver.findElement(boton).click();
+    }
+
     static public void checkLoginPage(WebDriver driver) {
 //Esperamos a que se cargue el saludo de bienvenida en Español
         SeleniumUtils.waitLoadElementsBy(driver, "text", "Identificación de usuario",
                 getTimeout());
+    }
+
+    /**
+     * Simula el proceso de cerrar sesión de un usuario.
+     *
+     * @param driver
+     */
+    static public void logout(WebDriver driver) {
+        PO_NavView.clickOption(driver, "logout", "text", "Desconectate");
     }
 
     /**

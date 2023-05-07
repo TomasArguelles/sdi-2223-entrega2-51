@@ -72,17 +72,34 @@ module.exports = function (app, offersRepository) {
      */
     app.get("/user/offers", async function (req, res) {
         try {
+            let page = parseInt(req.query.page); // Es String!!!
+            if (typeof req.query.page === "undefined" || req.query.page === null || req.query.page === "0")
+                page = 1;
 
-            // TODO: INTEGRAR PAGINACION
+            await offersRepository.getAllUserInSessionOffersPg(req.session.user, page).then(result => {
+                let lastPage = result.total / 5;
+                if (result.total % 5 > 0)
+                    lastPage = lastPage + 1; // Sobran decimales
+                let pages = []; // Páginas a mostrar
+                for (let i = page - 2; i <= page + 2; i++) {
+                    if (i > 0 && i <= lastPage)
+                        pages.push(i);
+                }
 
-            const offers = await offersRepository.getAllUserInSessionOffers(req.session.user);
+                // Listado con las fechas formateadas
+                const formatedOffers = result.offers.map(offer => {
+                    offer.date = formatDate(offer.date);
+                    return offer;
+                });
 
-            // Listado con las fechas formateadas
-            const formatedOffers = offers.map(offer => {
-                offer.date = formatDate(offer.date);
-                return offer;
+                let response = {
+                    offers: formatedOffers,
+                    pages: pages,
+                    currentPage: page
+                };
+                res.render(LIST_OFFERS_VIEW, response);
             });
-            res.render(LIST_USER_OFFERS_VIEW, {offers: formatedOffers});
+
         } catch (err) {
             res.status(500).json({error: "Error al listar las ofertas"});
         }

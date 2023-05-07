@@ -48,6 +48,7 @@ const adminSessionRouter = require('./routes/adminRouter');
 
 // Auth middleware
 app.use("/offers/",userSessionRouter);
+app.use("/user/offers",userSessionRouter);
 app.use("/offer/",userSessionRouter);
 app.use("/offers/all",userSessionRouter);
 app.use("/offers/buy",userSessionRouter);

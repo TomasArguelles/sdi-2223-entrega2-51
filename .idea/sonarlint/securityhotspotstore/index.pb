@@ -596,8 +596,6 @@ w
 G.idea/sonarlint/issuestore/5/5/553f320b256e19b66cde3cd07e433fbcf2a2da3c,b\b\bbae570cf43a24497733130b0640c3fdbc1f2eeb
 Å
 Q.idea/sonarlint/securityhotspotstore/8/8/88754b16d1036c45efce759279be1a1a871e969c,0\3\03dac202de20f9e5320ea794763cc5f9823c8bb7
-H
-sdi-2223-entrega2-51.iml,1\2\125781c9382714854ea30c156eac69e4646a70f4
 Å
 Q.idea/sonarlint/securityhotspotstore/9/e/9e7b462c67d4b29c860812a96ce0a77e87132a23,5\6\569b6d3127dc9458d2caf238d2073f80712201f5
 Å
@@ -640,12 +638,8 @@ q
 Atest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_NavView.java,b\c\bc38d76e6681b1c08f415610604a4bf0ddcf6e57
 w
 G.idea/sonarlint/issuestore/0/3/03e1a649a42d7696c74bafede170c6248d7f8776,0\a\0a5bdfe7bdc0bead5db1ec6064595517ade03911
-s
-Ctest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_LoginView.java,b\3\b3bd041c16bce0acdafe5e626d24d878df6b51c1
 t
 Dtest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_Properties.java,3\6\366f1fca895782606cabef8bc057beb881f8f3f6
-s
-Ctest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_OfferView.java,9\c\9cb747d1fd9575c172ad37b0a6248ae6a4d2d281
 v
 Ftest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_UserListView.java,d\f\df8116d5bf0784c5a5a0fa54e5c353810e4f807b
 Å
@@ -654,8 +648,6 @@ t
 Dtest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_SignUpView.java,2\1\21b0af88220478f4f75b72e67a0df7e22cfe5cd4
 w
 G.idea/sonarlint/issuestore/e/b/eb71e9b3255ef3a91ab7ae932e1cd3e9fdfd1000,b\8\b8b809e5954b910ccd3d6372ff6f437cecbd517a
-n
->test/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_View.java,e\6\e6ac52b5b181e7a4c635fc9c681dd6409778ded9
 Å
 Q.idea/sonarlint/securityhotspotstore/d/9/d90d34d0024bc91ceffaaa97126352920328fb5c,c\e\ceefdb403c5e9a4f72f60b5391b3e0d74b8b5529
 w
