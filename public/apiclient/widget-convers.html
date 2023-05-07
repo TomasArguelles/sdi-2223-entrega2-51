@@ -70,7 +70,8 @@
     function offerConver(index){
         idConver= convers[index]._id;
         selectedId= convers[index].oferta;
-
+        seller = convers[index].seller;
+        title = convers[index].title;
         console.log(offers);
         $("#main-container").load("widget-conversation.html");
     }

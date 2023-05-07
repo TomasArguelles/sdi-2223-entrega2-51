@@ -106,8 +106,10 @@
 
      function offerConversation(index) {
         //Calculo la oferta
-        offer = offers[index];
-        selectedId = offer._id;
+
+        selectedId = offers[index]._id;
+        seller = offers[index]._id;
+        title = offers[index]._id;
         selectConver();
         $("#main-container").load("widget-conversation.html");
     }
