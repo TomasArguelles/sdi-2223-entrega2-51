@@ -1422,4 +1422,123 @@ class Sdi2223Entrega1NApplicationTests {
         offers.get(1).findElement(By.xpath("td[1]")).getText().equals("Oferta de prueba 2");
         offers.get(2).findElement(By.xpath("td[1]")).getText().equals("Oferta de prueba 3");
     }
+
+    /**
+     * Cliente ligero JQuery/AJAX
+     * <p>
+     * [Prueba52] Sobre listado de ofertas disponibles (a elección de desarrollador), enviar un mensaje a una
+     *     oferta concreta. Se abriría dicha conversación por primera vez. Comprobar que el mensaje aparece
+     *     en el listado de mensajes
+     */
+
+    @Test
+    @Order(52)
+    public void PR52() {
+        //Añado una oferta a user01
+        PO_OfferView.simulateAddNewOffer(driver, "user01@email.com", "user01", "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "1");
+
+        //Añado una oferta user02
+        PO_OfferView.simulateAddNewOffer(driver, "user02@email.com", "user02", "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "2");
+
+
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        // Rellenar formulario de login con contraseña valida
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a")).click();
+
+        //Cojo el primer boton de conversacion y accedo a la pantalla de navegacin
+        driver.findElement(By.id("conver0")).click();
+
+        //Busco el input y lo clicko
+        driver.findElement(By.id("txtAddMsg")).click();
+
+        //Escribo mensaje ("Mensaje text 52");
+        //TODO Rellenar el form
+
+        //Le doy a enviar
+        driver.findElement(By.id("sendMsg")).click();
+        driver.findElement(By.id("conver0")).click();
+
+        //Busco que se añadiese el mensaje
+        //TODO Buscar el mensaje
+    }
+
+    /**
+     * Cliente ligero JQuery/AJAX
+     [Prueba53] Sobre el listado de conversaciones enviar un mensaje a una conversación ya abierta.
+     Comprobar que el mensaje aparece en el listado de mensajes.
+     */
+
+    @Test
+    @Order(53)
+    public void PR53(){
+
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        // Rellenar formulario de login con contraseña valida
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a")).click();
+
+        // Acceder a la pagina de conversaciones
+        driver.findElement(By.id("convers")).click();
+
+        //Busco la primera conver y accedo a ella
+        driver.findElement(By.id("conv0")).click();
+        //Busco el input y lo clicko
+        driver.findElement(By.id("txtAddMsg")).click();
+
+        //Escribo mensaje ("Mensaje text 53");
+        //TODO Rellenar el form
+
+        //Le doy a enviar
+        driver.findElement(By.id("sendMsg")).click();
+        driver.findElement(By.id("convers")).click();
+
+        //Busco la primera conver y accedo a ella
+        driver.findElement(By.id("conv0")).click();
+
+        //Busco que se añadiese el mensaje
+        //TODO Buscar el mensaje
+    }
+
+
+    /**
+     * Cliente ligero JQuery/AJAX
+     [Prueba53] Sobre el listado de conversaciones enviar un mensaje a una conversación ya abierta.
+     Comprobar que el mensaje aparece en el listado de mensajes.
+     */
+
+    @Test
+    @Order(54)
+    public void PR54(){
+        int count=0;
+
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        // Rellenar formulario de login con contraseña valida
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a")).click();
+
+        // Acceder a la pagina de conversaciones
+        driver.findElement(By.id("convers")).click();
+
+        //TODO: contar las convers q hay
+
+        //Hay una conversacion abierta
+        Assertions.assertEquals(1,count);
+    }
+
 }
