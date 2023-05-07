@@ -1,8 +1,4 @@
 
-D
-views/songs/add.twig,3\f\3f9cd411c7a49b37cac9666480c4a40f4d645967
-7
-bin/www,f\9\f9f3ad31c1666c9d010b84cbbe24e70370a40411
 =
 test/test.iml,8\e\8ec4fd9b8f0455e512313a7c992dfe21786be81c
 w
@@ -23,8 +19,6 @@ A
 package.json,7\0\7030d0b2f71b999ff89a343de08c414af32fc93a
 A
 package-lock.json,f\a\fa288d1472d29beccb489a676f68739ad365fc47
-J
-routes/userAudiosRouter.js,c\3\c396b453f41a428900735f87c7a99f938b97c4cc
 
 Q.idea/sonarlint/securityhotspotstore/a/3/a3966e5b4f1ae11212e585a0191244da421f4446,b\0\b0d14e94dbaf98884f2db4014bde7db4d060a384
 w
@@ -33,10 +27,6 @@ w
 G.idea/sonarlint/issuestore/d/8/d8cc8719de2be875704af9c7bf3513fcf693196e,c\0\c0e5193c5cacf7bcdb3adb2f3a923d04dfe33249
 
 Q.idea/sonarlint/securityhotspotstore/1/e/1eecc304dbbf62fd57a5f7145bd040c43ebdb1d3,0\d\0df8122493442aaf656c8931f63218a90dcc3fe6
-
-Q.idea/sonarlint/securityhotspotstore/8/4/8458b34ee725e2c636fa44c9e6f052c15001cc0b,b\8\b8c7b664bd195bc53083244a26802b6407a7a091
-w
-G.idea/sonarlint/issuestore/2/e/2e4db8a66941f543fc6b23952e0eacacf615657a,b\c\bce1155ccbc4ba1aca0f0dad2210e335929deaec
 w
 G.idea/sonarlint/issuestore/5/1/512570a6b6daee99894999ff507708b95711e310,a\0\a06a4039db1e49d981b4eb3626c0f02ff5caa3da
 k
@@ -46,8 +36,6 @@ G.idea/sonarlint/issuestore/1/e/1eecc304dbbf62fd57a5f7145bd040c43ebdb1d3,3\d\3d
 
 Q.idea/sonarlint/securityhotspotstore/8/7/87ee7563e36cc163346683a965fb0cd4353e5395,f\a\faf1c3679bd948f5631cf756faf085e343078df1
 
-Q.idea/sonarlint/securityhotspotstore/2/e/2e4db8a66941f543fc6b23952e0eacacf615657a,5\2\52109df1a9cf9b5f87e1829b63b835cbfd3ac224
-
 Q.idea/sonarlint/securityhotspotstore/8/8/8839c934e499e0f03bebcc14b8f32aa68b7240cf,1\6\16d5f034bf1cc62b42b6365d145f71c035a360ff
 w
 G.idea/sonarlint/issuestore/f/9/f9f3ad31c1666c9d010b84cbbe24e70370a40411,5\f\5fd93fc9f0720d26b9f02d0c0ac5a967f6ab5c99
@@ -55,8 +43,6 @@ G.idea/sonarlint/issuestore/f/9/f9f3ad31c1666c9d010b84cbbe24e70370a40411,5\f\5f
 Q.idea/sonarlint/securityhotspotstore/c/a/ca6b6d08234719bdbe7f0a339b255a1dfe937947,7\3\7323ca7fe2926e0881674d7a48400b6c04934587
 w
 G.idea/sonarlint/issuestore/7/9/79f44395764f2ed6a98b25498274c92e86630d63,5\7\57c5d89d1e4172f4276ee1aab45a04170d7fac2a
-w
-G.idea/sonarlint/issuestore/8/4/8458b34ee725e2c636fa44c9e6f052c15001cc0b,f\6\f60940bba80041fba2435105c88b34b15f89d70d
 
 Q.idea/sonarlint/securityhotspotstore/8/e/8ec4fd9b8f0455e512313a7c992dfe21786be81c,9\8\987a0d3d09b3128a36bad460d507eadb0b1e333b
 
@@ -74,8 +60,6 @@ G.idea/sonarlint/issuestore/8/7/87ee7563e36cc163346683a965fb0cd4353e5395,a\5\a5
 w
 G.idea/sonarlint/issuestore/c/3/c396b453f41a428900735f87c7a99f938b97c4cc,a\9\a927f758bfbf3bcc3519423ad7ae6cdddc37b8ff
 w
-G.idea/sonarlint/issuestore/e/4/e4435a75863599b82a8de1ef7b62810ebec8e079,8\d\8d7f072b9e862d76e1541d812dbd3c3a74afc721
-w
 G.idea/sonarlint/issuestore/8/8/8839c934e499e0f03bebcc14b8f32aa68b7240cf,0\e\0edddbc669be120f7a0b8fb34923203bdbb161f1
 w
 G.idea/sonarlint/issuestore/8/e/8ec4fd9b8f0455e512313a7c992dfe21786be81c,2\7\27b4924b001eb8f6fdf4ab920837549f542cb98c
@@ -92,8 +76,6 @@ Q.idea/sonarlint/securityhotspotstore/5/1/512570a6b6daee99894999ff507708b95711e3
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
-
-Q.idea/sonarlint/securityhotspotstore/e/4/e4435a75863599b82a8de1ef7b62810ebec8e079,7\9\7921080ef96d3abd4d7d8ba2df9c50599515fe53
 w
 G.idea/sonarlint/issuestore/8/a/8aabf46ac2c2d754de5358d5fe4c38abd2be117d,5\1\5162396bf9dcae4508ad91a4a5dd51cd583f039f
 
@@ -190,8 +172,6 @@ w
 G.idea/sonarlint/issuestore/4/0/4068e9b7fd45ca2973d4aeb6568c94c6af6adc78,5\c\5c8f92dadf5a5143d50bd4f2da8819ab93b8b757
 w
 G.idea/sonarlint/issuestore/0/6/06a8cf847006c2e37708c5b7ed91ab069e2bb24f,6\c\6c1ffcf6372886e321b4bc820764d50b230029f2
-
-Q.idea/sonarlint/securityhotspotstore/0/1/0161806e1e8e6ab410b0cf08b89c64d1e3aa5dcd,7\0\70109ebd320eaa78502eb13b27593fb3944dfb62
 
 Q.idea/sonarlint/securityhotspotstore/0/1/0183ca13e8b379ffbb27ca8371a09f05510b35e8,a\f\af0805428d7686995647ecd818411763ca7d408e
 
@@ -333,8 +313,6 @@ Q.idea/sonarlint/securityhotspotstore/9/a/9ab775a45cd57b8b48016a1df33230d8b5c74c
 
 Q.idea/sonarlint/securityhotspotstore/4/0/4068e9b7fd45ca2973d4aeb6568c94c6af6adc78,8\d\8d117c1e3b122e27a859fcb112461c489eae5534
 
-Q.idea/sonarlint/securityhotspotstore/3/2/32a8e07206684c58a0e51cb746d63f262e22097c,0\3\03e1a649a42d7696c74bafede170c6248d7f8776
-
 Q.idea/sonarlint/securityhotspotstore/4/c/4cd6574d73be4d3267936d39f0c6b7007135a4b1,1\2\12bdee988af4cd12eaa88768d0c92451d3f5319d
 
 Q.idea/sonarlint/securityhotspotstore/5/1/5162396bf9dcae4508ad91a4a5dd51cd583f039f,e\a\ea57dddb37503c23b240f0bdfdd9d7609b1f8e92
@@ -342,8 +320,6 @@ Q.idea/sonarlint/securityhotspotstore/5/1/5162396bf9dcae4508ad91a4a5dd51cd583f03
 Q.idea/sonarlint/securityhotspotstore/5/2/52109df1a9cf9b5f87e1829b63b835cbfd3ac224,4\0\40936b840b9e2f0f4b3d9554ac60ac3d33092c83
 w
 G.idea/sonarlint/issuestore/e/5/e528a4f453e8b554639ba34c663198a39246f09c,4\b\4b2dd1f5004353f908836b4184b1c7651e790257
-
-Q.idea/sonarlint/securityhotspotstore/d/7/d7b30737fab945ab898879aec78ee4a72c6d4a16,f\0\f09258c0c702aaf35de64fa8a8b17f4931d8052d
 w
 G.idea/sonarlint/issuestore/f/0/f0a5291a37bfcdc008240ee6380569175a865226,a\e\aedafc08af59b0e514b0ad82e6b3184a87c9cc1b
 w
@@ -707,8 +683,6 @@ G.idea/sonarlint/issuestore/f/d/fde43da83529be520fa438d4561fe9076ca593cf,b\e\be
 
 Q.idea/sonarlint/securityhotspotstore/8/d/8d117c1e3b122e27a859fcb112461c489eae5534,b\e\bead95b2c04b2579db1da67882ca5bb0af561025
 
-Q.idea/sonarlint/securityhotspotstore/5/9/593edca837d34bb0fb1cf6bf1ded6a537a9ff6e5,9\c\9c42aea7daaafc641d1ba1c125723333cdbe039f
-
 Q.idea/sonarlint/securityhotspotstore/8/d/8d228b7129483564b1ea17ab467e3138c491f148,b\9\b99e5a7ab33b08227f5b79e2f79dc5c593f6821c
 
 Q.idea/sonarlint/securityhotspotstore/5/c/5c10c0aa450d97aa6262b465f26a2cba74cbf540,3\0\3014e1b4dd185688dd902727168ffce6604b67d5
@@ -830,8 +804,6 @@ w
 G.idea/sonarlint/issuestore/e/0/e0bf32b4d3146d9c5ec122650062e405f219b4d8,7\b\7b6f032dcf0eca6e46b71958e3e8ddee63159628
 w
 G.idea/sonarlint/issuestore/6/a/6a986efd30893b5cd2a4df6c206406743e9eb882,1\3\13708e0fe58c96d23410bc94792b6cc3407eaebe
-w
-G.idea/sonarlint/issuestore/5/9/593edca837d34bb0fb1cf6bf1ded6a537a9ff6e5,b\e\be9ff1ca8b27345533f464b4c59dc555f742132a
 w
 G.idea/sonarlint/issuestore/f/0/f09258c0c702aaf35de64fa8a8b17f4931d8052d,6\1\615a958a3980b889871e13432daf61afd7dbb228
 
@@ -1094,3 +1066,59 @@ P
  sdi2223-entrega2-test-51/pom.xml,a\7\a7a6b3e6f09464155be42cd9de28870f5c1f71df
 m
 =test/java/com/uniovi/sdi2223entrega2n/util/SeleniumUtils.java,4\9\49046e4b5a21e04ca2d7d78c39b5030c6ae1cd3a
+L
+public/stylesheets/admin.css,1\4\14f0ceb298fa437f8c36dd9e0691ca4e72e88621
+”
+dsdi2223-entrega2-test-51/src/test/java/com/uniovi/sdi2223entrega2test/n/pageobjects/PO_HomeView.java,b\2\b24be68c8d951798ac736e1c987d75c7bc031eb8
+
+_sdi2223-entrega2-test-51/src/test/java/com/uniovi/sdi2223entrega2test/n/util/SeleniumUtils.java,1\d\1da3df92a1e923db66f40272558f3c9322eb0e9d
+A
+views/signup.twig,3\0\30b23766ed26363a77e04f0d7512119a75b3ee9c
+E
+views/offers/add.twig,7\c\7ce3c6be31db71fbed65db0c743cfa8fa2a36962
+K
+routes/userSessionRouter.js,8\8\8839c934e499e0f03bebcc14b8f32aa68b7240cf
+I
+routes/api/messagesAPI.js,6\f\6fb646985c35b72944e16e523250a6565d43b50b
+W
+'repositories/conversationsRepository.js,2\3\2373cfa16f67f4cbd7a119a8d5cd347baba08fc9
+
+_sdi2223-entrega2-test-51/src/test/java/com/uniovi/sdi2223entrega2test/n/util/DatabaseUtils.java,e\a\ea366d75321ba47baca7aa4b7b96c5b18bc4e059
+O
+middlewares/loggerMiddleware.js,f\c\fc0421e38c4be67fcee1f45259de3bcb9ad22a88
+R
+"repositories/messagesRepository.js,5\3\53b446f6d2ecd97c5f723425d2e22961a1e52c89
+–
+fsdi2223-entrega2-test-51/src/test/java/com/uniovi/sdi2223entrega2test/n/pageobjects/PO_SignUpView.java,7\a\7a5c844dc60f42eddbd4bc7759a9756fd8ab8bc4
+T
+$public/apiclient/widget-convers.html,e\b\eb7b75df8fbe2a04753ea01890ca684d4a4148f9
+D
+routes/logsRouter.js,f\6\f61a43185e3aad8487e43e15e0abc5f30291142c
+E
+views/users/list.twig,8\e\8e31310f3d966428b4c184506616b49c3995f239
+@
+views/login.twig,8\5\858c14f39b540b2c71113cc8d7641ef3eb0900cb
+E
+routes/adminRouter.js,1\7\17e8a8bc8a23fec94ee21d4e7e02fa111276214b
+M
+routes/api/userTokenRouter.js,2\9\29b242ec810038d78eeb8ea75e9f36381a9e8c21
+L
+views/offers/offersList.twig,1\7\1716cf5db6ca707a588a49dde28a0ada0585ba5a
+P
+ repositories/offersRepository.js,1\9\19d9e7e5a4f35488889b872d147538948bcf6145
+Q
+!repositories/loggingRepository.js,9\d\9d5b7cd73f8e883d8353abbe88023be7c217a880
+
+`sdi2223-entrega2-test-51/src/test/java/com/uniovi/sdi2223entrega2test/n/pageobjects/PO_View.java,f\b\fbbe01d169e3918141b0e62f75017b95ebf8bb95
+H
+sdi-2223-entrega2-51.iml,1\2\125781c9382714854ea30c156eac69e4646a70f4
+P
+ views/offers/listUserOffers.twig,b\a\ba158ac439351c4f96d24c2b39ace24323455354
+@
+routes/offers.js,a\3\a3966e5b4f1ae11212e585a0191244da421f4446
+•
+esdi2223-entrega2-test-51/src/test/java/com/uniovi/sdi2223entrega2test/n/pageobjects/PO_OfferView.java,0\d\0d36fe88d0ba417bf57d9e0d214f2f2772b77507
+s
+Ctest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_OfferView.java,9\c\9cb747d1fd9575c172ad37b0a6248ae6a4d2d281
+n
+>test/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_View.java,e\6\e6ac52b5b181e7a4c635fc9c681dd6409778ded9

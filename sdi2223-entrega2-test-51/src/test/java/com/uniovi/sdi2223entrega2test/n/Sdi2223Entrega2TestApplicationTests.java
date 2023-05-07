@@ -19,7 +19,9 @@ class Sdi2223Entrega2TestApplicationTests {
     static String BASE_API_CLIENT_URL = "http://localhost:8081/api/v1.0"; // URL base del API del cliente
 
     // Kiko
-    static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\kikoc\\Desktop\\SDI\\geckodriver-v0.30.0-win64.exe";
+
+    //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     // Teresa
     //static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
 
@@ -625,13 +627,11 @@ class Sdi2223Entrega2TestApplicationTests {
     @Test
     @Order(33)
     public void PR33() {
-        PO_LoginView.logout(driver);
-
         // Acceso a la vista de listado de usuarios sin estar autenticado
         driver.navigate().to("http://localhost:8081/users/list");
 
         // Comprobamos que se muestra el formulario de login
-        WebElement loginHeading = driver.findElement(By.xpath("/html/body/div/h2"));
+        WebElement loginHeading = driver.findElement(By.xpath("/html/body/div/div/h2"));
         Assertions.assertEquals("Identificación de usuario", loginHeading.getText());
     }
 
@@ -684,7 +684,7 @@ class Sdi2223Entrega2TestApplicationTests {
         // Borrar los logs existentes
         driver.navigate().to("http://localhost:8081/logs/delete/all");
 
-        PO_LoginView.logout(driver);
+        //PO_LoginView.logout(driver);
 
         // Interaccion 1
 
