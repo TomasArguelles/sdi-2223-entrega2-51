@@ -242,7 +242,7 @@ module.exports = function (app, offersRepository) {
             let filter = {"_id": {$in: purchasedOffers}};
             let options = {sort: {title: 1}};
             offersRepository.getOffers(filter, options).then(offers => {
-                res.render("purchase.twig", {
+                res.render("purchase", {
                     offers: offers,
                     pages: pages,
                     currentPage: page,
