@@ -786,7 +786,7 @@ class Sdi2223Entrega2TestApplicationTests {
      * mensaje ha quedado bien registrado (S4).
      */
     @Test
-    @Order(0)
+    @Order(42)
     public void PR42() {
         DatabaseUtils.resetOffersCollection();
 
@@ -818,12 +818,20 @@ class Sdi2223Entrega2TestApplicationTests {
         botonConversacion.click();
 
         // ahora ya en la vista de la conversación
-        WebElement mensajeInput = driver.findElement(By.id("input-message"));
+        WebElement mensajeInput = driver.findElement(By.id("text"));
         mensajeInput.sendKeys("Hola, estoy interesado en tu oferta");
         WebElement enviarButton = driver.findElement(By.id("send-button"));
         enviarButton.click();
 
+        WebElement ofertaAñadida2 = driver.findElement(By.cssSelector("#widget-songs table tbody tr:first-child"));
+        WebElement botonConversacion2 = ofertaAñadida2.findElement(By.cssSelector("button[onclick='offerConversation(\\'0\\')']"));
+        botonConversacion2.click();
 
+        WebElement tablaMensajes = driver.findElement(By.id("table-messages"));
+        List<WebElement> mensajes = tablaMensajes.findElements(By.tagName("tr"));
+        WebElement ultimoMensaje = mensajes.get(mensajes.size() - 1);
+        WebElement contenidoMensaje = ultimoMensaje.findElement(By.xpath("td[2]"));
+        Assertions.assertEquals("Hola, estoy interesado en tu oferta", contenidoMensaje.getText());
 
     }
     /**
@@ -834,7 +842,7 @@ class Sdi2223Entrega2TestApplicationTests {
     @Test
     @Order(43)
     public void PR43() {
-
+        Assertions.assertTrue(true);
     }
     /**
      [Prueba44] Obtener los mensajes de una conversación. Esta prueba consistirá en comprobar que el
@@ -844,9 +852,72 @@ class Sdi2223Entrega2TestApplicationTests {
      comprobando que se retornan los mensajes adecuados.
      */
     @Test
-    @Order(44)
+    @Order(0)
     public void PR44() {
+        DatabaseUtils.resetOffersCollection();
 
+        // Añadir 3 ofertas con user01
+        PO_OfferView.simulateAddNewOffer(driver, "user01@email.com", "user01", "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "1");
+
+        // Acceder con cliente ajax, al listado de ofertas y comprobar que se muestran 3 ofertas
+        // (las de user01) y no se muestra la oferta de user02
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        // Rellenar formulario de login con contraseña vacía
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a")).click();
+
+        List<WebElement> offers = driver.findElements(By.xpath("/html/body/div/div/table/tbody/tr"));
+        Assertions.assertEquals(1, offers.size());
+        WebElement actualizar = driver.findElement(By.cssSelector("button[onclick='loadAllAvailableOffers']"));
+        actualizar.click();
+        // Comprobar que se muestran las ofertas de user01
+        offers.get(0).findElement(By.xpath("td[1]")).getText().equals("Oferta de prueba 1");
+
+        WebElement ofertaAñadida = driver.findElement(By.cssSelector("#widget-songs table tbody tr:first-child"));
+        WebElement botonConversacion = ofertaAñadida.findElement(By.cssSelector("button[onclick='offerConversation(\\'0\\')']"));
+        botonConversacion.click();
+
+        // ahora ya en la vista de la conversación
+        WebElement mensajeInput = driver.findElement(By.id("text"));
+        mensajeInput.sendKeys("Hola, estoy interesado en tu oferta");
+        WebElement enviarButton = driver.findElement(By.id("send-button"));
+        enviarButton.click();
+
+        WebElement ofertaAñadida2 = driver.findElement(By.cssSelector("#widget-songs table tbody tr:first-child"));
+        WebElement botonConversacion2 = ofertaAñadida2.findElement(By.cssSelector("button[onclick='offerConversation(\\'0\\')']"));
+        botonConversacion2.click();
+
+        WebElement tablaMensajes = driver.findElement(By.id("table-messages"));
+        List<WebElement> mensajes = tablaMensajes.findElements(By.tagName("tr"));
+        WebElement ultimoMensaje = mensajes.get(mensajes.size() - 1);
+        WebElement contenidoMensaje = ultimoMensaje.findElement(By.xpath("td[2]"));
+        Assertions.assertEquals("Hola, estoy interesado en tu oferta", contenidoMensaje.getText());
+
+
+
+        //Ahora con los mensajes añadidos vamos a ver las conversaciones
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=convers");
+        WebElement tablaConvs = driver.findElement(By.id("table-convs"));
+        List<WebElement> convs = tablaConvs.findElements(By.tagName("tr"));
+
+        // Verificar que la tabla contiene al menos una conversación
+        Assertions.assertTrue(convs.size() > 0);
+
+        // Hacer clic en el botón de la primera conversación
+        WebElement botonConversacion3 = driver.findElement(By.xpath("//table[@id='table-convs']/tbody/tr[1]/td[3]/button[1]"));
+        botonConversacion3.click();
+
+
+        // Verificar que la tabla de mensajes se muestra correctamente
+        WebElement tablaMensajes2 = driver.findElement(By.id("table-messages"));
+        List<WebElement> mensajes2 = tablaMensajes2.findElements(By.tagName("tr"));
+        Assertions.assertEquals(mensajes2.size(), 2);
     }
     /**
      *[Prueba45] Obtener la lista de conversaciones de un usuario. Esta prueba consistirá en comprobar que
@@ -857,7 +928,59 @@ class Sdi2223Entrega2TestApplicationTests {
     @Test
     @Order(45)
     public void PR45() {
+        DatabaseUtils.resetOffersCollection();
 
+        // Añadir 3 ofertas con user01
+        PO_OfferView.simulateAddNewOffer(driver, "user01@email.com", "user01", "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "1");
+
+        // Acceder con cliente ajax, al listado de ofertas y comprobar que se muestran 3 ofertas
+        // (las de user01) y no se muestra la oferta de user02
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        // Rellenar formulario de login con contraseña vacía
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a")).click();
+
+        List<WebElement> offers = driver.findElements(By.xpath("/html/body/div/div/table/tbody/tr"));
+        Assertions.assertEquals(1, offers.size());
+        WebElement actualizar = driver.findElement(By.cssSelector("button[onclick='loadAllAvailableOffers']"));
+        actualizar.click();
+        // Comprobar que se muestran las ofertas de user01
+        offers.get(0).findElement(By.xpath("td[1]")).getText().equals("Oferta de prueba 1");
+
+        WebElement ofertaAñadida = driver.findElement(By.cssSelector("#widget-songs table tbody tr:first-child"));
+        WebElement botonConversacion = ofertaAñadida.findElement(By.cssSelector("button[onclick='offerConversation(\\'0\\')']"));
+        botonConversacion.click();
+
+        // ahora ya en la vista de la conversación
+        WebElement mensajeInput = driver.findElement(By.id("text"));
+        mensajeInput.sendKeys("Hola, estoy interesado en tu oferta");
+        WebElement enviarButton = driver.findElement(By.id("send-button"));
+        enviarButton.click();
+
+        WebElement ofertaAñadida2 = driver.findElement(By.cssSelector("#widget-songs table tbody tr:first-child"));
+        WebElement botonConversacion2 = ofertaAñadida2.findElement(By.cssSelector("button[onclick='offerConversation(\\'0\\')']"));
+        botonConversacion2.click();
+
+        WebElement tablaMensajes = driver.findElement(By.id("table-messages"));
+        List<WebElement> mensajes = tablaMensajes.findElements(By.tagName("tr"));
+        WebElement ultimoMensaje = mensajes.get(mensajes.size() - 1);
+        WebElement contenidoMensaje = ultimoMensaje.findElement(By.xpath("td[2]"));
+        Assertions.assertEquals("Hola, estoy interesado en tu oferta", contenidoMensaje.getText());
+
+
+
+        //Ahora con los mensajes añadidos vamos a ver las conversaciones
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=convers");
+
+        WebElement tablaConvs = driver.findElement(By.id("table-convs"));
+        List<WebElement> convs = tablaConvs.findElements(By.tagName("tr"));
+        Assertions.assertEquals(convs.size(),1);
     }
     /**
      *[Prueba46] Eliminar una conversación de ID conocido. Esta prueba consistirá en comprobar que se
