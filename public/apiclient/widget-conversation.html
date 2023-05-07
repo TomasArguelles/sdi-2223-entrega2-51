@@ -59,6 +59,8 @@
             success: function (response){
                 messages = response.messages;
                 updateMessages(messages);
+                console.log(messages.length);
+                console.log(messages);
             },error: function (error){
                 clearInterval(refreshEachSecond);
                 $("#main-container").load("widget-login.html");
@@ -68,7 +70,7 @@
     }
 
     function updateMessages(messages){
-        console.log(idConver);
+
         $("#messagesTableBody").empty();
         if(messages.length === 0){
             $("#messagesTableBody").append(
@@ -77,14 +79,15 @@
                 "</tr>");
         }else{
             for(let i = 0; i<messages.length; i++){
-                $("#messagesTableBody").append(
-                    "<tr>" +
-                    "<td>" + messages[i].idSender + "</td>" +
-                    "<td>" + messages[i].texto + "</td>" +
-                    "<td>" + messages[i].leido + "</td>" +
-                    "</tr>"
-                )
-
+                if(messages.idConver !== idConver) {
+                    $("#messagesTableBody").append(
+                        "<tr>" +
+                        "<td>" + messages[i].idSender + "</td>" +
+                        "<td>" + messages[i].texto + "</td>" +
+                        "<td>" + messages[i].leido + "</td>" +
+                        "</tr>"
+                    )
+                }
             }
         }
     }
