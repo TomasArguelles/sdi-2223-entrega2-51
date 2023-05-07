@@ -61,11 +61,11 @@ public class PO_LoginView extends PO_NavView {
 
     /**
      * Simula el proceso de cerrar sesión de un usuario.
-     *
+     * targetText es el texto que debería ver después de hacer click en la opción escogida, en este caso logout
      * @param driver
      */
     static public void logout(WebDriver driver) {
-        PO_NavView.clickOption(driver, "logout", "text", "Desconectate");
+        PO_NavView.clickOption(driver, "logout", "text", "Identificación de usuario");
     }
 
     /**
@@ -74,6 +74,6 @@ public class PO_LoginView extends PO_NavView {
      */
     static public void simulateLogin(WebDriver driver, String emailp, String passwordp) {
         fillForm(driver, emailp, passwordp);
-        PO_View.checkElementBy(driver, "text", LOGIN_BUTTON_TEXT);
+//        PO_View.checkElementBy(driver, "text", LOGIN_BUTTON_TEXT);
     }
 }

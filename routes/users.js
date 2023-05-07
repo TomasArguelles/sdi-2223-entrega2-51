@@ -25,7 +25,8 @@ module.exports = function (app, usersRepository) {
                     res.render("users/list.twig", {
                         users: usersIds.users,
                         pages: pages,
-                        currentPage: page
+                        currentPage: page,
+                        sessionUser: req.session.user
                     });
                 });
             } catch
@@ -47,7 +48,7 @@ module.exports = function (app, usersRepository) {
 
     app.get('/users/signup', function (req, res) {
         generateLogContent(req, res);
-        res.render("signup.twig");
+        res.render("signup.twig", {sessionUser: req.session.user});
     })
 
     app.post('/users/signup', function (req, res) {
@@ -91,7 +92,7 @@ module.exports = function (app, usersRepository) {
 
     app.get('/users/login', function (req, res) {
         generateLogContent(req, res);
-        res.render("login.twig");
+        res.render("login.twig", {sessionUser: req.session.user});
     })
 
     /**
