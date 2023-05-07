@@ -15,7 +15,7 @@ import java.util.List;
 class Sdi2223Entrega2NApplicationTests {
 
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-static String Geckodriver = "D:\\SDI\\sesion06\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+//static String Geckodriver = "D:\\SDI\\sesion06\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     // Kiko
     //static String Geckodriver = "C:\\Users\\kikoc\\Desktop\\SDI\\geckodriver-v0.30.0-win64.exe";
     
@@ -26,7 +26,7 @@ static String Geckodriver = "D:\\SDI\\sesion06\\PL-SDI-Sesión5-material\\PL-SDI
     //static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
 
     //Manu
-    //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\spring\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\spring\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
 
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
     static String BASE_HTTP_URL = "http://localhost:8081";
@@ -1279,6 +1279,7 @@ static String Geckodriver = "D:\\SDI\\sesion06\\PL-SDI-Sesión5-material\\PL-SDI
         List<WebElement> offers = driver.findElements(By.xpath("/html/body/div/div/table/tbody/tr"));
         Assertions.assertEquals(1, offers.size());
     }
+
     /**
      *[Prueba42] Enviar un mensaje a una oferta. Esta prueba consistirá en comprobar que el servicio
      * almacena correctamente el mensaje para dicha oferta. Por lo tanto, el usuario tendrá que
@@ -1301,7 +1302,6 @@ static String Geckodriver = "D:\\SDI\\sesion06\\PL-SDI-Sesión5-material\\PL-SDI
         // Forzar redireccion al login pulsando el botón de login del navbar
         driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
 
-        // Rellenar formulario de login con contraseña vacía
         PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
 
         driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a")).click();
