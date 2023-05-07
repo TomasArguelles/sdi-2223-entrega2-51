@@ -104,12 +104,12 @@
         });
     }
 
-     function offerConversation(index) {
+    function offerConversation(index) {
         //Calculo la oferta
 
         selectedId = offers[index]._id;
-        seller = offers[index]._id;
-        title = offers[index]._id;
+        seller = offers[index].seller;
+        title = offers[index].title;
         selectConver();
         $("#main-container").load("widget-conversation.html");
     }
