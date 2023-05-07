@@ -15,19 +15,23 @@ module.exports = {
         }
     },
     addConversation: function (conv, callbackFunction) {
-        this.mongoClient.connect(this.app.get('connectionStrings'), function (err, dbClient) {
-            if (err) {
-                callbackFunction(null)
-            } else {
-                const database = dbClient.db("sdi-2223-entrega2-51");
-                const collectionName = 'conversations';
-                const conversationsCollection = database.collection(collectionName);
-                conversationsCollection.insertOne(conv)
-                    .then(result => callbackFunction(result.insertedId))
-                    .then(() => dbClient.close())
-                    .catch(err => callbackFunction({error: err.message}));
-            }
-        });
+        try {
+            this.mongoClient.connect(this.app.get('connectionStrings'), function (err, dbClient) {
+                if (err) {
+                    callbackFunction(null)
+                } else {
+                    const database = dbClient.db("sdi-2223-entrega2-51");
+                    const collectionName = 'conversations';
+                    const conversationsCollection = database.collection(collectionName);
+                    conversationsCollection.insertOne(conv)
+                        .then(result => callbackFunction(result.insertedId))
+                        .then(() => dbClient.close())
+                        .catch(err => callbackFunction({error: err.message}));
+                }
+            });
+        } catch (error) {
+            throw (error);
+        }
     },
 
     findConversation: async function (filter, options) {
@@ -41,7 +45,6 @@ module.exports = {
             throw (error);
         }
     },
-
 
 
     deleteConversation: async function (filter, options) {

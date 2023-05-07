@@ -22,9 +22,9 @@
 
                 <form class="media-body" method="post" encType="multipart/form-data">
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="text">Mensaje:</label>
+                        <label class="control-label col-sm-2" for="msgBody">Mensaje:</label>
                         <div class="col-sm-10">
-                            <input id="text" type="text" class="form-control" name="text" placeholder="Mensaje"
+                            <input id="msgBody" type="text" class="form-control" name="text" placeholder="Mensaje"
                                    required="true"/>
                         </div>
                     </div>
@@ -40,17 +40,18 @@
     </div>
 </div>
 <script>
-
+    window.history.pushState("", "", "/apiclient/client.html?w=singleConversation");
     loadAllMessages();
 
     function loadAllMessages(){
+        const selectedOffer = JSON.parse(sessionStorage.getItem("selectedOffer"));
 
         $.ajax({
            url: URLbase + "/messages/" + idConver,
            type : "GET",
            data: {
-               idOffer: selectedId,
-               idReceiver: offer.seller,
+               idOffer: selectedOffer._id,
+               idReceiver: selectedOffer.seller,
            }, // creo q aqui va el comprador
            dataType: 'json',
            headers: {
@@ -60,11 +61,11 @@
                 messages = response.messages;
                 updateMessages(messages);
            },error: function (error){
-               clearInterval(refreshEachSecond);
-               $("#main-container").load("widget-login.html");
+               console.log("Error al cargar los mensajes. ", error);
+              // clearInterval(refreshEachSecond);
+               //$("#main-container").load("widget-login.html");
            }
        });
-
     }
 
     function updateMessages(messages){
@@ -89,34 +90,37 @@
     }
 
     function addMessages(){
+        const selectedOffer = JSON.parse(sessionStorage.getItem("selectedOffer"));
 
         $.ajax({
             url: URLbase + "/messages/add",
             type: "POST",
             data: {
                 idConver: idConver,
-                idOffer: selectedId,
-                idSeller: offer.seller,
-                texto: $("#text").val(),
+                idOffer: offer.idOffer,
+                idSeller: offer.idSeller,
+                texto: $("#msgBody").val(),
                 offerTitle: offer.title,
             },
             dataType: 'json',
             headers: {
-                "token": token
+                "token": Cookies.get('token'),
+                "content-type": "application/form-data"
             },
             success: function (response) {
                 loadAllMessages();
                 $("#text").val("");
             }, error: function (error) {
-                clearInterval(refreshEachSecond);
-                $("#main-container").load("widget-login.html");
+                console.log("Error al enviar el mensaje. ", error);
+                //clearInterval(refreshEachSecond);
+                //$("#main-container").load("widget-login.html");
             }
         })
     }
 
-    var refreshEachSecond = window.setInterval(() => {
-        updateMessages(messages);
-    }, 1000);
+    // var refreshEachSecond = window.setInterval(() => {
+    //     updateMessages(messages);
+    // }, 1000);
 
 
 </script>

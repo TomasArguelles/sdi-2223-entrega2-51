@@ -1,7 +1,7 @@
 <div id="widget-songs">
     <input type="text" class="form-control" placeholder="Filtrar por nombre"
            id="filter-by-name"/>
-    <button class="btn" onclick="loadAllAvaiableOffers()">Actualizar</button>
+    <button class="btn" onclick="loadAllAvailableOffers">Actualizar</button>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -18,15 +18,13 @@
 </div>
 
 <script>
-    window.history.pushState("", "", "/apiclient/client.html?w=offers");
     let selectedId;
     let offers;
-    let offer;
     let idConver;
     let convers;
     let messages;
 
-    loadAllAvaiableOffers();
+    loadAllAvailableOffers();
 
     /**
      * Actualiza la tabla de ofertas con los datos de la lista de ofertas
@@ -34,19 +32,22 @@
      * sesión.
      *
      */
-    function loadAllAvaiableOffers() {
+    function loadAllAvailableOffers() {
         $.ajax({
             url: URLbase + "/offers",
             type: "GET",
             data: {},
             dataType: 'json',
-            headers: {"token": token},
+            headers: {
+                "token": token
+            },
             success: function (response) {
                 offers = response.offers;
                 updateOffersTable(offers);
             },
             error: function (error) {
                 // TODO: Mostrar mensaje de error
+                //console.error("Error al cargar las ofertas. ", error);
                 $("#main-container").load("widget-login.html");
             }
         });
@@ -70,13 +71,13 @@
             for (let i = 0; i < offers.length; i++) {
                 $("#offersTableBody").append(
 
-                    "<tr id=" + offers[i].title + ">" +
+                    "<tr>" +
                     "<td>" + offers[i].title + "</td>" +
                     "<td>" + offers[i].description + "</td>" +
                     "<td>" + offers[i].price + "€</td>" +
                     "<td>" + offers[i].date + "</td>" +
                     "<td>" + offers[i].seller + "</td>" +
-                    "<td><button class=\"btn btn-primary\" onclick=\"offerConversation('"+i+"')\">Conversacion</button></td>" +
+                    "<td><button class=\"btn btn-primary\" onclick=\"offerConversation('" + i + "')\">Conversacion</button></td>" +
                     "</tr>"
                 );
             }
@@ -85,12 +86,13 @@
 
     /**
      * Cambia la vista a la conversacion propia de la oferta
-     * @param offerP oferta con la que estamos trbajando
+     * @param offerP oferta con la que estamos trabajando
      */
     function offerConversation(index){
         offer = offers[index];
         selectedId = offer._id;
-        loadAllAvaiableConvers()
+
+        //loadAllAvaiableConvers()
         $("#main-container").load("widget-conversation.html");
     }
 
@@ -102,6 +104,9 @@
             dataType: 'json',
             headers: {"token": token},
             success: function (response) {
+
+                console.log("Listado de conversaciones: " + response.listadoConversaciones);
+
                 convers = response.listadoConversaciones;
 
                 for(let i = 0; i< convers.length; i++){
@@ -111,7 +116,7 @@
                 }
             },
             error: function (error) {
-
+                //console.error("Error al listar las conversaciones: " + error);
                 $("#main-container").load("widget-login.html");
             }
         });

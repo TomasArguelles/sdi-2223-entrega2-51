@@ -15,8 +15,6 @@ R
 "repositories/commentsRepository.js,1\e\1eecc304dbbf62fd57a5f7145bd040c43ebdb1d3
 B
 routes/comments.js,5\1\512570a6b6daee99894999ff507708b95711e310
-K
-routes/userSessionRouter.js,8\8\8839c934e499e0f03bebcc14b8f32aa68b7240cf
 S
 #middlewares/validationMiddleware.js,c\a\ca6b6d08234719bdbe7f0a339b255a1dfe937947
 A
@@ -25,8 +23,6 @@ A
 package.json,7\0\7030d0b2f71b999ff89a343de08c414af32fc93a
 A
 package-lock.json,f\a\fa288d1472d29beccb489a676f68739ad365fc47
-J
-routes/userAuthorRouter.js,8\4\8458b34ee725e2c636fa44c9e6f052c15001cc0b
 J
 routes/userAudiosRouter.js,c\3\c396b453f41a428900735f87c7a99f938b97c4cc
 
@@ -106,22 +102,8 @@ Q.idea/sonarlint/securityhotspotstore/c/3/c396b453f41a428900735f87c7a99f938b97c4
 views/shop.twig,2\a\2aed5816665d8d91095554449ca1a439541bca6b
 L
 public/stylesheets/style.css,3\7\373d337c32dec564fe0da458c6478733eec21e5a
-Q
-!repositories/loggingRepository.js,9\d\9d5b7cd73f8e883d8353abbe88023be7c217a880
-O
-middlewares/loggerMiddleware.js,f\c\fc0421e38c4be67fcee1f45259de3bcb9ad22a88
 A
 util/dateUtils.js,a\f\afd7ebe6edbe0a05f633ba42f9b00f10c527f5a0
-O
-repositories/usersRepository.js,5\9\59eec077761f04a33a5f4c3ab7e5c70852ca968e
-S
-#public/apiclient/widget-offers.html,7\a\7a829514f4c592523a5d8c90745198b928ee8831
-D
-routes/logsRouter.js,f\6\f61a43185e3aad8487e43e15e0abc5f30291142c
-J
-routes/api/songsAPIv1.0.js,5\9\593edca837d34bb0fb1cf6bf1ded6a537a9ff6e5
-I
-routes/api/wallapopAPI.js,7\9\79f44395764f2ed6a98b25498274c92e86630d63
 p
 @.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_5_8_1.xml,8\5\8577ebd8c1e13812fdcb9f5cc1da21c752a604fd
 w
@@ -432,12 +414,6 @@ d
 4.idea/libraries/Maven__org_hamcrest_hamcrest_2_1.xml,9\4\9441e6b1356fbd398758253cd275774b28325a15
 |
 L.idea/libraries/Maven__org_codehaus_mojo_animal_sniffer_annotations_1_14.xml,1\5\1523e26b366c694a68d6d2a539aabe61cdac77eb
-
-_sdi2223-entrega2-test-51/src/test/java/com/uniovi/sdi2223entrega2test/n/util/DatabaseUtils.java,e\a\ea366d75321ba47baca7aa4b7b96c5b18bc4e059
-P
- repositories/offersRepository.js,1\9\19d9e7e5a4f35488889b872d147538948bcf6145
-@
-views/login.twig,8\5\858c14f39b540b2c71113cc8d7641ef3eb0900cb
 
 Q.idea/sonarlint/securityhotspotstore/1/9/19c636df3e705c261e52473acf3670d011414338,c\9\c95e370449a84776b2da0658db43b1e26371781f
 w
@@ -618,8 +594,6 @@ w
 G.idea/sonarlint/issuestore/5/5/553f320b256e19b66cde3cd07e433fbcf2a2da3c,b\b\bbae570cf43a24497733130b0640c3fdbc1f2eeb
 
 Q.idea/sonarlint/securityhotspotstore/8/8/88754b16d1036c45efce759279be1a1a871e969c,0\3\03dac202de20f9e5320ea794763cc5f9823c8bb7
-H
-sdi-2223-entrega2-51.iml,1\2\125781c9382714854ea30c156eac69e4646a70f4
 
 Q.idea/sonarlint/securityhotspotstore/9/e/9e7b462c67d4b29c860812a96ce0a77e87132a23,5\6\569b6d3127dc9458d2caf238d2073f80712201f5
 
@@ -1094,8 +1068,6 @@ w
 G.idea/sonarlint/issuestore/5/d/5df679d9b81410f75ab8e52a91c9da57997201e5,0\7\07521aaa9ad1391766a8d488c5f02059f3262ad8
 w
 G.idea/sonarlint/issuestore/6/d/6d1ceb019cd773918e8d9d2401fc207ea6a8cbe7,a\b\ab94afea8e156c16443b5922f48db8db0b0717eb
-6
-app.js,4\a\4a68969ef8e858229267b842dedf42ab5dde4d50
 ?
 routes/index.js,3\0\30dfc417d69af8ed298ed4111dcab68f38ca7f54
 s
@@ -1106,12 +1078,8 @@ Ftest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_AllOfferView.java,e\d\edd
 Ktest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_ConversationsView.java,f\5\f5726ed4e606128bc9dd66a351f0aeea483b2eef
 r
 Btest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_HomeView.java,f\4\f451bda1be1ba3448e5625f49ddd93ec129beea7
-s
-Ctest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_LoginView.java,b\3\b3bd041c16bce0acdafe5e626d24d878df6b51c1
 q
 Atest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_NavView.java,b\c\bc38d76e6681b1c08f415610604a4bf0ddcf6e57
-s
-Ctest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_OfferView.java,9\c\9cb747d1fd9575c172ad37b0a6248ae6a4d2d281
 —
 gsdi2223-entrega2-test-51/src/test/java/com/uniovi/sdi2223entrega2test/n/pageobjects/PO_PrivateView.java,a\7\a7697199c6552de310566ce0f71d7c07710a88c0
 –
@@ -1122,13 +1090,7 @@ t
 Dtest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_SignUpView.java,2\1\21b0af88220478f4f75b72e67a0df7e22cfe5cd4
 v
 Ftest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_UserListView.java,d\f\df8116d5bf0784c5a5a0fa54e5c353810e4f807b
-
-`sdi2223-entrega2-test-51/src/test/java/com/uniovi/sdi2223entrega2test/n/pageobjects/PO_View.java,f\b\fbbe01d169e3918141b0e62f75017b95ebf8bb95
-n
->test/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_View.java,e\6\e6ac52b5b181e7a4c635fc9c681dd6409778ded9
 P
  sdi2223-entrega2-test-51/pom.xml,a\7\a7a6b3e6f09464155be42cd9de28870f5c1f71df
-{
-Ktest/java/com/uniovi/sdi2223entrega2n/Sdi2223Entrega1NApplicationTests.java,b\a\bac9f4e16ec38fd365b4ce1c1be9e8499a539c30
 m
 =test/java/com/uniovi/sdi2223entrega2n/util/SeleniumUtils.java,4\9\49046e4b5a21e04ca2d7d78c39b5030c6ae1cd3a

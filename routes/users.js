@@ -1,15 +1,47 @@
 const {generateLogContent} = require("../middlewares/loggerMiddleware");
 module.exports = function (app, usersRepository) {
-    app.get('/users', function (req, res) {
-        generateLogContent(req, res);
-        res.send('lista de usuarios');
-    })
+    app.get('/users/list', function (req, res) {
+            generateLogContent(req, res);
+
+            try {
+                let page = parseInt(req.query.page);
+                if (typeof req.query.page === "undefined" || req.query.page === null || req.query.page === "0") {
+                    // Puede no venir el param
+                    page = 1;
+                }
+
+                usersRepository.findAllPg(page).then(usersIds => {
+                    let lastPage = usersIds.total / 5;
+                    if (usersIds.total % 5 > 0) {
+                        lastPage = lastPage + 1;
+                    }
+                    let pages = []; // Páginas a mostrar
+                    for (let i = page - 2; i <= page + 2; i++) {
+                        if (i > 0 && i <= lastPage) {
+                            pages.push(i);
+                        }
+                    }
+
+                    res.render("users/list.twig", {
+                        users: usersIds.users,
+                        pages: pages,
+                        currentPage: page
+                    });
+                });
+            } catch
+                (error) {
+                console.log(error);
+            }
+        }
+    )
 
     app.get('/users/logout', function (req, res) {
         generateLogContent(req, res);
         req.session.user = null;
+        req.session.destroy();
+
         res.redirect("/users/login" +
-            "?message=El usuario se ha desconectado correctamente"+
+            "?message=El usuario se ha desconectado correctamente" +
             "&messageType=alert-success ");
     })
 
@@ -19,17 +51,25 @@ module.exports = function (app, usersRepository) {
     })
 
     app.post('/users/signup', function (req, res) {
-        if(req.body.password !== req.body.passwordConfirm)
+        if (req.body.password !== req.body.passwordConfirm)
             res.redirect("/users/signup" +
-                "?message=Se ha producido un error al registrar el usuario"+
+                "?message=Se ha producido un error al registrar el usuario" +
                 "&messageType=alert-danger ");
         else {
             let securePassword = app.get("crypto").createHmac('sha256', app.get('clave'))
                 .update(req.body.password).digest('hex');
+
+            const {email, name, surname, date} = req.body;
+
             let user = {
-                email: req.body.email,
+                email,
+                name,
+                surname,
+                date,
+                kind: "Usuario Estándar",
                 password: securePassword
             }
+
             usersRepository.findUser({email: user.email}, {}).then(us => {
                 if (us === null)
                     usersRepository.insertUser(user).then(userId => {
@@ -76,23 +116,23 @@ module.exports = function (app, usersRepository) {
                 generateLogContent(req, res);
 
                 res.redirect("/users/login" +
-                    "?message=Email o password incorrecto"+
+                    "?message=Email o password incorrecto" +
                     "&messageType=alert-danger ");
             } else {
                 req.session.user = user.email;
+                req.session.kind = user.kind;
 
                 generateLogContent(req, res);
-                if(user.kind === "Usuario Administrador"){
-                    res.redirect("/user/offers"); //TODO “listado de todos los usuarios de la aplicación”
-                }
-                else{
-                    res.redirect("/user/offers"); //listado de ofertas propias
+                if (user.kind === "Usuario Administrador") {
+                    res.redirect("/users/list"); //listado de todos los usuarios de la aplicación
+                } else {
+                    res.redirect("/user/offers"); // listado de ofertas propias
                 }
             }
         }).catch(error => {
             req.session.user = null;
             res.redirect("/users/login" +
-                "?message=Se ha producido un error al buscar el usuario"+
+                "?message=Se ha producido un error al buscar el usuario" +
                 "&messageType=alert-danger ");
         })
     })

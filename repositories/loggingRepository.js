@@ -28,13 +28,11 @@ module.exports = {
      * @param callback
      * @returns {Promise<void>}
      */
-    addNewLog: async function (log, callback) {
+    addNewLog: async function (log) {
         const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
         const database = client.db("sdi-2223-entrega2-51");
         const loggingCollection = database.collection(loggingCollectionName);
-        await loggingCollection.insertOne(log).then((result) => {
-            callback(result.insertedId);
-        }).then(() => {
+        await loggingCollection.insertOne(log).then(() => {
             client.close();
         });
     },
@@ -89,5 +87,7 @@ module.exports = {
         await loggingCollection.deleteMany({}).then((result) => {
             callback(result.deletedCount === 1);
         });
+
+        client.close();
     }
 }

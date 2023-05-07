@@ -1,5 +1,7 @@
 const offersCollectionName = 'offers';
 
+const OFFERS_PER_PAGE = 5; // Número de ofertas por página a mostrar
+
 module.exports = {
     mongoClient: null,
     app: null,
@@ -53,6 +55,27 @@ module.exports = {
         return offers;
     },
 
+    /**
+     * Devuelve todas las ofertas publicadas por el usuario en sesion.
+     * Devuelve las ofertas correspondientes a una página concreta (paginación).
+     * @param filter
+     * @param options
+     * @param page
+     * @returns {Promise<{offers: *, total: *}>}
+     */
+    getAllUserInSessionOffersPg: async function (userInSession, page) {
+        const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
+        const database = client.db("sdi-2223-entrega2-51");
+        const offerCollection = database.collection(offersCollectionName);
+        const offersCollectionCount = await offerCollection.count();
+        const cursor = offerCollection.find({
+            seller: userInSession
+        }).skip((page - 1) * OFFERS_PER_PAGE).limit(OFFERS_PER_PAGE);
+        const offers = await cursor.toArray();
+        const result = {offers: offers, total: offersCollectionCount};
+        return result;
+    },
+
     deleteOffer: async function (offerId, callback) {
         const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
         const database = client.db("sdi-2223-entrega2-51");
@@ -61,6 +84,24 @@ module.exports = {
         await offerCollection.deleteOne({_id: offerId}).then((result) => {
             callback(result.deletedCount === 1);
         });
+    },
+
+    /**
+     * Listado de todas las ofertas disponibles. Sin paginación.
+     * <p>
+     * @returns {Promise<*>}
+     */
+    getOffers: async function () {
+        try {
+            const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
+            const database = client.db("sdi-2223-entrega2-51");
+            const offerCollection = database.collection(offersCollectionName);
+            const offers = await offerCollection.find().toArray();
+
+            return offers;
+        } catch (error) {
+            throw (error);
+        }
     },
 
     /**
@@ -148,7 +189,10 @@ module.exports = {
             const purchasesCollectionCount = await purchasesCollection.count();
             const cursor = purchasesCollection.find(filter, options).skip((page - 1) * limit).limit(limit);
             const purchases = await cursor.toArray();
-            const result = {purchases: purchases, total: purchasesCollectionCount};
+            const result = {
+                purchases: purchases,
+                total: purchasesCollectionCount
+            };
             return result;
         } catch (error) {
             throw (error);

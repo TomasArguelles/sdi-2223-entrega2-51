@@ -1,4 +1,4 @@
-package com.uniovi.sdi2223entrega2test.n.util;
+package com.uniovi.sdi2223entrega2n.util;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;

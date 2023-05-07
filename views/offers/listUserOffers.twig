@@ -2,49 +2,65 @@
 {% block title %}Listado de ofertas | My Wallapop {% endblock %}
 {% block main_container %}
     <h2>Listado de las ofertas propias</h2>
-    <br />
+    <br/>
     <div class="container">
         <a href="/offer/add" class="btn btn-primary">Nueva oferta</a>
     </div>
-    <br />
-    {% if offers.length > 0 %}
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Título</th>
-                <th>Detalle de la oferta</th>
-                <th>Fecha de publicación</th>
-                <th>Precio</th>
-                <th></th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for offer in offers %}
+    <br/>
+    <div class="row">
+        {% if offers.length > 0 %}
+            <table class="table table-striped">
+                <thead>
                 <tr>
-                    <td>{{ offer.title }}</td>
-                    <td>{{ offer.description }}</td>
-                    <td>{{ offer.date }}</td>
-                    <td>{{ offer.price }}</td>
-                    <td>
-{#                        <a href="/offer/{{ offer._id }}/edit"#}
-{#                           class="btn btn-primary">Editar</a>#}
-                        <a href="/offer/{{ offer._id }}/delete"
-                           class="btn btn-danger">Eliminar</a>
-                    </td>
-                    <td>
-                        {% if offer.featured %}
-                            <p>Destacada</p>
-                        {% else %}
-                            <a href="/offer/featured/{{ offer._id }}"
-                               class="btn btn-danger">Destacar</a>
-                        {% endif %}
-                    </td>
+                    <th>Título</th>
+                    <th>Detalle de la oferta</th>
+                    <th>Fecha de publicación</th>
+                    <th>Precio</th>
+                    <th></th>
+                    <th></th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No hay ofertas</p>
+                </thead>
+                <tbody>
+                {% for offer in offers %}
+                    <tr>
+                        <td>{{ offer.title }}</td>
+                        <td>{{ offer.description }}</td>
+                        <td>{{ offer.date }}</td>
+                        <td>{{ offer.price }}</td>
+                        <td>
+                            <a href="/offer/{{ offer._id }}/delete"
+                               class="btn btn-danger">Eliminar</a>
+                        </td>
+                        <td>
+                            {% if offer.featured %}
+                                <p>Destacada</p>
+                            {% else %}
+                                <a href="/offer/featured/{{ offer._id }}"
+                                   class="btn btn-primary">Destacar</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No hay ofertas</p>
+        {% endif %}
+    </div>
+    <br/>
+    {% if pages.length > 4 %}
+        <div class="row text-center">
+            <ul class="pagination">
+                {% for page in pages %}
+                    <li class="page-item" id="pi-{{ page }}">
+                        <a class="page-link"
+                           href="/offers/all/?page={{ page }}">{{ page }}</a>
+                    </li>
+                {% endfor %}
+                <script>
+                    $("#pi-" + "{{ currentPage }}").addClass("active");
+                </script>
+            </ul>
+        </div>
     {% endif %}
 {% endblock %}

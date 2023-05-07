@@ -17,12 +17,8 @@ R
 "repositories/commentsRepository.js,1\e\1eecc304dbbf62fd57a5f7145bd040c43ebdb1d3
 B
 routes/comments.js,5\1\512570a6b6daee99894999ff507708b95711e310
-K
-routes/userSessionRouter.js,8\8\8839c934e499e0f03bebcc14b8f32aa68b7240cf
 A
 logs/requests.log,8\7\87ee7563e36cc163346683a965fb0cd4353e5395
-J
-routes/userAuthorRouter.js,8\4\8458b34ee725e2c636fa44c9e6f052c15001cc0b
 <
 package.json,7\0\7030d0b2f71b999ff89a343de08c414af32fc93a
 A
@@ -106,22 +102,8 @@ Q.idea/sonarlint/securityhotspotstore/c/3/c396b453f41a428900735f87c7a99f938b97c4
 views/shop.twig,2\a\2aed5816665d8d91095554449ca1a439541bca6b
 L
 public/stylesheets/style.css,3\7\373d337c32dec564fe0da458c6478733eec21e5a
-Q
-!repositories/loggingRepository.js,9\d\9d5b7cd73f8e883d8353abbe88023be7c217a880
-O
-middlewares/loggerMiddleware.js,f\c\fc0421e38c4be67fcee1f45259de3bcb9ad22a88
 A
 util/dateUtils.js,a\f\afd7ebe6edbe0a05f633ba42f9b00f10c527f5a0
-O
-repositories/usersRepository.js,5\9\59eec077761f04a33a5f4c3ab7e5c70852ca968e
-S
-#public/apiclient/widget-offers.html,7\a\7a829514f4c592523a5d8c90745198b928ee8831
-D
-routes/logsRouter.js,f\6\f61a43185e3aad8487e43e15e0abc5f30291142c
-J
-routes/api/songsAPIv1.0.js,5\9\593edca837d34bb0fb1cf6bf1ded6a537a9ff6e5
-I
-routes/api/wallapopAPI.js,7\9\79f44395764f2ed6a98b25498274c92e86630d63
 p
 @.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_5_8_1.xml,8\5\8577ebd8c1e13812fdcb9f5cc1da21c752a604fd
 w
@@ -336,8 +318,6 @@ Q.idea/sonarlint/securityhotspotstore/3/d/3db4480f070dd4099874182cc3e73d77b3d164
 Q.idea/sonarlint/securityhotspotstore/f/6/f61a43185e3aad8487e43e15e0abc5f30291142c,8\9\890627151c441116f932fef8d880492e63e5b623
 w
 G.idea/sonarlint/issuestore/1/2/125781c9382714854ea30c156eac69e4646a70f4,5\5\553f320b256e19b66cde3cd07e433fbcf2a2da3c
-è
-_sdi2223-entrega2-test-51/src/test/java/com/uniovi/sdi2223entrega2test/n/util/DatabaseUtils.java,e\a\ea366d75321ba47baca7aa4b7b96c5b18bc4e059
 w
 G.idea/sonarlint/issuestore/1/6/16d5f034bf1cc62b42b6365d145f71c035a360ff,1\6\16b48dcb68f41a1a8b308fe329e95c718320a090
 o
@@ -378,8 +358,6 @@ s
 C.idea/libraries/Maven__com_google_j2objc_j2objc_annotations_1_1.xml,e\7\e7b149fc9564e07727c38e4d4725bbe66d0fe194
 j
 :.idea/libraries/Maven__com_google_guava_guava_25_0_jre.xml,e\3\e3d05d1b41b176242a73f6bd4bb8fb72612f71c0
-P
- repositories/offersRepository.js,1\9\19d9e7e5a4f35488889b872d147538948bcf6145
 m
 =.idea/libraries/Maven__com_squareup_okhttp3_okhttp_3_11_0.xml,f\6\f6601e77e3d5b0d42788748d3cdcedd3a2472341
 w
@@ -436,8 +414,6 @@ d
 4.idea/libraries/Maven__org_hamcrest_hamcrest_2_1.xml,9\4\9441e6b1356fbd398758253cd275774b28325a15
 |
 L.idea/libraries/Maven__org_codehaus_mojo_animal_sniffer_annotations_1_14.xml,1\5\1523e26b366c694a68d6d2a539aabe61cdac77eb
-@
-views/login.twig,8\5\858c14f39b540b2c71113cc8d7641ef3eb0900cb
 Å
 Q.idea/sonarlint/securityhotspotstore/1/9/19c636df3e705c261e52473acf3670d011414338,c\9\c95e370449a84776b2da0658db43b1e26371781f
 w
@@ -618,12 +594,8 @@ G.idea/sonarlint/issuestore/b/d/bde0cd9d55cbf183585f9d865491337de4ee6f4e,5\5\55
 Q.idea/sonarlint/securityhotspotstore/4/f/4f8704a032982c437db8232edbbbed1086e0930c,0\8\088574413a432b6d447d8901f0a26f1a7324a7e0
 w
 G.idea/sonarlint/issuestore/5/5/553f320b256e19b66cde3cd07e433fbcf2a2da3c,b\b\bbae570cf43a24497733130b0640c3fdbc1f2eeb
-6
-app.js,4\a\4a68969ef8e858229267b842dedf42ab5dde4d50
 Å
 Q.idea/sonarlint/securityhotspotstore/8/8/88754b16d1036c45efce759279be1a1a871e969c,0\3\03dac202de20f9e5320ea794763cc5f9823c8bb7
-H
-sdi-2223-entrega2-51.iml,1\2\125781c9382714854ea30c156eac69e4646a70f4
 Å
 Q.idea/sonarlint/securityhotspotstore/9/e/9e7b462c67d4b29c860812a96ce0a77e87132a23,5\6\569b6d3127dc9458d2caf238d2073f80712201f5
 Å
@@ -640,8 +612,6 @@ w
 G.idea/sonarlint/issuestore/6/6/66b23f6cac226d3234d1bfc06d8d862971043d52,3\0\30c20ad202fbe6f5673a99a5644079bcecd8749e
 w
 G.idea/sonarlint/issuestore/f/a/faa2c4c1d8e8af29bbacaf5dd4a09a1c9fe8c947,1\8\18a2f51929b61d2767a5f0dfd569abd301d89c52
-{
-Ktest/java/com/uniovi/sdi2223entrega2n/Sdi2223Entrega1NApplicationTests.java,b\a\bac9f4e16ec38fd365b4ce1c1be9e8499a539c30
 w
 G.idea/sonarlint/issuestore/6/6/66f614eff071e14a5a476bf07f1bb67abb84197e,a\e\ae43de63771e835a9100cc871677731234c49d57
 w
@@ -668,12 +638,8 @@ q
 Atest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_NavView.java,b\c\bc38d76e6681b1c08f415610604a4bf0ddcf6e57
 w
 G.idea/sonarlint/issuestore/0/3/03e1a649a42d7696c74bafede170c6248d7f8776,0\a\0a5bdfe7bdc0bead5db1ec6064595517ade03911
-s
-Ctest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_LoginView.java,b\3\b3bd041c16bce0acdafe5e626d24d878df6b51c1
 t
 Dtest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_Properties.java,3\6\366f1fca895782606cabef8bc057beb881f8f3f6
-s
-Ctest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_OfferView.java,9\c\9cb747d1fd9575c172ad37b0a6248ae6a4d2d281
 v
 Ftest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_UserListView.java,d\f\df8116d5bf0784c5a5a0fa54e5c353810e4f807b
 Å
@@ -682,8 +648,6 @@ t
 Dtest/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_SignUpView.java,2\1\21b0af88220478f4f75b72e67a0df7e22cfe5cd4
 w
 G.idea/sonarlint/issuestore/e/b/eb71e9b3255ef3a91ab7ae932e1cd3e9fdfd1000,b\8\b8b809e5954b910ccd3d6372ff6f437cecbd517a
-n
->test/java/com/uniovi/sdi2223entrega2n/pageobjects/PO_View.java,e\6\e6ac52b5b181e7a4c635fc9c681dd6409778ded9
 Å
 Q.idea/sonarlint/securityhotspotstore/d/9/d90d34d0024bc91ceffaaa97126352920328fb5c,c\e\ceefdb403c5e9a4f72f60b5391b3e0d74b8b5529
 w
@@ -754,8 +718,6 @@ Q.idea/sonarlint/securityhotspotstore/8/c/8cf98e1af29dcd1e9cd5197431fb80452ca327
 Q.idea/sonarlint/securityhotspotstore/e/b/eb71e9b3255ef3a91ab7ae932e1cd3e9fdfd1000,7\1\710fb7c1e169bdbd99f3b440883ada869295c36d
 Å
 Q.idea/sonarlint/securityhotspotstore/a/b/abef0abf2ea6015291c28c5f5bb29bd82de3f020,a\9\a944b4dc8e83cbd3dae0b07aa78a7e4af4f93b32
-ê
-`sdi2223-entrega2-test-51/src/test/java/com/uniovi/sdi2223entrega2test/n/pageobjects/PO_View.java,f\b\fbbe01d169e3918141b0e62f75017b95ebf8bb95
 w
 G.idea/sonarlint/issuestore/c/d/cdfde895d9c9a982066a12ce8d0e7cc7e24a3be4,f\e\fe64d88443895216c681e5f89f5ffc0bcccc4259
 w

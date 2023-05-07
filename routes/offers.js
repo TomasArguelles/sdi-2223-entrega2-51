@@ -12,6 +12,8 @@ const LIST_USER_OFFERS_VIEW = "offers/listUserOffers";
 
 const OFFERS_ENPOINT = "/offers";
 
+const USER_OFFERS_ENDPOINT = "/user/offers"; // Pathname de la vista
+
 module.exports = function (app, offersRepository) {
 
     /**
@@ -70,14 +72,34 @@ module.exports = function (app, offersRepository) {
      */
     app.get("/user/offers", async function (req, res) {
         try {
-            const offers = await offersRepository.getAllUserInSessionOffers(req.session.user);
+            let page = parseInt(req.query.page); // Es String!!!
+            if (typeof req.query.page === "undefined" || req.query.page === null || req.query.page === "0")
+                page = 1;
 
-            // Listado con las fechas formateadas
-            const formatedOffers = offers.map(offer => {
-                offer.date = formatDate(offer.date);
-                return offer;
+            await offersRepository.getAllUserInSessionOffersPg(req.session.user, page).then(result => {
+                let lastPage = result.total / 5;
+                if (result.total % 5 > 0)
+                    lastPage = lastPage + 1; // Sobran decimales
+                let pages = []; // Páginas a mostrar
+                for (let i = page - 2; i <= page + 2; i++) {
+                    if (i > 0 && i <= lastPage)
+                        pages.push(i);
+                }
+
+                // Listado con las fechas formateadas
+                const formatedOffers = result.offers.map(offer => {
+                    offer.date = formatDate(offer.date);
+                    return offer;
+                });
+
+                let response = {
+                    offers: formatedOffers,
+                    pages: pages,
+                    currentPage: page
+                };
+                res.render(LIST_OFFERS_VIEW, response);
             });
-            res.render(LIST_USER_OFFERS_VIEW, {offers: formatedOffers});
+
         } catch (err) {
             res.status(500).json({error: "Error al listar las ofertas"});
         }
@@ -93,11 +115,18 @@ module.exports = function (app, offersRepository) {
             } else {
 
                 const {offerId} = req.params;
-                await offersRepository.deleteOffer(ObjectId(offerId), (isDeleted) => {
-                    if(isDeleted){
-                        res.redirect(OFFERS_ENPOINT);
-                    }
-                });
+
+                // Comprobar que la oferta pertenece al usuario en sesión
+                const offer = await offersRepository.findOffer({_id: ObjectId(offerId)}, {});
+                if (offer.seller !== req.session.user) {
+                    res.status(403).json({error: "No tienes permisos para eliminar esta oferta"});
+                } else {
+                    await offersRepository.deleteOffer(ObjectId(offerId), (isDeleted) => {
+                        if (isDeleted) {
+                            req.pathname === USER_OFFERS_ENDPOINT ? res.redirect("/offers/all") : res.redirect("/user/offers");
+                        }
+                    });
+                }
             }
 
         } catch (err) {
@@ -131,7 +160,12 @@ module.exports = function (app, offersRepository) {
                 if (i > 0 && i <= lastPage)
                     pages.push(i);
             }
-            let response = {songs: result.songs, pages: pages, currentPage: page};
+
+            let response = {
+                offers: result.offers,
+                pages: pages,
+                currentPage: page
+            };
             res.render(LIST_OFFERS_VIEW, response);
         }).catch(error => {
             res.send("Se ha producido un error al listar las ofertas " + error)
@@ -150,7 +184,10 @@ module.exports = function (app, offersRepository) {
             let check = await isBought(offer, options);
             if (!check && offer.seller.id !== user.id && offer.price <= user.wallet) {
                 user.wallet -= offer.price;
-                offersRepository.buyOffer({user: user, offerId: offerId}, function (offerId) {
+                offersRepository.buyOffer({
+                    user: user,
+                    offerId: offerId
+                }, function (offerId) {
                     if (offerId == null) {
                         user.wallet += offer.price; // deshacer operación
                         res.render(LIST_OFFERS_VIEW, {buyError: true});
@@ -204,7 +241,11 @@ module.exports = function (app, offersRepository) {
             let filter = {"_id": {$in: purchasedOffers}};
             let options = {sort: {title: 1}};
             offersRepository.getOffers(filter, options).then(offers => {
-                res.render("purchase.twig", {offers: offers, pages: pages, currentPage: page});
+                res.render("purchase.twig", {
+                    offers: offers,
+                    pages: pages,
+                    currentPage: page
+                });
             }).catch(error => {
                 res.send("Se ha producido un error al listar las ofertas compradas por el usuario: " + error);
             });
@@ -225,7 +266,7 @@ module.exports = function (app, offersRepository) {
             if (user.wallet >= 20) { // coste de destacar una oferta
                 user.wallet -= 20;
                 offer.featured = true;
-                offersRepository.featuredOffer(offer,filter, options).then(result => {
+                offersRepository.featuredOffer(offer, filter, options).then(result => {
                     if (result == null)
                         res.send("Error al destacar la oferta");
                     else

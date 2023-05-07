@@ -17,12 +17,10 @@ module.exports = function (app, logsRepository) {
      * GET /logs/delete
      * Elimina todos los logs.
      */
-    app.get("/logs/delete/all", async function (req, res) {
+    app.get("/logs/delete/all", function (req, res) {
         try {
-            await logsRepository.deleteAllLogs(function (isDeleted) {
-                if (isDeleted) {
-                    res.redirect("/logs");
-                }
+            logsRepository.deleteAllLogs(function (isDeleted) {
+                res.redirect("/admin");
             });
 
         } catch (err) {
@@ -40,7 +38,7 @@ module.exports = function (app, logsRepository) {
 
         const {logType} = req.query;
 
-        if(logType === 'TODO'){
+        if (logType === 'TODO') {
             res.redirect("/admin");
             return;
         }
