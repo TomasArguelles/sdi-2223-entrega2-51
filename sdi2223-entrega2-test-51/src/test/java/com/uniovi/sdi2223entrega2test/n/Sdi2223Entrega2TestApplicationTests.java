@@ -73,7 +73,6 @@ class Sdi2223Entrega2TestApplicationTests {
     // Parte 1 - Aplicacion Web
     // -------------------------------------
     //    [Prueba1] Registro de Usuario con datos válidos.
-    //    [Prueba1] Registro de Usuario con datos válidos.
     @Test
     @Order(1)
     void PR01() {

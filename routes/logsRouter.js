@@ -7,7 +7,7 @@ module.exports = function (app, logsRepository) {
     app.get("/admin", async function (req, res) {
         try {
             const logs = await logsRepository.findAllLogs();
-            res.render("admin", {logs});
+            res.render("admin", {logs, sessionUser: req.session.user});
         } catch (err) {
             res.status(500).json({error: "Error al listar los logs. " + err});
         }
@@ -45,7 +45,7 @@ module.exports = function (app, logsRepository) {
 
         try {
             const logs = await logsRepository.filterLogByType(logType);
-            res.render("admin", {logs});
+            res.render("admin", {logs, sessionUser: req.session.user});
 
         } catch (err) {
             res.status(500).json({error: "Error al listar los logs. " + err});

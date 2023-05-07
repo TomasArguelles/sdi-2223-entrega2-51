@@ -39,6 +39,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarApp">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            {% if sessionUser and sessionUser != "admin@email.com" %}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#"
                    id="gestionOfertasMenu" role="button"
@@ -61,6 +62,7 @@
                        id="listBoughtOffers">Ver ofertas compradas</a>
                 </ul>
             </li>
+            {% elseif sessionUser and sessionUser == "admin@email.com" %}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#"
                    id="gestionUsuariosMenu" role="button"
@@ -94,18 +96,22 @@
                     </li>
                 </ul>
             </li>
+            {% endif %}
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
+            {% if not sessionUser %}
             <li><a href="/users/signup" class="nav-link"><span
                             class="glyphicon glyphicon-user"></span>
                     Registrate</a></li>
             <li><a href="/users/login" class="nav-link"><span
                             class="glyphicon glyphicon-log-in"></span>
                     Identifícate</a></li>
+            {% else %}
             <li><a href="/users/logout" class="nav-link"><span
                             class="glyphicon glyphicon-log-out"></span>
                     Desconectate</a></li>
+            {% endif %}
         </ul>
     </div>
 </nav>

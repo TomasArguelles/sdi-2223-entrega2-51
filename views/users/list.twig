@@ -10,24 +10,30 @@
                title="Actualizar datos de la tabla">Recargar</a>
         </div>
         {% if users.length > 0 %}
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Email</th>
-                    <th>Nombre</th>
-                    <th>Apellidos</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for user in users %}
+            <form method="post" action="/users/remove">
+                <table class="table table-striped">
+                    <thead>
                     <tr>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.name }}</td>
-                        <td>{{ user.surname }}</td>
+                        <th>Email</th>
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                        <th><input id="btnBorrar" type="submit" name="btnBorrar" value="Eliminar"></th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.surname }}</td>
+                            <td><label>
+                                    <input type="checkbox" name="userEmails" value={{user.email}} />
+                                </label></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </form>
         {% else %}
             <br/>
             <p>No hay usuarios en el sistema</p>

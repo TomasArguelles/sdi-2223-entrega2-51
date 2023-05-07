@@ -167,4 +167,52 @@ public class DatabaseUtils {
 
         dbUtils.mongoClient.close();
     }
+
+    public static void seedUsersAlt() {
+        DatabaseUtils dbUtils = new DatabaseUtils();
+        MongoCollection<Document> collection = dbUtils.mongoClient.getDatabase(DATABASE_NAME).getCollection(USERS_COLLECTION_NAME);
+        collection.drop();
+
+        // Usuario administrador
+        collection.insertOne(new Document()
+                .append("email", "admin@email.com")
+                .append("name", "admin")
+                .append("surname", "admin")
+                .append("kind", "Usuario Administrador")
+                .append("password", "ebd5359e500475700c6cc3dd4af89cfd0569aa31724a1bf10ed1e3019dcfdb11"));
+
+        // user01
+        collection.insertOne(new Document()
+                .append("email", "user01@email.com")
+                .append("name", "User01")
+                .append("surname", "User01")
+                .append("kind", "Usuario Estándar")
+                .append("password", "783a825ecf667676312bdd5e76a138e61e55d5061ef541f445e0c22e671eba9f"));
+
+        // user02
+        collection.insertOne(new Document()
+                .append("email", "user02@email.com")
+                .append("name", "User02")
+                .append("surname", "User02")
+                .append("kind", "Usuario Estándar")
+                .append("password", "9812db3294b48b41aa0ea4cbe44453280286c0a089a07f3f6f4a313759012ab9"));
+
+        // user03
+        collection.insertOne(new Document()
+                .append("email", "user03@email.com")
+                .append("name", "User03")
+                .append("surname", "User03")
+                .append("kind", "Usuario Estándar")
+                .append("password", "66e93521a9447f5082b957a3bc07dcd5841608a0a2a951cbb30a21d83f13d83a"));
+
+        // user04
+        collection.insertOne(new Document()
+                .append("email", "user04@email.com")
+                .append("name", "User04")
+                .append("surname", "User04")
+                .append("kind", "Usuario Estándar")
+                .append("password", "049141fc2f265c205539050c6ebc6a9a3d81c87fbf8f936030bc108330280fef"));
+
+        dbUtils.mongoClient.close();
+    }
 }

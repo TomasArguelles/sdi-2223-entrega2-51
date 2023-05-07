@@ -58,6 +58,7 @@ app.use("/purchases",userSessionRouter);
 app.use("/admin", adminSessionRouter);
 app.use("/logs/delete/all", adminSessionRouter);
 app.use("/users/list", adminSessionRouter);
+app.use("/users/remove", adminSessionRouter);
 
 // -- Protección rutas API
 const userTokenRouter = require('./routes/api/userTokenRouter');
