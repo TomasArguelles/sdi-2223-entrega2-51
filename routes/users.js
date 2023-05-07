@@ -38,6 +38,8 @@ module.exports = function (app, usersRepository) {
     app.get('/users/logout', function (req, res) {
         generateLogContent(req, res);
         req.session.user = null;
+        req.session.destroy();
+
         res.redirect("/users/login" +
             "?message=El usuario se ha desconectado correctamente" +
             "&messageType=alert-success ");

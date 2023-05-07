@@ -7,11 +7,11 @@ import org.openqa.selenium.WebElement;
 
 public class PO_LoginView extends PO_NavView {
 
-    static public void fillLoginForm(WebDriver driver, String dnip, String passwordp) {
-        WebElement dni = driver.findElement(By.name("email"));
-        dni.click();
-        dni.clear();
-        dni.sendKeys(dnip);
+    static public void fillLoginForm(WebDriver driver, String emailp, String passwordp) {
+        WebElement email = driver.findElement(By.name("email"));
+        email.click();
+        email.clear();
+        email.sendKeys(emailp);
         WebElement password = driver.findElement(By.name("password"));
         password.click();
         password.clear();
@@ -21,7 +21,29 @@ public class PO_LoginView extends PO_NavView {
         driver.findElement(boton).click();
     }
 
-    static public void login(WebDriver driver, String user, String password, String checkText) {
+    public static void fillLoginFormApi(WebDriver driver, String emailp, String passwordp) {
+        WebElement email = driver.findElement(By.name("email"));
+        email.click();
+        email.clear();
+        email.sendKeys(emailp);
+        WebElement password = driver.findElement(By.name("password"));
+        password.click();
+        password.clear();
+        password.sendKeys(passwordp);
+        //Pulsar el boton de Alta.
+        By boton = By.xpath("//*[@id=\"boton-login\"]");
+        driver.findElement(boton).click();
+    }
+
+    /**
+     * Simulación de login de usuario con datos válidos.
+     * <p>
+     *
+     * @param driver
+     * @param user
+     * @param password
+     */
+    static public void simulateLogin(WebDriver driver, String user, String password) {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         fillLoginForm(driver, user, password);
     }

@@ -4,8 +4,12 @@ import com.uniovi.sdi2223entrega2test.n.pageobjects.*;
 import com.uniovi.sdi2223entrega2test.n.util.DatabaseUtils;
 import com.uniovi.sdi2223entrega2test.n.util.SeleniumUtils;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+
+import java.util.List;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class Sdi2223Entrega2TestApplicationTests {
@@ -362,7 +366,7 @@ class Sdi2223Entrega2TestApplicationTests {
      */
     @Test
     @Order(23)
-    public void PR023() {
+    public void PR23() {
         // Iniciar sesión
         /*
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -390,7 +394,7 @@ class Sdi2223Entrega2TestApplicationTests {
      */
     @Test
     @Order(24)
-    public void PR024() {
+    public void PR24() {
         // Iniciar sesión
         /*
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -417,7 +421,7 @@ class Sdi2223Entrega2TestApplicationTests {
      */
     @Test
     @Order(25)
-    public void PR025() {
+    public void PR25() {
         // Iniciar sesión
         /*
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -446,7 +450,7 @@ class Sdi2223Entrega2TestApplicationTests {
      */
     @Test
     @Order(26)
-    public void PR026() {
+    public void PR26() {
         // Iniciar sesión
         /*
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -475,7 +479,7 @@ class Sdi2223Entrega2TestApplicationTests {
      */
     @Test
     @Order(27)
-    public void PR027() {
+    public void PR27() {
         // Iniciar sesión
         /*
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -504,7 +508,7 @@ class Sdi2223Entrega2TestApplicationTests {
      */
     @Test
     @Order(28)
-    public void PR028() {
+    public void PR28() {
         // Iniciar sesión
         /*
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -532,7 +536,7 @@ class Sdi2223Entrega2TestApplicationTests {
      */
     @Test
     @Order(29)
-    public void PR029() {
+    public void PR29() {
         // Iniciar sesión
         /*
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -568,7 +572,7 @@ class Sdi2223Entrega2TestApplicationTests {
      */
     @Test
     @Order(30)
-    public void PR030() {
+    public void PR30() {
 
     }
 
@@ -581,7 +585,7 @@ class Sdi2223Entrega2TestApplicationTests {
      */
     @Test
     @Order(31)
-    public void PR031() {
+    public void PR31() {
 
     }
 
@@ -592,7 +596,7 @@ class Sdi2223Entrega2TestApplicationTests {
      */
     @Test
     @Order(32)
-    public void PR032() {
+    public void PR32() {
 
     }
 
@@ -604,8 +608,15 @@ class Sdi2223Entrega2TestApplicationTests {
      */
     @Test
     @Order(33)
-    public void PR033() {
+    public void PR33() {
+        PO_LoginView.logout(driver);
 
+        // Acceso a la vista de listado de usuarios sin estar autenticado
+        driver.navigate().to("http://localhost:8081/users/list");
+
+        // Comprobamos que se muestra el formulario de login
+        WebElement loginHeading = driver.findElement(By.xpath("/html/body/div/h2"));
+        Assertions.assertEquals("Identificación de usuario", loginHeading.getText());
     }
 
     /**
@@ -616,8 +627,8 @@ class Sdi2223Entrega2TestApplicationTests {
      */
     @Test
     @Order(34)
-    public void PR034() {
-
+    public void PR34() {
+        // TODO: Implementar
     }
 
     /**
@@ -629,8 +640,16 @@ class Sdi2223Entrega2TestApplicationTests {
      */
     @Test
     @Order(35)
-    public void PR035() {
+    public void PR35() {
+        // Iniciar sesión como usuario estándar
+        PO_LoginView.simulateLogin(driver, "user01@email.com", "user01");
 
+        // Acceder a la vista de listado de logs
+        driver.navigate().to("http://localhost:8081/admin");
+
+        // Comprobar que se muestra el mensaje de accion prohibida
+        WebElement loginHeading = driver.findElement(By.xpath("/html/body/div/div"));
+        Assertions.assertEquals("Acción prohibida", loginHeading.getText());
     }
 
     /**
@@ -642,8 +661,54 @@ class Sdi2223Entrega2TestApplicationTests {
      */
     @Test
     @Order(36)
-    public void PR036() {
+    public void PR36() {
+        // Iniciar sesión como usuario administrador
+        PO_LoginView.simulateLogin(driver, "admin@email.com", "admin");
 
+        // Borrar los logs existentes
+        driver.navigate().to("http://localhost:8081/logs/delete/all");
+
+        PO_LoginView.logout(driver);
+
+        // Interaccion 1
+
+        // LOG-ERR
+        PO_LoginView.simulateLogin(driver, "user01@email.com", "USER0001");
+
+        // LOG-EX
+        PO_LoginView.simulateLogin(driver, "user01@email.com", "user01");
+
+        // PET
+        driver.navigate().to("http://localhost:8081/offers/all");
+
+        // LOGOUT
+        PO_LoginView.logout(driver);
+
+        // Interaccion 2
+
+        // LOG-ERR
+        PO_LoginView.simulateLogin(driver, "user02@email.com", "USER0002");
+
+        // LOG-EX
+        PO_LoginView.simulateLogin(driver, "user02@email.com", "user02");
+
+        // PET
+        driver.navigate().to("http://localhost:8081/offers/all");
+
+        // LOGOUT
+        PO_LoginView.logout(driver);
+
+        // Iniciar sesión como usuario administrador
+        PO_LoginView.simulateLogin(driver, "admin@email.com", "admin");
+
+        // Acceder a la vista de listado de logs
+        driver.navigate().to("http://localhost:8081/admin");
+
+        // Comprobar que se muestran los logs
+        List<WebElement> logRegisters = driver.findElements(By.xpath("/html/body/div/div/div/div/table/tbody/tr"));
+
+        // Se tienen que mostrar 21 logs
+        Assertions.assertTrue(logRegisters.size() == 21);
     }
 
     /**
@@ -654,71 +719,90 @@ class Sdi2223Entrega2TestApplicationTests {
      */
     @Test
     @Order(37)
-    public void PR037() {
+    public void PR37() {
+        // Iniciar sesión como usuario administrador
+        PO_LoginView.simulateLogin(driver, "admin@email.com", "admin");
 
+        // Pulsar el boton de borrar logs
+        PO_NavView.selectDropdownById(driver, "gestionLogsMenu", "gestionLogsDropdown", "removeAllLogs");
+
+        // Acceder a la vista de listado de logs
+        driver.navigate().to("http://localhost:8081/admin");
+
+        // Comprobar que no se muestran logs
+        WebElement noLogsMessage = driver.findElement(By.xpath("/html/body/div/div/div/div/p[2]"));
+        Assertions.assertEquals("No hay logs registrados", noLogsMessage.getText());
     }
 
 
-//    // -------------------------------------
-//    // Parte 2B - Cliente ligero JQuery/AJAX
-//    // -------------------------------------
-//
-//    /**
-//     * Cliente ligero JQuery/AJAX
-//     * <p>
-//     * [Prueba 48] Inicio de sesion con datos válidos.
-//     */
-//    @Test
-//    @Order(48)
-//    public void PR48() {
-//        // Acceder a la página de login
-//        driver.get(BASE_API_CLIENT_URL + "/client.html?w=login");
-//
-//        PO_LoginView.fillLoginForm(driver, "prueba2@prueba2.com", "prueba2");
-//
-//        // Comprobar que se ha iniciado sesión y se redirecciona a la página
-//        // que contiene el listado de ofertas disponibles.
-//        Assertions.assertEquals(BASE_API_CLIENT_URL + "/client.html?w=offers", driver.getCurrentUrl());
-//    }
-//
-//    /**
-//     * Cliente ligero JQuery/AJAX
-//     * <p>
-//     * [Prueba 49] Inicio de sesión con datos inválidos (email existente, pero contraseña incorrecta)
-//     */
-//    @Test
-//    @Order(49)
-//    public void PR49() {
-//        // Acceder a la página de login
-//        driver.get(BASE_API_CLIENT_URL + "/client.html?w=login");
-//
-//        // Rellenar el formulario, introduciendo una contraseña incorrecta
-//        PO_LoginView.fillLoginForm(driver, "prueba2@prueba2.com", "1234");
-//
-//        // Comprobar que se muestra un mensaje de error en la vista
-//        List<WebElement> errors = PO_View.checkElementBy(driver, "text", "");
-//        Assertions.assertEquals(1, errors.size());
-//    }
-//
-//    /**
-//     * Cliente ligero JQuery/AJAX
-//     * <p>
-//     * [Prueba 50] Inicio de sesión con datos inválidos (campo email o contraseña vacíos).
-//     */
-//    @Test
-//    @Order(50)
-//    public void PR50() {
-//        // Acceder a la página de login
-//        driver.get(BASE_API_CLIENT_URL + "/client.html?w=login");
-//
-//        // Rellenar el formulario, introduciendo solo la contraseña, sin email
-//        PO_LoginView.fillLoginForm(driver, "", "prueba2");
-//
-//        // Comprobar que se muestra un mensaje de error en la vista
-//        // indicando que faltan campos por completar
-//        List<WebElement> errors = PO_View.checkElementBy(driver, "text", "");
-//        Assertions.assertEquals(1, errors.size());
-//    }
+    // -------------------------------------
+    // Parte 2B - Cliente ligero JQuery/AJAX
+    // -------------------------------------
+
+    /**
+     * Cliente ligero JQuery/AJAX
+     * <p>
+     * [Prueba 48] Inicio de sesion con datos válidos.
+     */
+    @Test
+    @Order(48)
+    public void PR48() {
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        PO_LoginView.fillLoginFormApi(driver, "user01@email.com", "user01");
+
+        // Comprobar que se ha iniciado sesión y se redirecciona a la página
+        // que contiene el listado de ofertas disponibles.
+        Assertions.assertEquals("http://localhost:8081/apiclient//client.html?w=offers", driver.getCurrentUrl());
+    }
+
+    /**
+     * Cliente ligero JQuery/AJAX
+     * <p>
+     * [Prueba 49] Inicio de sesión con datos inválidos (email existente, pero contraseña incorrecta)
+     */
+    @Test
+    @Order(49)
+    public void PR49() {
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        PO_LoginView.fillLoginFormApi(driver, "user01@email.com", "user0001");
+
+        // Comprobar que se muestra un mensaje de error en la vista
+        // indicando que las credenciales son incorrectas
+        PO_View.checkErrorMessageIsShown(driver, "Credenciales incorrectas. Inténtenlo de nuevo");
+    }
+
+    /**
+     * Cliente ligero JQuery/AJAX
+     * <p>
+     * [Prueba 50] Inicio de sesión con datos inválidos (campo email o contraseña vacíos).
+     */
+    @Test
+    @Order(50)
+    public void PR50() {
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        // Rellenar formulario de login con contraseña vacía
+        PO_LoginView.fillLoginFormApi(driver, "user01@email.com", "");
+
+        // Comprobar que se muestra un mensaje de error en la vista
+        // indicando que faltan campos por completar
+        PO_View.checkErrorMessageIsShown(driver, "Credenciales incorrectas. Inténtenlo de nuevo");
+    }
+
 //    @Test
 //    @Order(7)
 //    public void PR07() {

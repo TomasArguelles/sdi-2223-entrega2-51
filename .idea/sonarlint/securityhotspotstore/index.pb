@@ -726,8 +726,6 @@ Q.idea/sonarlint/securityhotspotstore/8/c/8cf98e1af29dcd1e9cd5197431fb80452ca327
 Q.idea/sonarlint/securityhotspotstore/e/b/eb71e9b3255ef3a91ab7ae932e1cd3e9fdfd1000,7\1\710fb7c1e169bdbd99f3b440883ada869295c36d
 Å
 Q.idea/sonarlint/securityhotspotstore/a/b/abef0abf2ea6015291c28c5f5bb29bd82de3f020,a\9\a944b4dc8e83cbd3dae0b07aa78a7e4af4f93b32
-ê
-`sdi2223-entrega2-test-51/src/test/java/com/uniovi/sdi2223entrega2test/n/pageobjects/PO_View.java,f\b\fbbe01d169e3918141b0e62f75017b95ebf8bb95
 w
 G.idea/sonarlint/issuestore/c/d/cdfde895d9c9a982066a12ce8d0e7cc7e24a3be4,f\e\fe64d88443895216c681e5f89f5ffc0bcccc4259
 w

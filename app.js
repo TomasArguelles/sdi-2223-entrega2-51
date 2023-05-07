@@ -56,7 +56,7 @@ app.use("/purchases",userSessionRouter);
 // Protección de rutas del usuario administrador
 app.use("/admin", adminSessionRouter);
 app.use("/logs/delete/all", adminSessionRouter);
-app.use("/user/list", adminSessionRouter);
+app.use("/users/list", adminSessionRouter);
 
 // -- Protección rutas API
 const userTokenRouter = require('./routes/api/userTokenRouter');
