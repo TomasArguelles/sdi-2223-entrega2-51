@@ -21,7 +21,7 @@ module.exports = function (app, offersRepository) {
      * Muestra el formulario para añadir una nueva oferta
      */
     app.get("/offer/add", function (req, res) {
-        res.render(ADD_OFFER_VIEW);
+        res.render(ADD_OFFER_VIEW, {sessionUser: req.session.user});
     });
 
     /**
@@ -33,7 +33,7 @@ module.exports = function (app, offersRepository) {
             const errors = validationResult(req);
 
             if (!errors.isEmpty()) {
-                res.render(ADD_OFFER_VIEW, {errors: errors.array()});
+                res.render(ADD_OFFER_VIEW, {errors: errors.array(), sessionUser: req.session.user});
 
             } else {
                 let {title, description, price, featured} = req.body;
@@ -95,7 +95,8 @@ module.exports = function (app, offersRepository) {
                 let response = {
                     offers: formatedOffers,
                     pages: pages,
-                    currentPage: page
+                    currentPage: page,
+                    sessionUser: req.session.user
                 };
                 res.render(LIST_OFFERS_VIEW, response);
             });
@@ -163,7 +164,8 @@ module.exports = function (app, offersRepository) {
             let response = {
                 offers: result.offers,
                 pages: pages,
-                currentPage: page
+                currentPage: page,
+                sessionUser: req.session.user
             };
             res.render(LIST_USER_OFFERS_VIEW, response);
         }).catch(error => {
@@ -189,9 +191,9 @@ module.exports = function (app, offersRepository) {
                 }, function (offerId) {
                     if (offerId == null) {
                         user.wallet += offer.price; // deshacer operación
-                        res.render(LIST_OFFERS_VIEW, {buyError: true});
+                        res.render(LIST_OFFERS_VIEW, {buyError: true, sessionUser: req.session.user});
                     } else
-                        res.render(LIST_OFFERS_VIEW, {buyError: false});
+                        res.render(LIST_OFFERS_VIEW, {buyError: false, sessionUser: req.session.user});
                 });
             } else
                 res.send("Error al realizar la compra");
@@ -243,7 +245,8 @@ module.exports = function (app, offersRepository) {
                 res.render("purchase.twig", {
                     offers: offers,
                     pages: pages,
-                    currentPage: page
+                    currentPage: page,
+                    sessionUser: req.session.user
                 });
             }).catch(error => {
                 res.send("Se ha producido un error al listar las ofertas compradas por el usuario: " + error);

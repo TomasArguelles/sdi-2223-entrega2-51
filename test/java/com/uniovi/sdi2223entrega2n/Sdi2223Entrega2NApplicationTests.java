@@ -1062,7 +1062,7 @@ class Sdi2223Entrega2NApplicationTests {
     @Test
     @Order(33)
     public void PR33() {
-        PO_LoginView.logout(driver);
+//        PO_LoginView.logout(driver);
 
         // Acceso a la vista de listado de usuarios sin estar autenticado
         driver.navigate().to("http://localhost:8081/users/list");
