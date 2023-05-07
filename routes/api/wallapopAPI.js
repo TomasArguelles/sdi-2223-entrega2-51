@@ -73,7 +73,7 @@ module.exports = function (app, usersRepository, offersRepository, conversations
     });
 
     app.post('/api/v1.0/messages/add', function (req, res) {
-
+        console.log(req.body);
         let idConver = ObjectId(req.body.idConver);
 
         let idBuyer = res.user;
@@ -269,10 +269,10 @@ module.exports = function (app, usersRepository, offersRepository, conversations
 
     app.get('/api/v1.0/conversations/', function (req, res) {
         let user = res.user;
-        let filterUsuarioVendedor = {buyer: ObjectId(user)};
-        let filterUsuarioInteresado = {seller: ObjectId(user)};
+        let filterUsuarioVendedor = {buyer: user};
+        let filterUsuarioInteresado = {seller: user};
         let options = {};
-        let todas = []
+        let todas = [];
         try {
             conversationsRepository.getConversations(filterUsuarioVendedor, options).then(convs => {
                 convs.forEach(c => {

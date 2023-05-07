@@ -18,14 +18,10 @@
 </div>
 
 <script>
-    let selectedId;
-    let offers;
-    let idConver;
-    let convers;
-    let messages;
+
 
     loadAllAvailableOffers();
-
+    loadAllConvers();
     /**
      * Actualiza la tabla de ofertas con los datos de la lista de ofertas
      * disponibles. Se excluyen las ofertas publicadas por el usuario en
@@ -44,6 +40,7 @@
             success: function (response) {
                 offers = response.offers;
                 updateOffersTable(offers);
+
             },
             error: function (error) {
                 // TODO: Mostrar mensaje de error
@@ -84,43 +81,34 @@
         }
     }
 
-    /**
-     * Cambia la vista a la conversacion propia de la oferta
-     * @param offerP oferta con la que estamos trabajando
-     */
-    function offerConversation(index){
-        offer = offers[index];
-        selectedId = offer._id;
 
-        //loadAllAvaiableConvers()
-        $("#main-container").load("widget-conversation.html");
-    }
-
-    function loadAllAvaiableConvers(){
+    function loadAllConvers() {
         $.ajax({
-            url: URLbase + "/conversations/",
+            url: URLbase + "/conversations",
             type: "GET",
             data: {},
             dataType: 'json',
-            headers: {"token": token},
+            headers: {
+                "token": token
+            },
             success: function (response) {
 
-                console.log("Listado de conversaciones: " + response.listadoConversaciones);
+                convers= response.listadoConversaciones;
 
-                convers = response.listadoConversaciones;
-
-                for(let i = 0; i< convers.length; i++){
-                    if(selectedId === convers[i].oferta){
-                        idConver = convers[i]._id;
-                    }
-                }
             },
             error: function (error) {
-                //console.error("Error al listar las conversaciones: " + error);
+                // TODO: Mostrar mensaje de error
+                //console.error("Error al cargar las ofertas. ", error);
                 $("#main-container").load("widget-login.html");
             }
         });
     }
 
+     function offerConversation(index) {
+        //Calculo la oferta
+        offer = offers[index];
+
+        $("#main-container").load("widget-conversation.html");
+    }
 
 </script>

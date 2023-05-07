@@ -40,7 +40,11 @@
 <!--Contenido -->
 <div class="container" id="main-container"> <!--id para identificar --></div>
 <script>
+    let offers;
     let offer;
+    let convers;
+    let idConver = '000000000000000000000000';
+    let messages;
     let token;
     let URLbase = "http://localhost:8081/api/v1.0";
     if (Cookies.get('token') != null) {
@@ -59,7 +63,7 @@
         } else if (w == "convers") {
             // Listado conversaciones
             $("#main-container").load("widget-convers.html");
-        } else if (w == "singleConversation") {
+        } else if (w == "conversation") {
             // Listado conversaciones
             $("#main-container").load("widget-conversation.html");
         } else {
@@ -75,7 +79,6 @@
 
     function widgetConvers() {
         window.history.pushState("", "", "/apiclient/client.html?w=convers");
-        loadAllAvaiableConvers();
         $("#main-container").load("widget-convers.html");
     }
 
