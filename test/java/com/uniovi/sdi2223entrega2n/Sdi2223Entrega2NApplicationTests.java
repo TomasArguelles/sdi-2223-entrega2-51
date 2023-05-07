@@ -675,7 +675,7 @@ class Sdi2223Entrega2NApplicationTests {
         DatabaseUtils.resetOffersCollection();
 
         // Iniciar sesión + añadir dos ofertas de prueba
-        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10", false);
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "1000000", false);
         PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3", false);
 
         // Acceder a la vista del listado de todas las ofertas
@@ -747,7 +747,18 @@ class Sdi2223Entrega2NApplicationTests {
     @Test
     @Order(31)
     public void PR031() {
+        DatabaseUtils.resetOffersCollection();
 
+        // Iniciar sesión + añadir dos ofertas de prueba
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10", false);
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3", false);
+
+        // Acceder a la vista y destacar una oferta
+        driver.navigate().to(ALL_AVAILABLE_OFFERS_URL);
+        PO_OfferView.Search(driver, "Oferta de prueba 2");
+        PO_OfferView.checkOfferListingContainsOffers(driver, 1);
+        WebElement element = driver.findElement(By.id("destacar"));
+        element.click();
     }
 
     /**
@@ -758,7 +769,20 @@ class Sdi2223Entrega2NApplicationTests {
     @Test
     @Order(32)
     public void PR032() {
+        DatabaseUtils.resetOffersCollection();
 
+        // Iniciar sesión + añadir dos ofertas de prueba
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "1000000", false);
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3", false);
+
+        // Acceder a la vista y destacar una oferta
+        driver.navigate().to(ALL_AVAILABLE_OFFERS_URL);
+        PO_OfferView.Search(driver, "Oferta de prueba 1");
+        PO_OfferView.checkOfferListingContainsOffers(driver, 1);
+        WebElement element = driver.findElement(By.id("destacar"));
+        element.click();
+        boolean isDisplayed = driver.findElement(By.id("errorFeatured")).isDisplayed();
+        Assertions.assertEquals(true, isDisplayed);
     }
 
 //

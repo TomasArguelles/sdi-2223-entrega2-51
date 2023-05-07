@@ -270,9 +270,9 @@ module.exports = function (app, offersRepository) {
                 offer.featured = true;
                 offersRepository.featuredOffer(offer, filter, options).then(result => {
                     if (result == null)
-                        res.send("Error al destacar la oferta");
+                        res.render(LIST_USER_OFFERS_VIEW, {featuredError: true, sessionUser: req.session.user});
                     else
-                        res.redirect(LIST_USER_OFFERS_VIEW);
+                        res.render(LIST_USER_OFFERS_VIEW, {featuredError: true, sessionUser: req.session.user});
                 });
             } else
                 res.send("Error al destacar la oferta");
