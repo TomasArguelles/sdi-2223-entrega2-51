@@ -63,7 +63,7 @@ module.exports = function (app, usersRepository, offersRepository, conversations
                 let formatedOffers = offers?.map(offer => {
                     offer.date = formatDate(offer.date);
                     return offer;
-                });
+                }).filter(offer => offer.seller !== userA);
                 res.send({offers: formatedOffers});
             }
         }).catch(() => {

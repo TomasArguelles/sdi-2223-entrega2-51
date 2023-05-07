@@ -803,6 +803,50 @@ class Sdi2223Entrega2TestApplicationTests {
         PO_View.checkErrorMessageIsShown(driver, "Credenciales incorrectas. Inténtenlo de nuevo");
     }
 
+    /**
+     * Cliente ligero JQuery/AJAX
+     * <p>
+     * [Prueba 50] Mostrar el listado de ofertas disponibles y comprobar que se muestran todas las que existen,
+     * menos las del usuario identificado.
+     */
+    @Test
+    @Order(51)
+    public void PR51() {
+        DatabaseUtils.resetOffersCollection();
+
+        // Añadir 3 ofertas con user01
+        PO_OfferView.simulateAddNewOffer(driver, "user01@email.com", "user01", "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "1");
+        PO_OfferView.simulateAddNewOffer(driver, "user01@email.com", "user01", "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "2");
+        PO_OfferView.simulateAddNewOffer(driver, "user01@email.com", "user01", "Oferta de prueba 3", "Descripcion de la oferta de prueba 3", "3");
+
+        PO_LoginView.logout(driver);
+
+        // Añadir 1 oferta con user02
+        PO_OfferView.simulateAddNewOffer(driver, "user02@email.com", "user02", "Oferta de prueba 4",
+                "Descripcion de la oferta de prueba 4", "4");
+
+        // Acceder con cliente ajax, al listado de ofertas y comprobar que se muestran 3 ofertas
+        // (las de user01) y no se muestra la oferta de user02
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        // Rellenar formulario de login con contraseña vacía
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a")).click();
+
+        List<WebElement> offers = driver.findElements(By.xpath("/html/body/div/div/table/tbody/tr"));
+        Assertions.assertEquals(3, offers.size());
+
+        // Comprobar que se muestran las ofertas de user01
+        offers.get(0).findElement(By.xpath("td[1]")).getText().equals("Oferta de prueba 1");
+        offers.get(1).findElement(By.xpath("td[1]")).getText().equals("Oferta de prueba 2");
+        offers.get(2).findElement(By.xpath("td[1]")).getText().equals("Oferta de prueba 3");
+    }
+
 //    @Test
 //    @Order(7)
 //    public void PR07() {
