@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.awt.image.SinglePixelPackedSampleModel;
 import java.util.List;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -18,8 +19,8 @@ class Sdi2223Entrega1NApplicationTests {
 
     // Kiko
     //static String Geckodriver = "C:\\Users\\kikoc\\Desktop\\SDI\\geckodriver-v0.30.0-win64.exe";
-
-    static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "D:\\SDI\\sesion06\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
     static String BASE_HTTP_URL = "http://localhost:8081";
 
@@ -1454,18 +1455,31 @@ class Sdi2223Entrega1NApplicationTests {
         //Cojo el primer boton de conversacion y accedo a la pantalla de navegacin
         driver.findElement(By.id("conver0")).click();
 
+        //Cuento las rows que habia
+        WebElement table = driver.findElement(By.id("messagesTableBody"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsPrev = rows.size();
+
         //Busco el input y lo clicko
-        driver.findElement(By.id("txtAddMsg")).click();
+        WebElement input =driver.findElement(By.id("txtAddMsg"));
 
         //Escribo mensaje ("Mensaje text 52");
-        //TODO Rellenar el form
+        input.sendKeys("Mensaje text 52");
 
         //Le doy a enviar
         driver.findElement(By.id("sendMsg")).click();
         driver.findElement(By.id("conver0")).click();
 
         //Busco que se añadiese el mensaje
-        //TODO Buscar el mensaje
+
+        WebElement tableAct = driver.findElement(By.id("messagesTableBody"));
+        List<WebElement> rowsAct = tableAct.findElements(By.tagName("tr"));
+        int numRowsAct = rowsAct.size();
+
+        //Compruebo que el actual sea uno mayor q el inicio
+
+        Assertions.assertEquals(numRowsPrev, numRowsAct-1);
+
     }
 
     /**
@@ -1486,28 +1500,39 @@ class Sdi2223Entrega1NApplicationTests {
 
         // Rellenar formulario de login con contraseña valida
         PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
-        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a")).click();
 
         // Acceder a la pagina de conversaciones
         driver.findElement(By.id("convers")).click();
 
         //Busco la primera conver y accedo a ella
         driver.findElement(By.id("conv0")).click();
+
+        //Cuento las rows que habia
+        WebElement table = driver.findElement(By.id("messagesTableBody"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsPrev = rows.size();
+
         //Busco el input y lo clicko
-        driver.findElement(By.id("txtAddMsg")).click();
+        WebElement input =driver.findElement(By.id("txtAddMsg"));
 
         //Escribo mensaje ("Mensaje text 53");
-        //TODO Rellenar el form
+        input.sendKeys("Mensaje text 53");
 
         //Le doy a enviar
         driver.findElement(By.id("sendMsg")).click();
-        driver.findElement(By.id("convers")).click();
 
-        //Busco la primera conver y accedo a ella
+        //Cuando se arregle la api se borra
+        driver.findElement(By.id("convers")).click();
         driver.findElement(By.id("conv0")).click();
 
         //Busco que se añadiese el mensaje
-        //TODO Buscar el mensaje
+        WebElement tableAct = driver.findElement(By.id("messagesTableBody"));
+        List<WebElement> rowsAct = tableAct.findElements(By.tagName("tr"));
+        int numRowsAct = rowsAct.size();
+
+        //Compruebo que el actual sea uno mayor q el inicio
+
+        Assertions.assertEquals(numRowsPrev, numRowsAct-1);
     }
 
 
@@ -1536,9 +1561,15 @@ class Sdi2223Entrega1NApplicationTests {
         driver.findElement(By.id("convers")).click();
 
         //TODO: contar las convers q hay
+        //Busco que se añadiese el mensaje
+        WebElement table = driver.findElement(By.id("conversTableBody"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsAct = rows.size();
+
+        //Compruebo que el actual sea uno mayor q el inicio
 
         //Hay una conversacion abierta
-        Assertions.assertEquals(1,count);
+        Assertions.assertEquals(1,numRowsAct);
     }
 
 }
