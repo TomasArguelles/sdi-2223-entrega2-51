@@ -165,7 +165,7 @@ module.exports = function (app, offersRepository) {
                 pages: pages,
                 currentPage: page
             };
-            res.render(LIST_OFFERS_VIEW, response);
+            res.render(LIST_USER_OFFERS_VIEW, response);
         }).catch(error => {
             res.send("Se ha producido un error al listar las ofertas " + error)
         });
