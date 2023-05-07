@@ -73,7 +73,7 @@ module.exports = function (app, usersRepository, offersRepository, conversations
     });
 
     app.post('/api/v1.0/messages/add', function (req, res) {
-        console.log(req.body);
+
         let idConver = ObjectId(req.body.idConver);
 
         let idBuyer = res.user;
@@ -132,12 +132,21 @@ module.exports = function (app, usersRepository, offersRepository, conversations
                             res.json({error: "Se ha producido un error al intentar añadir el mensaje: " + err});
                         });
                     } else {
+
                         let conv = {
                             buyer: idBuyer,
                             seller: idSeller,
                             oferta: idOffer,
                             tituloOffer: tituloOffer
                         };
+                        /*
+                        let filter2 = {_id: ObjectId(conv.oferta)};
+                        let options2 = {};
+                        let vendedor ; // email
+                        offersRepository.findOffer(filter2,options2).then(offers => {
+                            vendedor=offers[0].seller;
+                        });
+                        */
                         conversationsRepository.addConversation(conv, async function (conversationId) {
                             if (conversationId === null) {
                                 res.status(409);
@@ -151,18 +160,21 @@ module.exports = function (app, usersRepository, offersRepository, conversations
                                     texto: message,
                                     timestamp: date
                                 }
-                                messagesRepository.addMessage(msg, function (messageId) {
-                                    if (messageId === null) {
-                                        res.status(409);
-                                        res.json({error: "No se ha podido añadir el mensaje."});
-                                    } else {
-                                        res.status(201);
-                                        res.json({
-                                            message: "Mensaje añadido correctamente.",
-                                            _id: messageId
-                                        });
-                                    }
-                                });
+                                if(msg.texto!=""){
+                                    messagesRepository.addMessage(msg, function (messageId) {
+                                        if (messageId === null) {
+                                            res.status(409);
+                                            res.json({error: "No se ha podido añadir el mensaje."});
+                                        } else {
+                                            res.status(201);
+                                            res.json({
+                                                message: "Mensaje añadido correctamente.",
+                                                _id: messageId
+                                            });
+                                        }
+                                    });
+                                }
+
                             }
                         });
                     }
@@ -177,78 +189,6 @@ module.exports = function (app, usersRepository, offersRepository, conversations
         }
     });
 
-
-    /**
-     app.post('/api/v1.0/messages/add', function (req, res) {
-
-
-
-        try {
-            let msg = {
-                idOffer: req.body.idOffer,
-                idSender: res.user,
-                idReceiver: req.body.idReceiver,
-                leido: false,
-                texto: req.body.texto,
-                timestamp: Date.now()
-            }
-
-            let filter = {sender:msg.idSender,receiver: msg.idReceiver,oferta: msg.idOffer};
-
-            let options = {};
-            conversationsRepository.findConversation(filter, options).then(conversation=> {
-                try {
-                    if (conversation) {
-                        messagesRepository.addMessage(msg, function (messageId) {
-                            if (messageId === null) {
-                                res.status(409);
-                                res.json({error: "No se ha podido añadir el mensaje."});
-                            } else {
-                                res.status(201);
-                                res.json({
-                                    message: "Mensaje añadido correctamente.",
-                                    _id: messageId
-                                });
-                            }
-                        });
-                    } else {
-                        let conv = {
-                            sender: msg.idSender,
-                            receiver: msg.idReceiver,
-                            oferta: msg.idOffer,
-                            tituloOferta: req.body.offerTitle
-                        };
-                        conversationsRepository.addConversation(conv, async function (conversationId) {
-                            if (conversationId === null) {
-                                res.status(409);
-                                res.json({error: "No se ha podido crear la conversación."});
-                            } else {
-                                messagesRepository.addMessage(msg,  function (messageId) {
-                                    if (messageId === null) {
-                                        res.status(409);
-                                        res.json({error: "No se ha podido añadir el mensaje."});
-                                    } else {
-                                        res.status(201);
-                                        res.json({
-                                            message: "Mensaje añadido correctamente.",
-                                            _id: messageId
-                                        });
-                                    }
-                                });
-                            }
-                        });
-                    }
-                } catch (error) {
-                    res.status(500);
-                    res.json({error: "Se ha producido un error al intentar añadir el mensaje: " + error});
-                }
-            });
-        } catch (e) {
-            res.status(500);
-            res.json({error: "Se ha producido un error al intentar añadir el mensaje: " + e});
-        }
-    });
-     **/
     app.get('/api/v1.0/messages/:id', function (req, res) {
         try {
             let filter = {idConver: ObjectId(req.params.id)};
@@ -258,9 +198,9 @@ module.exports = function (app, usersRepository, offersRepository, conversations
                 res.send({messages: messages})
             })
                 .catch(error => {
-                res.status(500);
-                res.json({error: "Se ha producido un error al recuperar las ofertas."})
-            });
+                    res.status(500);
+                    res.json({error: "Se ha producido un error al recuperar las ofertas."})
+                });
         } catch (error) {
             console.log("error", error);
         }

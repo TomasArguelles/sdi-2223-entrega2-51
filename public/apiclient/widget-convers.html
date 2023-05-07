@@ -1,8 +1,8 @@
 <div id="widget-songs">
-    <input type="text" class="form-control" placeholder="Filtrar por nombre"
+    <input type="text" className="form-control" placeholder="Filtrar por nombre"
            id="filter-by-name"/>
 
-    <table class="table table-hover">
+    <table className="table table-hover">
         <thead>
         <tr>
             <th>Oferta</th>
@@ -33,7 +33,7 @@
             },
             success: function (response) {
 
-                convers= response.listadoConversaciones;
+                convers = response.listadoConversaciones;
                 updateConversTable(convers)
 
             },
@@ -52,32 +52,32 @@
                 "<tr>" +
                 "<td colspan='5'>No hay convers disponibles</td>" +
                 "</tr>");
-        }else{
+        } else {
             console.log(convers);
             for (let i = 0; i < convers.length; i++) {
                 $("#conversTableBody").append(
-
                     "<tr>" +
                     "<td>" + convers[i].tituloOffer + "</td>" +
                     "<td>" + convers[i].seller + "</td>" +
-                    "<td><button id = conv"+i+"  class=\"btn btn-primary\" onclick=\"offerConver('" + i + "')\">Conversacion</button> " +
-                    "<button class=\"btn btn-primary\" onclick=\"deleteConver('" + i + "')\">Eliminar</button></td>" +
+                    "<td><button id = conv" + i + "  class=\"btn btn-primary\" onclick=\"offerConver('" + i + "')\">Conversacion</button> " +
+                    "<button id = delet" + i + " class=\"btn btn-primary\" onclick=\"deleteConver('" + i + "')\">Eliminar</button></td>" +
                     "</tr>"
                 );
             }
         }
     }
 
-    function offerConver(index){
-        idConver= convers[index]._id;
-        selectedId= convers[index].oferta;
+    function offerConver(index) {
+        idConver = convers[index]._id;
+        selectedId = convers[index].oferta;
         seller = convers[index].seller;
         title = convers[index].title;
         console.log(offers);
         $("#main-container").load("widget-conversation.html");
     }
 
-    function  deleteConver(index){
+    function deleteConver(index) {
+        console.log(convers[index]);
         $.ajax({
             url: URLbase + "/messages/" + convers[index]._id,
             type: "DELETE",
@@ -85,11 +85,11 @@
             dataType: 'json',
             headers: {"token": token},
             success: function (response) {
-                loadAllConvers();
 
+                $("#main-container").load("widget-offers.html");
             },
             error: function (error) {
-
+                $("#main-container").load("widget-offers.html");
             }
         });
     }

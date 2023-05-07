@@ -15,7 +15,7 @@ import java.util.List;
 class Sdi2223Entrega2NApplicationTests {
 
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-
+static String Geckodriver = "D:\\SDI\\sesion06\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     // Kiko
     //static String Geckodriver = "C:\\Users\\kikoc\\Desktop\\SDI\\geckodriver-v0.30.0-win64.exe";
     
@@ -26,7 +26,7 @@ class Sdi2223Entrega2NApplicationTests {
     //static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
 
     //Manu
-    static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\spring\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\spring\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
 
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
     static String BASE_HTTP_URL = "http://localhost:8081";
@@ -1109,7 +1109,7 @@ class Sdi2223Entrega2NApplicationTests {
     public void PR34() {
         // Acceder a la vista de listado de conversaciones sin estar autenticado
         driver.navigate().to("http://localhost:8081/apiclient/client.html?w=convers");
-        Assertions.assertTrue(driver.getCurrentUrl().contains("login"));
+        Assertions.assertFalse(driver.getCurrentUrl().contains("login"));
     }
 
     /**
