@@ -258,17 +258,10 @@ module.exports = function (app, usersRepository, offersRepository, conversations
             let filter = {_id: msgId};
             //Si la _id NO no existe, no crea un nuevo documento.
             const options = {upsert: false};
-            let actu;
 
-            messagesRepository.deleteMessage(filter, options).then(result => {
-                if (result.deletedCount === 0) {
-                    res.status(404);
-                    res.json({error: "ID inválido o no existe, no se ha borrado el registro."});
-                } else {
-                    res.status(200);
-                    res.send(JSON.stringify(result));
-                }
-            });
+            conversationsRepository.deleteConversation(filter,options).then(res =>{
+                console.log("borrada");
+            })
 
 
         } catch (e) {

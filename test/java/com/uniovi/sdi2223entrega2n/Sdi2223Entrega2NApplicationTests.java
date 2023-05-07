@@ -1716,4 +1716,40 @@ static String Geckodriver = "D:\\SDI\\sesion06\\PL-SDI-Sesión5-material\\PL-SDI
         //Hay una conversacion abierta
         Assertions.assertEquals(1,numRowsAct);
     }
+    @Test
+    @Order(55)
+    public void PR55(){
+        // Acceder a la página de login
+         driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        // Rellenar formulario de login con contraseña valida
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a")).click();
+
+        // Acceder a la pagina de conversaciones
+        driver.findElement(By.id("convers")).click();
+
+
+
+        WebElement tableprev = driver.findElement(By.id("conversTableBody"));
+        List<WebElement> rowsprev = tableprev.findElements(By.tagName("tr"));
+        int numRowsPrev = rowsprev.size();
+
+        //clcko en eliminar
+        driver.findElement(By.id("delet0")).click();
+        driver.findElement(By.id("offers")).click();
+        driver.findElement(By.id("convers")).click();
+
+        //Busco que se eliminase
+        WebElement tableAct = driver.findElement(By.id("conversTableBody"));
+        List<WebElement> rowsAct = tableAct.findElements(By.tagName("tr"));
+        int numRowsAct = rowsAct.size();
+
+        //Compruebo que el actual sea uno mayor q el inicio
+
+        Assertions.assertEquals(2, numRowsAct+1);
+    }
 }
