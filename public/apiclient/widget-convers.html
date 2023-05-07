@@ -1,18 +1,16 @@
 <div id="widget-songs">
     <input type="text" class="form-control" placeholder="Filtrar por nombre"
            id="filter-by-name"/>
-    <button onclick="widgetOffers()" class="btn">Volver</button>
-    <button onclick="widgetConvers()" class="btn">Actualizar</button>
+
     <table class="table table-hover">
         <thead>
         <tr>
             <th>Oferta</th>
             <th>Vendedor</th>
-            <th>Mensajes sin leer</th>
             <th>Opciones</th>
         </tr>
         </thead>
-        <tbody id="conversationsTableBody"></tbody>
+        <tbody id="conversTableBody"></tbody>
     </table>
 </div>
 
@@ -21,5 +19,61 @@
 
 
     window.history.pushState("", "", "/apiclient/client.html?w=convers");
+
+    loadAllConvers();
+
+    function loadAllConvers() {
+        $.ajax({
+            url: URLbase + "/conversations",
+            type: "GET",
+            data: {},
+            dataType: 'json',
+            headers: {
+                "token": token
+            },
+            success: function (response) {
+
+                convers= response.listadoConversaciones;
+                updateConversTable(convers)
+
+            },
+            error: function (error) {
+                // TODO: Mostrar mensaje de error
+                //console.error("Error al cargar las ofertas. ", error);
+                $("#main-container").load("widget-login.html");
+            }
+        });
+    }
+
+    function updateConversTable(convers) {
+        $("#conversTableBody").empty();
+        if (convers.length === 0) {
+            $("#conversTableBody").append(
+                "<tr>" +
+                "<td colspan='5'>No hay convers disponibles</td>" +
+                "</tr>");
+        }else{
+            console.log(convers);
+            for (let i = 0; i < convers.length; i++) {
+                $("#conversTableBody").append(
+
+                    "<tr>" +
+                    "<td>" + convers[i].tituloOffer + "</td>" +
+                    "<td>" + convers[i].seller + "</td>" +
+                    "<td><button class=\"btn btn-primary\" onclick=\"offerConver('" + i + "')\">Conversacion</button></td>" +
+                    "</tr>"
+                );
+            }
+        }
+    }
+
+    function offerConver(index){
+        idConver= convers[index]._id;
+        selectedId= convers[index].oferta;
+
+        console.log(offers);
+        $("#main-container").load("widget-conversation.html");
+    }
+
 
 </script>

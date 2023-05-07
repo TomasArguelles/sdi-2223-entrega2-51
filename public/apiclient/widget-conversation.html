@@ -48,10 +48,7 @@
         $.ajax({
             url: URLbase + "/messages/" + idConver,
             type : "GET",
-            data: {
-                idOffer: selectedId,
-                idReceiver: offer.seller,
-            }, // creo q aqui va el comprador
+             // creo q aqui va el comprador
             dataType: 'json',
             headers: {
                 "token" : token
