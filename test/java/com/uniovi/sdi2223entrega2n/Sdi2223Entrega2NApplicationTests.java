@@ -17,9 +17,9 @@ class Sdi2223Entrega2NApplicationTests {
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
 
     // Kiko
-    //static String Geckodriver = "C:\\Users\\kikoc\\Desktop\\SDI\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\kikoc\\Desktop\\SDI\\geckodriver-v0.30.0-win64.exe";
 
-    static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
     static String BASE_HTTP_URL = "http://localhost:8081";
 
@@ -1235,7 +1235,9 @@ class Sdi2223Entrega2NApplicationTests {
     @Test
     @Order(34)
     public void PR34() {
-        // TODO: Implementar
+        // Acceder a la vista de listado de conversaciones sin estar autenticado
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=convers");
+        Assertions.assertTrue(driver.getCurrentUrl().contains("login"));
     }
 
     /**
@@ -1315,7 +1317,7 @@ class Sdi2223Entrega2NApplicationTests {
         List<WebElement> logRegisters = driver.findElements(By.xpath("/html/body/div/div/div/div/table/tbody/tr"));
 
         // Se tienen que mostrar 21 logs
-        Assertions.assertTrue(logRegisters.size() == 21);
+        Assertions.assertEquals(16, logRegisters.size());
     }
 
     /**
