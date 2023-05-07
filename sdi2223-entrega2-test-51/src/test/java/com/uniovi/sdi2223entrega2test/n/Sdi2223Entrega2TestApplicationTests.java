@@ -3,6 +3,10 @@ package com.uniovi.sdi2223entrega2test.n;
 import com.uniovi.sdi2223entrega2test.n.pageobjects.*;
 import com.uniovi.sdi2223entrega2test.n.util.DatabaseUtils;
 import com.uniovi.sdi2223entrega2test.n.util.SeleniumUtils;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+import org.json.simple.JSONObject;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -17,9 +21,11 @@ class Sdi2223Entrega2TestApplicationTests {
     static String BASE_PATH = "http://localhost:8081";
 
     static String BASE_API_CLIENT_URL = "http://localhost:8081/api/v1.0"; // URL base del API del cliente
+    //Manu
+    static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\spring\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
 
     // Kiko
-    static String Geckodriver = "C:\\Users\\kikoc\\Desktop\\SDI\\geckodriver-v0.30.0-win64.exe";
+   //static String Geckodriver = "C:\\Users\\kikoc\\Desktop\\SDI\\geckodriver-v0.30.0-win64.exe";
     // Teresa
     //static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
 
@@ -774,6 +780,83 @@ class Sdi2223Entrega2TestApplicationTests {
     }
 
 
+    /**
+     *[Prueba42] Enviar un mensaje a una oferta. Esta prueba consistirá en comprobar que el servicio
+     * almacena correctamente el mensaje para dicha oferta. Por lo tanto, el usuario tendrá que
+     * identificarse (S1), enviar un mensaje para una oferta de id conocido (S3) y comprobar que el
+     * mensaje ha quedado bien registrado (S4).
+     */
+    @Test
+    @Order(0)
+    public void PR42() {
+        //MongoDB m=new MongoDB();
+        //m.resetMongo();
+        //Añado oferta como u1
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10");
+
+        //login como u2
+        PO_Api.loginAs(driver,"user02@email.com","user02");
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=offers");
+        WebElement actu = driver.findElement(By.name("actu"));
+        actu.click();
+
+
+    }
+    /**
+     *[Prueba43] Enviar un primer mensaje una oferta propia y comprobar que no se inicia la conversación.
+     * En este caso de prueba, el propietario de la oferta tendrá que identificarse (S1), enviar un mensaje
+     * para una oferta propia (S3) y comprobar que el mensaje no se almacena (S4)
+     */
+    @Test
+    @Order(43)
+    public void PR43() {
+
+    }
+    /**
+     [Prueba44] Obtener los mensajes de una conversación. Esta prueba consistirá en comprobar que el
+     servicio retorna el número correcto de mensajes para una conversación. El ID de la conversación
+     deberá conocerse a priori. Por lo tanto, se tendrá primero que invocar al servicio de identificación
+     (S1), y solicitar el listado de mensajes de una conversación de id conocido a continuación (S4),
+     comprobando que se retornan los mensajes adecuados.
+     */
+    @Test
+    @Order(44)
+    public void PR44() {
+
+    }
+    /**
+     *[Prueba45] Obtener la lista de conversaciones de un usuario. Esta prueba consistirá en comprobar que
+     * el servicio retorna el número correcto de conversaciones para dicho usuario. Por lo tanto, se tendrá
+     * primero que invocar al servicio de identificación (S1), y solicitar el listado de conversaciones a
+     * continuación (S5) comprobando que se retornan las conversaciones adecuadas
+     */
+    @Test
+    @Order(45)
+    public void PR45() {
+
+    }
+    /**
+     *[Prueba46] Eliminar una conversación de ID conocido. Esta prueba consistirá en comprobar que se
+     * elimina correctamente una conversación concreta. Por lo tanto, se tendrá primero que invocar al
+     * servicio de identificación (S1), eliminar la conversación ID (S6) y solicitar el listado de
+     * conversaciones a continuación (S5), comprobando que se retornan las conversaciones adecuadas.
+     */
+    @Test
+    @Order(46)
+    public void PR46() {
+
+    }
+    /**
+     *[Prueba47] Marcar como leído un mensaje de ID conocido. Esta prueba consistirá en comprobar que
+     * el mensaje marcado de ID conocido queda marcado correctamente a true como leído. Por lo
+     * tanto, se tendrá primero que invocar al servicio de identificación (S1), solicitar el servicio de
+     * marcado (S7), comprobando que el mensaje marcado ha quedado marcado a true como leído (S4).
+     */
+    @Test
+    @Order(47)
+    public void PR47() {
+
+    }
     // -------------------------------------
     // Parte 2B - Cliente ligero JQuery/AJAX
     // -------------------------------------
