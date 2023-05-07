@@ -193,6 +193,42 @@ class Sdi2223Entrega2TestApplicationTests {
         SeleniumUtils.textIsNotPresentOnPage(driver, "Desconectate");
     }
 
+    /**
+     * Parte 1 - Aplicacion Web - W5
+     * <p>
+     * W4 Administrador: Listado de usuarios del sistema
+     * <p>
+     * [Prueba11] Mostrar el listado de usuarios. Comprobar que se muestran todos los que existen en el
+     * sistema, contabilizando al menos el número de usuarios.
+     */
+    @Test
+    @Order(11)
+    void PR011() {
+        // Iniciar sesión como administrador
+        PO_LoginView.simulateLogin(driver, "admin@email.com", "admin");
+        PO_NavView.selectDropdownById(driver, "gestionUsuariosMenu", "gestionUsuariosDropdown", "listAllUsers");
+
+        // Comprobar que se muestran todos los usuarios
+        // Consultar primera pagina
+        List<WebElement> firstPageUsers = driver.findElements(By.xpath("/html/body/div/div[1]/table/tbody/tr"));
+        Assertions.assertTrue(firstPageUsers.size() == 4);
+
+        // Consultar segunda pagina
+        driver.findElement(By.xpath("/html/body/div/div[2]/ul/li[3]/a")).click();
+        List<WebElement> secondPageUsers = driver.findElements(By.xpath("/html/body/div/div[1]/table/tbody/tr"));
+        Assertions.assertTrue(secondPageUsers.size() == 5);
+
+        // Consultar tercera pagina
+        driver.findElement(By.xpath("/html/body/div/div[2]/ul/li[4]/a")).click();
+        List<WebElement> thirdPageUsers = driver.findElements(By.xpath("/html/body/div/div[1]/table/tbody/tr"));
+        Assertions.assertTrue(thirdPageUsers.size() == 5);
+
+        // Consultar cuarta pagina
+        driver.findElement(By.xpath("/html/body/div/div[2]/ul/li[5]/a")).click();
+        List<WebElement> fourthPageUsers = driver.findElements(By.xpath("/html/body/div/div[1]/table/tbody/tr"));
+        Assertions.assertTrue(fourthPageUsers.size() == 1);
+    }
+
 
     /**
      * Parte 1 - Aplicacion Web - W6
