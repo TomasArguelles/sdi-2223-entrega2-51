@@ -60,7 +60,8 @@
                     "<tr>" +
                     "<td>" + convers[i].tituloOffer + "</td>" +
                     "<td>" + convers[i].seller + "</td>" +
-                    "<td><button class=\"btn btn-primary\" onclick=\"offerConver('" + i + "')\">Conversacion</button></td>" +
+                    "<td><button class=\"btn btn-primary\" onclick=\"offerConver('" + i + "')\">Conversacion</button> " +
+                    "<button class=\"btn btn-primary\" onclick=\"deleteConver('" + i + "')\">Eliminar</button></td>" +
                     "</tr>"
                 );
             }
@@ -74,6 +75,23 @@
         title = convers[index].title;
         console.log(offers);
         $("#main-container").load("widget-conversation.html");
+    }
+
+    function  deleteConver(index){
+        $.ajax({
+            url: URLbase + "/messages/" + convers[index]._id,
+            type: "DELETE",
+            data: {},
+            dataType: 'json',
+            headers: {"token": token},
+            success: function (response) {
+                loadAllConvers();
+
+            },
+            error: function (error) {
+
+            }
+        });
     }
 
 
