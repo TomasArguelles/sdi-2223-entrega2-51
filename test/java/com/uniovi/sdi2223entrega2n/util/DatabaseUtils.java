@@ -10,6 +10,7 @@ public class DatabaseUtils {
 
     public static String DATABASE_NAME = "sdi-2223-entrega2-51";
     public static String OFFERS_COLLECTION_NAME = "offers";
+    public static String CONVERSATIONS_COLLECTION_NAME = "conversations";
     public static String USERS_COLLECTION_NAME = "users";
 
     public DatabaseUtils() {
@@ -22,6 +23,11 @@ public class DatabaseUtils {
     public static void resetOffersCollection() {
         DatabaseUtils dbUtils = new DatabaseUtils();
         dbUtils.mongoClient.getDatabase(DATABASE_NAME).getCollection(OFFERS_COLLECTION_NAME).drop();
+        dbUtils.mongoClient.close();
+    }
+    public static void resetConversationsCollection() {
+        DatabaseUtils dbUtils = new DatabaseUtils();
+        dbUtils.mongoClient.getDatabase(DATABASE_NAME).getCollection(CONVERSATIONS_COLLECTION_NAME).drop();
         dbUtils.mongoClient.close();
     }
 

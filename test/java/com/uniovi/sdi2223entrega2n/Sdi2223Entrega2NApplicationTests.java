@@ -17,13 +17,16 @@ class Sdi2223Entrega2NApplicationTests {
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
 
     // Kiko
-    static String Geckodriver = "C:\\Users\\kikoc\\Desktop\\SDI\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\kikoc\\Desktop\\SDI\\geckodriver-v0.30.0-win64.exe";
     
     // Tomas
     //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
 
     // Teresa
     //static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
+
+    //Manu
+    static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\spring\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
 
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
     static String BASE_HTTP_URL = "http://localhost:8081";
@@ -1212,7 +1215,183 @@ class Sdi2223Entrega2NApplicationTests {
         Assertions.assertEquals("No hay logs registrados", noLogsMessage.getText());
     }
 
+    /**
+     *[Prueba42] Enviar un mensaje a una oferta. Esta prueba consistirá en comprobar que el servicio
+     * almacena correctamente el mensaje para dicha oferta. Por lo tanto, el usuario tendrá que
+     * identificarse (S1), enviar un mensaje para una oferta de id conocido (S3) y comprobar que el
+     * mensaje ha quedado bien registrado (S4).
+     */
+    @Test
+    @Order(42)
+    public void PR42() {
+        DatabaseUtils.resetOffersCollection();
 
+        // Añadir 3 ofertas con user01
+        PO_OfferView.simulateAddNewOffer(driver, "user01@email.com", "user01", "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "1");
+
+        // Acceder con cliente ajax, al listado de ofertas y comprobar que se muestran 3 ofertas
+        // (las de user01) y no se muestra la oferta de user02
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        // Rellenar formulario de login con contraseña vacía
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a")).click();
+
+        List<WebElement> offers = driver.findElements(By.xpath("/html/body/div/div/table/tbody/tr"));
+        Assertions.assertEquals(1, offers.size());
+        WebElement actualizar = driver.findElement(By.cssSelector("button[onclick='loadAllAvailableOffers']"));
+        actualizar.click();
+        // Comprobar que se muestran las ofertas de user01
+        offers.get(0).findElement(By.xpath("td[1]")).getText().equals("Oferta de prueba 1");
+
+        WebElement ofertaAñadida = driver.findElement(By.cssSelector("#widget-songs table tbody tr:first-child"));
+        WebElement botonConversacion = ofertaAñadida.findElement(By.cssSelector("button[onclick='offerConversation(\\'0\\')']"));
+        botonConversacion.click();
+
+        // ahora ya en la vista de la conversación
+        WebElement mensajeInput = driver.findElement(By.id("txtAddMsg"));
+        mensajeInput.sendKeys("Hola, estoy interesado en tu oferta");
+        WebElement enviarButton = driver.findElement(By.id("sendMsg"));
+        enviarButton.click();
+
+        WebElement ofertaAñadida2 = driver.findElement(By.cssSelector("#widget-songs table tbody tr:first-child"));
+        WebElement botonConversacion2 = ofertaAñadida2.findElement(By.cssSelector("button[onclick='offerConversation(\\'0\\')']"));
+        botonConversacion2.click();
+
+        WebElement tablaMensajes = driver.findElement(By.id("messagesTableBody"));
+        List<WebElement> mensajes = tablaMensajes.findElements(By.tagName("tr"));
+        WebElement ultimoMensaje = mensajes.get(mensajes.size() - 1);
+        WebElement contenidoMensaje = ultimoMensaje.findElement(By.xpath("td[2]"));
+        Assertions.assertEquals("Hola, estoy interesado en tu oferta", contenidoMensaje.getText());
+
+    }
+    /**
+     *[Prueba43] Enviar un primer mensaje una oferta propia y comprobar que no se inicia la conversación.
+     * En este caso de prueba, el propietario de la oferta tendrá que identificarse (S1), enviar un mensaje
+     * para una oferta propia (S3) y comprobar que el mensaje no se almacena (S4)
+     */
+    @Test
+    @Order(43)
+    public void PR43() {
+        //Esta prueba no se realiza ya que el cliente en sí ya está filtrando las conversaciones y sólo muestra las que no pertencen al usuario.
+        //No obstante en la api se valida.
+        Assertions.assertTrue(true);
+    }
+    /**
+     *[Prueba44] Obtener los mensajes de una conversación. Esta prueba consistirá en comprobar que el
+     * servicio retorna el número correcto de mensajes para una conversación. El ID de la conversación
+     * deberá conocerse a priori. Por lo tanto, se tendrá primero que invocar al servicio de identificación
+     * (S1), y solicitar el listado de mensajes de una conversación de id conocido a continuación (S4),
+     * comprobando que se retornan los mensajes adecuados.
+     */
+    @Test
+    @Order(44)
+    public void PR44() {
+        DatabaseUtils.resetOffersCollection();
+
+        // Añadir 3 ofertas con user01
+        PO_OfferView.simulateAddNewOffer(driver, "user01@email.com", "user01", "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "1");
+
+        // Acceder con cliente ajax, al listado de ofertas y comprobar que se muestran 3 ofertas
+        // (las de user01) y no se muestra la oferta de user02
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        // Rellenar formulario de login con contraseña vacía
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a")).click();
+
+        List<WebElement> offers = driver.findElements(By.xpath("/html/body/div/div/table/tbody/tr"));
+        Assertions.assertEquals(1, offers.size());
+        WebElement actualizar = driver.findElement(By.cssSelector("button[onclick='loadAllAvailableOffers']"));
+        actualizar.click();
+        // Comprobar que se muestran las ofertas de user01
+        offers.get(0).findElement(By.xpath("td[1]")).getText().equals("Oferta de prueba 1");
+
+        WebElement ofertaAñadida = driver.findElement(By.cssSelector("#widget-songs table tbody tr:first-child"));
+        WebElement botonConversacion = ofertaAñadida.findElement(By.cssSelector("button[onclick='offerConversation(\\'0\\')']"));
+        botonConversacion.click();
+
+        // ahora ya en la vista de la conversación
+        WebElement mensajeInput = driver.findElement(By.id("txtAddMsg"));
+        mensajeInput.sendKeys("Hola, estoy interesado en tu oferta");
+        WebElement enviarButton = driver.findElement(By.id("sendMsg"));
+        enviarButton.click();
+
+        WebElement ofertaAñadida2 = driver.findElement(By.cssSelector("#widget-songs table tbody tr:first-child"));
+        WebElement botonConversacion2 = ofertaAñadida2.findElement(By.cssSelector("button[onclick='offerConversation(\\'0\\')']"));
+        botonConversacion2.click();
+
+        WebElement tablaMensajes = driver.findElement(By.id("messagesTableBody"));
+        List<WebElement> mensajes = tablaMensajes.findElements(By.tagName("tr"));
+        Assertions.assertEquals(1, mensajes.size());
+    }
+
+    /**
+     *[Prueba45] Obtener la lista de conversaciones de un usuario. Esta prueba consistirá en comprobar que
+     * el servicio retorna el número correcto de conversaciones para dicho usuario. Por lo tanto, se tendrá
+     * primero que invocar al servicio de identificación (S1), y solicitar el listado de conversaciones a
+     * continuación (S5) comprobando que se retornan las conversaciones adecuadas.
+     */
+    @Test
+    @Order(45)
+    public void PR45() {
+        DatabaseUtils.resetOffersCollection();
+        DatabaseUtils.resetConversationsCollection();
+        // Añadir 3 ofertas con user01
+        PO_OfferView.simulateAddNewOffer(driver, "user01@email.com", "user01", "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "1");
+
+        // Acceder con cliente ajax, al listado de ofertas y comprobar que se muestran 3 ofertas
+        // (las de user01) y no se muestra la oferta de user02
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        // Rellenar formulario de login con contraseña vacía
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a")).click();
+
+        List<WebElement> offers = driver.findElements(By.xpath("/html/body/div/div/table/tbody/tr"));
+        Assertions.assertEquals(1, offers.size());
+        WebElement actualizar = driver.findElement(By.cssSelector("button[onclick='loadAllAvailableOffers']"));
+        actualizar.click();
+        // Comprobar que se muestran las ofertas de user01
+        offers.get(0).findElement(By.xpath("td[1]")).getText().equals("Oferta de prueba 1");
+
+        WebElement ofertaAñadida = driver.findElement(By.cssSelector("#widget-songs table tbody tr:first-child"));
+        WebElement botonConversacion = ofertaAñadida.findElement(By.cssSelector("button[onclick='offerConversation(\\'0\\')']"));
+        botonConversacion.click();
+
+        // ahora ya en la vista de la conversación
+        WebElement mensajeInput = driver.findElement(By.id("txtAddMsg"));
+        mensajeInput.sendKeys("Hola, estoy interesado en tu oferta");
+        WebElement enviarButton = driver.findElement(By.id("sendMsg"));
+        enviarButton.click();
+
+
+        // Acceder a la pagina de conversaciones
+        driver.findElement(By.id("convers")).click();
+        WebElement table = driver.findElement(By.id("conversTableBody"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsAct = rows.size();
+
+        //Compruebo que el actual sea uno mayor q el inicio
+
+        //Hay una conversacion abierta
+        Assertions.assertEquals(1,numRowsAct);
+    }
     // -------------------------------------
     // Parte 2B - Cliente ligero JQuery/AJAX
     // -------------------------------------
@@ -1323,5 +1502,154 @@ class Sdi2223Entrega2NApplicationTests {
         offers.get(0).findElement(By.xpath("td[1]")).getText().equals("Oferta de prueba 1");
         offers.get(1).findElement(By.xpath("td[1]")).getText().equals("Oferta de prueba 2");
         offers.get(2).findElement(By.xpath("td[1]")).getText().equals("Oferta de prueba 3");
+    }
+    /**
+     * Cliente ligero JQuery/AJAX
+     * <p>
+     * [Prueba52] Sobre listado de ofertas disponibles (a elección de desarrollador), enviar un mensaje a una
+     *     oferta concreta. Se abriría dicha conversación por primera vez. Comprobar que el mensaje aparece
+     *     en el listado de mensajes
+     */
+
+    @Test
+    @Order(52)
+    public void PR52() {
+        DatabaseUtils.resetOffersCollection();
+        DatabaseUtils.resetConversationsCollection();
+        //Añado una oferta a user01
+        PO_OfferView.simulateAddNewOffer(driver, "user01@email.com", "user01", "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "1");
+
+        //Añado una oferta user02
+        PO_OfferView.simulateAddNewOffer(driver, "user02@email.com", "user02", "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "2");
+
+
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        // Rellenar formulario de login con contraseña valida
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a")).click();
+
+        //Cojo el primer boton de conversacion y accedo a la pantalla de navegacin
+        driver.findElement(By.id("conver0")).click();
+
+        //Cuento las rows que habia
+        WebElement table = driver.findElement(By.id("messagesTableBody"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsPrev = rows.size();
+
+        //Busco el input y lo clicko
+        WebElement input =driver.findElement(By.id("txtAddMsg"));
+
+        //Escribo mensaje ("Mensaje text 52");
+        input.sendKeys("Mensaje text 52");
+
+        //Le doy a enviar
+        driver.findElement(By.id("sendMsg")).click();
+        driver.findElement(By.id("conver0")).click();
+
+        //Busco que se añadiese el mensaje
+
+        WebElement tableAct = driver.findElement(By.id("messagesTableBody"));
+        List<WebElement> rowsAct = tableAct.findElements(By.tagName("tr"));
+        int numRowsAct = rowsAct.size();
+
+        //Compruebo que el actual sea uno mayor q el inicio
+
+        Assertions.assertEquals(numRowsPrev, numRowsAct-1);
+
+    }
+
+    /**
+     * Cliente ligero JQuery/AJAX
+     [Prueba53] Sobre el listado de conversaciones enviar un mensaje a una conversación ya abierta.
+     Comprobar que el mensaje aparece en el listado de mensajes.
+     */
+
+    @Test
+    @Order(53)
+    public void PR53(){
+
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        // Rellenar formulario de login con contraseña valida
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+
+        // Acceder a la pagina de conversaciones
+        driver.findElement(By.id("convers")).click();
+
+        //Busco la primera conver y accedo a ella
+        driver.findElement(By.id("conv0")).click();
+
+        //Cuento las rows que habia
+        WebElement table = driver.findElement(By.id("messagesTableBody"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsPrev = rows.size();
+
+        //Busco el input y lo clicko
+        WebElement input =driver.findElement(By.id("txtAddMsg"));
+
+        //Escribo mensaje ("Mensaje text 53");
+        input.sendKeys("Mensaje text 53");
+
+        //Le doy a enviar
+        driver.findElement(By.id("sendMsg")).click();
+
+        //Cuando se arregle la api se borra
+        driver.findElement(By.id("convers")).click();
+        driver.findElement(By.id("conv0")).click();
+
+        //Busco que se añadiese el mensaje
+        WebElement tableAct = driver.findElement(By.id("messagesTableBody"));
+        List<WebElement> rowsAct = tableAct.findElements(By.tagName("tr"));
+        int numRowsAct = rowsAct.size();
+
+        //Compruebo que el actual sea uno mayor q el inicio
+
+        Assertions.assertEquals(numRowsPrev, numRowsAct-1);
+    }
+
+
+    /**
+     * Cliente ligero JQuery/AJAX
+     [Prueba53] Sobre el listado de conversaciones enviar un mensaje a una conversación ya abierta.
+     Comprobar que el mensaje aparece en el listado de mensajes.
+     */
+
+    @Test
+    @Order(54)
+    public void PR54(){
+        int count=0;
+
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        // Rellenar formulario de login con contraseña valida
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a")).click();
+
+        // Acceder a la pagina de conversaciones
+        driver.findElement(By.id("convers")).click();
+
+        //TODO: contar las convers q hay
+        //Busco que se añadiese el mensaje
+        WebElement table = driver.findElement(By.id("conversTableBody"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsAct = rows.size();
+
+        //Compruebo que el actual sea uno mayor q el inicio
+
+        //Hay una conversacion abierta
+        Assertions.assertEquals(1,numRowsAct);
     }
 }

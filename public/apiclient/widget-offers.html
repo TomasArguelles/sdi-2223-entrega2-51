@@ -18,7 +18,7 @@
 </div>
 
 <script>
-    window.history.pushState("", "", "/apiclient/client.html?w=offers");
+
 
     loadAllAvailableOffers();
     loadAllConvers();
@@ -74,7 +74,7 @@
                     "<td>" + offers[i].price + "€</td>" +
                     "<td>" + offers[i].date + "</td>" +
                     "<td>" + offers[i].seller + "</td>" +
-                    "<td><button class=\"btn btn-primary\" onclick=\"offerConversation('" + i + "')\">Conversacion</button></td>" +
+                    "<td><button  id =conver" +i +" class=\"btn btn-primary\" onclick=\"offerConversation('" + i + "')\">Conversacion</button></td>" +
                     "</tr>"
                 );
             }
@@ -104,12 +104,12 @@
         });
     }
 
-     function offerConversation(index) {
+    function offerConversation(index) {
         //Calculo la oferta
 
         selectedId = offers[index]._id;
-        seller = offers[index]._id;
-        title = offers[index]._id;
+        seller = offers[index].seller;
+        title = offers[index].title;
         selectConver();
         $("#main-container").load("widget-conversation.html");
     }
