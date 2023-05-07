@@ -147,7 +147,7 @@ module.exports = function (app, offersRepository) {
         let options = {sort: {title: 1}}; // Búsqueda de ofertas por título
         if (req.query.search != null && typeof (req.query.search) != "undefined" && req.query.search !== "") {
             // Si no se establece filtro, se tomarán todas las ofertas
-            filter = {"title": {$regex: ".*" + req.query.search + ".*"}}; // Texto de la búsqueda
+            filter = {"title": {$regex: ".*" + String.toLowerCase(req.query.search) + ".*"}}; // Texto de la búsqueda
         }
         let page = parseInt(req.query.page); // Es String!!!
         if (typeof req.query.page === "undefined" || req.query.page === null || req.query.page === "0")
@@ -161,14 +161,13 @@ module.exports = function (app, offersRepository) {
                 if (i > 0 && i <= lastPage)
                     pages.push(i);
             }
-
             let response = {
                 offers: result.offers,
                 pages: pages,
                 currentPage: page,
                 sessionUser: req.session.user
             };
-            res.render(LIST_OFFERS_VIEW, response);
+            res.render(LIST_USER_OFFERS_VIEW, response);
         }).catch(error => {
             res.send("Se ha producido un error al listar las ofertas " + error)
         });
@@ -243,7 +242,7 @@ module.exports = function (app, offersRepository) {
             let filter = {"_id": {$in: purchasedOffers}};
             let options = {sort: {title: 1}};
             offersRepository.getOffers(filter, options).then(offers => {
-                res.render("purchase.twig", {
+                res.render("purchase", {
                     offers: offers,
                     pages: pages,
                     currentPage: page,
@@ -271,9 +270,9 @@ module.exports = function (app, offersRepository) {
                 offer.featured = true;
                 offersRepository.featuredOffer(offer, filter, options).then(result => {
                     if (result == null)
-                        res.send("Error al destacar la oferta");
+                        res.render(LIST_USER_OFFERS_VIEW, {featuredError: true, sessionUser: req.session.user});
                     else
-                        res.redirect(LIST_USER_OFFERS_VIEW);
+                        res.render(LIST_USER_OFFERS_VIEW, {featuredError: true, sessionUser: req.session.user});
                 });
             } else
                 res.send("Error al destacar la oferta");

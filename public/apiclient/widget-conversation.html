@@ -5,7 +5,7 @@
             <div>
                 <h2>Conversación:
                     <div>
-                        <table class="table table-hover">
+                        <table class="table table-hover" >
                             <thead>
                             <tr>
                                 <th>Autor</th>
@@ -48,7 +48,7 @@
         $.ajax({
             url: URLbase + "/messages/" + idConver,
             type : "GET",
-             // creo q aqui va el comprador
+            // creo q aqui va el comprador
             dataType: 'json',
             headers: {
                 "token" : token
