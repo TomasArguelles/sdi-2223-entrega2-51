@@ -67,7 +67,7 @@ public class PO_OfferView extends PO_NavView {
      * @param descriptionp
      * @param pricep
      */
-    public static void simulateAddNewOffer(WebDriver driver, String titlep, String descriptionp, String pricep) {
+    public static void simulateAddNewOffer(WebDriver driver, String titlep, String descriptionp, String pricep, boolean featured) {
         // Iniciar sesion
         driver.navigate().to(BASE_PATH + "/users/login");
         PO_LoginView.fillLoginForm(driver, "user01@email.com", "user01");
@@ -76,7 +76,7 @@ public class PO_OfferView extends PO_NavView {
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
 
         // Rellenar el formulario con datos válidos
-        fillAddNewOfferForm(driver, titlep, descriptionp, pricep);
+        fillAddNewOfferForm(driver, titlep, descriptionp, pricep, featured);
     }
 
     /**
@@ -227,7 +227,7 @@ public class PO_OfferView extends PO_NavView {
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
 
         // Rellenar el formulario con datos válidos
-        fillAddNewOfferForm(driver, titlep, descriptionp, pricep);
+        fillAddNewOfferForm(driver, titlep, descriptionp, pricep, false);
     }
 
     /**
@@ -238,7 +238,7 @@ public class PO_OfferView extends PO_NavView {
      * @param descriptionp Detalle de la oferta
      * @param pricep       Precio de la oferta
      */
-    public static void fillAddNewOfferForm(WebDriver driver, String titlep, String descriptionp, String pricep) {
+    public static void fillAddNewOfferForm(WebDriver driver, String titlep, String descriptionp, String pricep, boolean featured) {
         // Rellenamos el campo de título
         WebElement offerTitle = driver.findElement(By.name("title"));
         offerTitle.click();
@@ -256,6 +256,10 @@ public class PO_OfferView extends PO_NavView {
         offerPrice.click();
         offerPrice.clear();
         offerPrice.sendKeys(pricep);
+
+        // Destacar nueva oferta
+        if (featured)
+            driver.findElement(By.name("destacar")).click();
 
         // Pulsar el boton de Alta.
         By addOfferButton = By.xpath("/html/body/div/form/div[5]/div/button");
@@ -348,4 +352,24 @@ public class PO_OfferView extends PO_NavView {
         Assertions.assertTrue(element.getText().contains(offerTitle));
     }
 
+    /**
+     * Realiza una búsqueda (usando el buscador)
+     * @param driver
+     * @param search, lo que se busca (título de la oferta o campo vacío)
+     */
+    public static void Search(WebDriver driver, String search) {
+        WebElement element = driver.findElement(By.name("search"));
+        element.click();
+        element.clear();
+        element.sendKeys(search);
+        driver.findElement(By.name("btSearch")).click();
+    }
+
+    /**
+     * Realiza la compra de una oferta
+     * @param driver
+     */
+    public static void buyOffer(WebDriver driver) {
+        driver.findElement(By.id("buy")).click();
+    }
 }

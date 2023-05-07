@@ -35,7 +35,7 @@
                             {% if offer.featured %}
                                 <p>Destacada</p>
                             {% else %}
-                                <a href="/offer/featured/{{ offer._id }}"
+                                <a href="/offer/featured/{{ offer._id }}" id="destacar"
                                    class="btn btn-primary">Destacar</a>
                             {% endif %}
                         </td>
@@ -45,6 +45,10 @@
             </table>
         {% else %}
             <p>No hay ofertas</p>
+        {% endif %}
+        {% if featuredError %}
+            <span id="errorFeatured" class="text-danger">
+                ¡Tu dinero debe ser superior o igual a 20€ para destacar una oferta!</span>
         {% endif %}
     </div>
     <br/>

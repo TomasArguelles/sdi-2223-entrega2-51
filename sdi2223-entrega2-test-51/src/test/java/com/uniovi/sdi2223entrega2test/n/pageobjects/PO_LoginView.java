@@ -54,7 +54,8 @@ public class PO_LoginView extends PO_NavView {
      * @param driver
      */
     static public void logout(WebDriver driver) {
-        PO_NavView.clickOption(driver, "logout", "text", "Desconectate");
+        driver.findElement(By.xpath("/html/body/nav/div/ul[2]/li/a")).click();
+        //PO_NavView.clickOption(driver, "logout", "text", "Desconectate");
     }
 
     static public void checkLoginPage(WebDriver driver) {

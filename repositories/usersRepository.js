@@ -23,7 +23,9 @@ module.exports = {
         } catch (error) {
             throw (error);
         }
-    }, removeUsers: async function (filter, options) {
+    },
+
+    removeUsers: async function (filter, options) {
         try {
             const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
             const database = client.db("sdi-2223-entrega2-51");
