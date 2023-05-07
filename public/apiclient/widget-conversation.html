@@ -68,6 +68,7 @@
     }
 
     function updateMessages(messages){
+        console.log(idConver);
         $("#messagesTableBody").empty();
         if(messages.length === 0){
             $("#messagesTableBody").append(
@@ -104,10 +105,9 @@
             headers: {
                 "token": token
             },
-            success: function (response) {
-                loadAllConvers();
-                selectConver()
-                loadAllMessages();
+            success:  function (response) {
+
+                $("#main-container").load("widget-offers.html");
                 $("#text").val("");
             }, error: function (error) {
                 clearInterval(refreshEachSecond);
