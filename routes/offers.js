@@ -146,7 +146,7 @@ module.exports = function (app, offersRepository) {
         let options = {sort: {title: 1}}; // Búsqueda de ofertas por título
         if (req.query.search != null && typeof (req.query.search) != "undefined" && req.query.search !== "") {
             // Si no se establece filtro, se tomarán todas las ofertas
-            filter = {"title": {$regex: ".*" + req.query.search + ".*"}}; // Texto de la búsqueda
+            filter = {"title": {$regex: ".*" + String.toLowerCase(req.query.search) + ".*"}}; // Texto de la búsqueda
         }
         let page = parseInt(req.query.page); // Es String!!!
         if (typeof req.query.page === "undefined" || req.query.page === null || req.query.page === "0")
@@ -160,7 +160,6 @@ module.exports = function (app, offersRepository) {
                 if (i > 0 && i <= lastPage)
                     pages.push(i);
             }
-
             let response = {
                 offers: result.offers,
                 pages: pages,

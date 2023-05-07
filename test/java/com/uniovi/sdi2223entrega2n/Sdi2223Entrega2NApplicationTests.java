@@ -19,7 +19,12 @@ class Sdi2223Entrega2NApplicationTests {
     // Kiko
     //static String Geckodriver = "C:\\Users\\kikoc\\Desktop\\SDI\\geckodriver-v0.30.0-win64.exe";
 
-    static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    // Tomas
+    //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+
+    // Teresa
+    static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
+
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
     static String BASE_HTTP_URL = "http://localhost:8081";
 
@@ -400,7 +405,7 @@ class Sdi2223Entrega2NApplicationTests {
         DatabaseUtils.resetOffersCollection();
 
         // Añadir una oferta
-        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba", "Descripcion de la oferta de prueba", "10.0");
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba", "Descripcion de la oferta de prueba", "10.0", false);
 
         // Comprobar que la oferta aparece en el listado de ofertas del usuario
         PO_OfferView.checkAddOffer(driver, "Oferta de prueba");
@@ -421,7 +426,7 @@ class Sdi2223Entrega2NApplicationTests {
         DatabaseUtils.resetOffersCollection();
 
         // Añadir una oferta introduciendo datos inválidos. Precio negativo
-        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba", "Descripcion de la oferta de prueba", "-1");
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba", "Descripcion de la oferta de prueba", "-1", false);
 
         // Comprobar que se muestra el mensaje de campo inválido. En este caso,
         // el campo precio debe ser mayor que 0.
@@ -440,8 +445,8 @@ class Sdi2223Entrega2NApplicationTests {
         DatabaseUtils.resetOffersCollection();
 
         // Añadir dos ofertas de prueba
-        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10");
-        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3");
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10", false);
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3", false);
 
         // *Nota: Se redirecciona al listado de ofertas propias del usuario depués
         // de añadir una oferta.
@@ -463,9 +468,9 @@ class Sdi2223Entrega2NApplicationTests {
         DatabaseUtils.resetOffersCollection();
 
         // Añadir dos ofertas de prueba
-        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10");
-        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3");
-        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 3", "Descripcion de la oferta de prueba 3", "5");
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10", false);
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3", false);
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 3", "Descripcion de la oferta de prueba 3", "5", false);
 
         // Obtener la primera oferta de la lista y borrarla
         PO_OfferView.deleteOfferFromUserOffersList(driver, 1);
@@ -488,9 +493,9 @@ class Sdi2223Entrega2NApplicationTests {
         DatabaseUtils.resetOffersCollection();
 
         // Añadir dos ofertas de prueba
-        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10");
-        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3");
-        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 3", "Descripcion de la oferta de prueba 3", "2");
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10", false);
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3", false);
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 3", "Descripcion de la oferta de prueba 3", "2", false);
 
         // Obtener la ultima oferta de la lista y borrarla
         PO_OfferView.deleteOfferFromUserOffersList(driver, 3);
@@ -513,8 +518,8 @@ class Sdi2223Entrega2NApplicationTests {
         DatabaseUtils.resetOffersCollection();
 
         // Añadir dos ofertas de prueba
-        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10");
-        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3");
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10", false);
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3", false);
 
         // Iniciar sesión con otro usuario
         PO_LoginView.logout(driver);
@@ -543,378 +548,219 @@ class Sdi2223Entrega2NApplicationTests {
         // TODO: Implementar
     }
 
+    /**
+     * [Prueba23] Hacer una búsqueda con el campo vacío
+     * y comprobar que se muestra la página que corresponde con el listado de las ofertas existentes
+     * en el sistema
+     */
+    @Test
+    @Order(23)
+    public void PR023() {
+        DatabaseUtils.resetOffersCollection();
 
-//
-//    /**
-//     * [Prueba 20] Hacer una búsqueda con el campo vacío y comprobar que se muestra la página que
-//     * corresponde con el listado de las ofertas existentes en el sistema
-//     */
-//    @Test
-//    @Order(20)
-//    public void PR020() {
-//        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//        //Rellenamos con datos validos del usuario estandar
-//        PO_LoginView.fillForm(driver, "user07@email.com", "user07");
-//        String invalid = "";
-//        PO_AllOfferView.SearchInvalid(driver, invalid);
-//
-//        //Comprobar que el numero es 0
-//        List<WebElement> offerList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
-//                PO_View.getTimeout());
-//
-//        Assertions.assertEquals(21, offerList.size());
-//
-//        //Cierro sesion
-//        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
-//    }
-//
-//    /**
-//     * [Prueba21] Hacer una búsqueda escribiendo en el campo un texto que no exista y comprobar que se
-//     * muestra la página que corresponde, con la lista de ofertas vacía.
-//     */
-//    @Test
-//    @Order(21)
-//    public void PR021() {
-//        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//        //Rellenamos con datos validos del usuario estandar
-//        PO_LoginView.fillForm(driver, "user07@email.com", "user07");
-//        String invalid = "asdasd";
-//        PO_AllOfferView.SearchInvalid(driver, invalid);
-//
-//        //Comprobar que el numero es 0
-//        SeleniumUtils.textIsNotPresentOnPage(driver, "//tbody/tr");
-//
-//        //Cierro sesion
-//        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
-//    }
-//
-//    /**
-//     * [Prueba22] Sobre una búsqueda determinada (a elección del desarrollador),
-//     * comprar una oferta que deja un saldo positivo en el contador del comprador.
-//     * Comprobar que el contador se actualiza correctamente en la vista del comprador.
-//     */
-//    @Test
-//    @Order(22)
-//    public void PR022() {
-//        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//        //Rellenamos con datos validos del usuario estandar
-//        PO_LoginView.fillForm(driver, "user07@email.com", "user07");
-//        //Entramos a la vista de comprar y compramos la oferta 104 que su precio es valido
-//        String buttonName = "buyOffer104";
-//        PO_AllOfferView.buyOffer(driver, buttonName);
-//        //Sacamos el valor del wallet
-//        String value = PO_AllOfferView.seeWallet(driver);
-//        //Lo comparamos con el precio restado
-//        Assertions.assertEquals(value, "54.0");
-//        //Cierro sesion
-//        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
-//    }
-//
+        // Iniciar sesión + añadir dos ofertas de prueba
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10", false);
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3", false);
 
-//    /**
-//     * [Prueba23] Sobre una búsqueda determinada (a elección del desarrollador),
-//     * comprar una oferta que deja un saldo 0 en el contador del comprador.
-//     * Comprobar que el contador se actualiza correctamente en la vista del comprador.
-//     */
-//    @Test
-//    @Order(23)
-//    public void PR023() {
-//        // Registrar nuevo usuario
-//        SeleniumUtils.registerNewUser(driver, "usuario113eddsf8@email.com", "123456");
-//        // Accedemos al menu de añadir una oferta
-//        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
-//        // Añadimos una oferta nueva
-//        PO_OfferView.fillForm(driver, "Prueba 23", "Descripción prueba 23", 54.0, false);
-//        //Cierro sesion
-//        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
-//
-//        //Accedo con el comprador
-//        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//        //Rellenamos con datos validos del usuario estandar
-//        PO_LoginView.fillForm(driver, "user07@email.com", "user07");
-//        //Entramos a la vista de comprar y compramos la oferta 153 que su precio es igual al wallet
-//        String buttonName = "buyOffer153";
-//        PO_AllOfferView.buyOffer(driver, buttonName);
-//        //Sacamos el valor del wallet
-//        String value = PO_AllOfferView.seeWallet(driver);
-//        //Lo comparamos con el precio restado
-//        Assertions.assertEquals(value, "0.0");
-//
-//    }
-//
-//    /**
-//     * [Prueba24] Sobre una búsqueda determinada (a elección del desarrollador),
-//     * intentar comprar una oferta que esté por encima de saldo disponible del comprador.
-//     * Y comprobar que se muestra el mensaje de saldo no suficiente.
-//     */
-//    @Test
-//    @Order(24)
-//    public void PR024() {
-//        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//        //Rellenamos con datos validos del usuario estandar
-//        PO_LoginView.fillForm(driver, "user07@email.com", "user07");
-//        //Entramos a la vista de comprar y compramos la oferta 34 que su precio es invalido
-//        String buttonName = "buyOffer34";
-//        PO_AllOfferView.buyOffer(driver, buttonName);
-//        //Buscamos que aparezca en la pagina la label
-//        boolean isDisplayed = driver.findElement(By.id("errorPrecio")).isDisplayed();
-//        Assertions.assertEquals(true, isDisplayed);
-//        //Cierro sesion
-//        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
-//    }
-//
-//    // [Prueba 25]. Listado de ofertas compradas por un usuario.
-//    // Comprobar que se muestran todas las ofertas compradas por dicho usuario.
-//    @Test
-//    @Order(25)
-//    public void PR025() {
-//        // Iniciamos sesión como usuario standard
-//        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//        PO_LoginView.fillForm(driver, "user04@email.com", "user04");
-//
-//        // Entramos a la vista de comprar y compramos la oferta 62
-//        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listAllOfferMenu");
-//
-//        PO_AllOfferView.buyOffer(driver, "buyOffer21");
-//
-//        // Sacamos el valor del wallet
-//        String value = PO_AllOfferView.seeWallet(driver);
-//
-//        // Lo comparamos con el precio restado
-//        Assertions.assertEquals(value, "30.0");
-//
-//        // Accedemos a la vista de listado de ofertas compradas
-//        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listBoughtOffers");
-//
-//        // Obtenemos el número de filas de la tabla de la vista del listado de ofertas
-//        int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table table-hover']/tbody/tr");
-//
-//        // Verificamos que el número de registros mostrados es correcto
-//        Assertions.assertEquals(1, rowCount);
-//
-//        // Cerramos sesión
-//        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
-//    }
-//
-//    //[Prueba26] Sobre una búsqueda determinada de ofertas (a elección de desarrollador), enviar un mensaje
-////a una oferta concreta. Se abriría dicha conversación por primera vez. Comprobar que el mensaje aparece
-////en la conversación.
-//    @Test
-//    @Order(26)
-//    public void PR026() {
-//        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//        //Cumplimentamos el registro con datos VALIDOS
-//        PO_LoginView.fillForm(driver, "user06@email.com", "user06");
-//
-//
-//        //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
-//        driver.get("http://localhost:8090/offer/allList?searchText=Carro");
-//
-//        //Click the link
-//        PO_ConversationsView.clickConversationsLink(driver);
-//
-//        //we count the number of rows
-//        WebElement table = driver.findElement(By.id("tableMessages"));
-//        List<WebElement> rows = table.findElements(By.tagName("tr"));
-//        int numRowsInit = rows.size();
-//
-//        // Write a message
-//        PO_ConversationsView.writeMessage(driver, "MensajePrueba");
-//        // Send the message
-//        PO_ConversationsView.sendMessage(driver);
-//
-//        // Check if the message was sent by counting again the number of rows
-//        table = driver.findElement(By.id("tableMessages"));
-//        List<WebElement> rows2 = table.findElements(By.tagName("tr"));
-//        int numRowsAfter = rows2.size();
-//
-//        Assertions.assertEquals(numRowsInit, numRowsAfter - 1);
-//    }
-//
-//    //[Prueba27] Enviar un mensaje a una conversación ya existente accediendo desde el botón/enlace
-//    //“Conversación”. Comprobar que el mensaje aparece en la conversación
-//    @Test
-//    @Order(27)
-//    public void PR027() {
-//        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//        //Cumplimentamos el registro con datos VALIDOS
-//        PO_LoginView.fillForm(driver, "user01@email.com", "user01");
-//        //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
-//        driver.get("http://localhost:8090/offer/allList?searchText=Carro");
-//
-//        //Click the link
-//        PO_ConversationsView.clickConversationsLink(driver);
-//
-//        //we count the number of rows
-//        WebElement table = driver.findElement(By.id("tableMessages"));
-//        List<WebElement> rows = table.findElements(By.tagName("tr"));
-//        int numRowsInit = rows.size();
-//
-//        // Write a message
-//        PO_ConversationsView.writeMessage(driver, "MensajePrueba");
-//        // Send the message
-//        PO_ConversationsView.sendMessage(driver);
-//
-//        // Check if the message was sent by counting again the number of rows
-//        table = driver.findElement(By.id("tableMessages"));
-//        List<WebElement> rows2 = table.findElements(By.tagName("tr"));
-//        int numRowsAfter = rows2.size();
-//
-//        Assertions.assertEquals(numRowsInit, numRowsAfter - 1);
-//    }
-//
-//    //[Prueba28] Mostrar el listado de conversaciones ya abiertas. Comprobar que el listado contiene la
-//    //cantidad correcta de conversaciones.
-//    @Test
-//    @Order(28)
-//    public void PR028() {
-//        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//        //Cumplimentamos el registro con datos VALIDOS
-//        PO_LoginView.fillForm(driver, "user04@email.com", "user04");
-//        //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
-//        driver.get("http://localhost:8090/conversation/mylist");
-//        WebElement table = driver.findElement(By.id("tableMyOffer"));
-//        List<WebElement> rows2 = table.findElements(By.tagName("tr"));
-//        int numRows = rows2.size();
-//
-//        Assertions.assertEquals(numRows, 3);
-//    }
-//
-//    /**
-//     * [Prueba29] Visualizar al menos cuatro páginas en español/inglés/español (comprobando que algunas de las etiquetas cambian al idioma correspondiente).
-//     * Ejemplo, Página principal/Opciones Principales de Usuario/Listado de Usuarios.
-//     */
-//    @Test
-//    @Order(29)
-//    public void PR29() {
-//        //Me logueo como usuario normal
-//        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//        PO_LoginView.fillForm(driver, "user04@email.com", "user04");
-//        //Compruebo el titulo con la pagina en español
-//        String title = "Bienvenidos a la página principal";
-//        String result = PO_HomeView.getTitleMessage(driver);
-//        Assertions.assertEquals(title, result);
-//        //Cambio a idioma ingles
-//        PO_NavView.changeLanguage(driver, "English");
-//        //Compruebo el titulo con la pagina en ingles
-//        title = "Welcome to homepage";
-//        result = PO_HomeView.getTitleMessage(driver);
-//        Assertions.assertEquals(title, result);
-//        //Cambio a español
-//        PO_NavView.changeLanguage(driver, "Spanish");
-//        //Compruebo el titulo en español
-//        title = "Bienvenidos a la página principal";
-//        result = PO_HomeView.getTitleMessage(driver);
-//        Assertions.assertEquals(title, result);
-//
-//        //Cambio a pagina de ver ofertas para comprar
-//        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdow", "listAllOfferMenu");
-//
-//        //Compruebo el titulo en español
-//        title = "Todas las ofertas";
-//        result = PO_AllOfferView.getTitleMessage(driver);
-//        Assertions.assertEquals(title, result);
-//        //Cambio a ingles
-//        PO_NavView.changeLanguage(driver, "English");
-//        //Compruebo en ingles
-//        title = "All offers";
-//        result = PO_AllOfferView.getTitleMessage(driver);
-//        Assertions.assertEquals(title, result);
-//        //Cambio a español
-//        PO_NavView.changeLanguage(driver, "Spanish");
-//        //Compruebo en español
-//        title = "Todas las ofertas";
-//        result = PO_HomeView.getTitleMessage(driver);
-//        Assertions.assertEquals(title, result);
-//
-//        //Me deslogueo
-//        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
-//        //Me logueo como admin
-//        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
-//
-//        //Voy a la ventana ver Usuario
-//        driver.get("http://localhost:8090/user/list");
-//        //Compruebo el titulo en español
-//
-//        title = "Usuarios";
-//        result = PO_UserListView.getTile(driver);
-//        Assertions.assertEquals(title, result);
-//        //Me cambio a ingles
-//        PO_NavView.changeLanguage(driver, "English");
-//        //Compruebo el titulo en ingles
-//        title = "Users";
-//        result = PO_UserListView.getTile(driver);
-//        Assertions.assertEquals(title, result);
-//        //Me cambio a español
-//        PO_NavView.changeLanguage(driver, "Spanish");
-//        //Compruebo el titulo en español
-//        title = "Usuarios";
-//        result = PO_UserListView.getTile(driver);
-//        Assertions.assertEquals(title, result);
-//
-//        //Cambiamos a la ventana log
-//        driver.get("http://localhost:8090/admin/logs/all");
-//        //Comprobamos en español
-//        title = "Listado de logs";
-//        result = PO_AdminView.getTitle(driver);
-//        Assertions.assertEquals(title, result);
-//        //Cambiamos a ingles
-//        PO_NavView.changeLanguage(driver, "English");
-//        //Comprobamos en ingles
-//        title = "Log listing";
-//        result = PO_AdminView.getTitle(driver);
-//        Assertions.assertEquals(title, result);
-//        //Cambiamos a español
-//        PO_NavView.changeLanguage(driver, "Spanish");
-//        //Comprobamos en español
-//        title = "Listado de logs";
-//        result = PO_AdminView.getTitle(driver);
-//        Assertions.assertEquals(title, result);
-//    }
-//
-//
-//    // [Prueba 30]. Acceso sin autenticación a la opción de listado de usuarios.
-//    @Test
-//    @Order(30)
-//    public void PR30() {
-//        // Acceso por url sin estar autenticado.
-//        driver.navigate().to(USER_LIST_ENDPOINT);
-//
-//        // Comprobar que se redirecciona a la vista de login
-//        Assertions.assertEquals(LOGIN_ENDPOINT, driver.getCurrentUrl());
-//    }
-//
-//    // [Prueba 31]. Acceso sin autenticación al listado de conversaciones de un
-//    // usuario estandar. Se debe redireccionar al formulario de login.
-//    @Test
-//    @Order(31)
-//    public void PR31() {
-//        // Acceso por url sin estar autenticado.
-//        driver.navigate().to(CONVERSATION_LIST_ENDPOINT);
-//
-//        // Comprobar que se redirecciona a la vista de login
-//        Assertions.assertEquals(LOGIN_ENDPOINT, driver.getCurrentUrl());
-//    }
-//
-//    // [Prueba 32]. Usuario estandar autenticado accede a una opción disponible solo
-//    // para usuarios administradores.
-//    @Test
-//    @Order(32)
-//    public void PR32() {
-//
-//        String email = "miemail888@email.com";
-//
-//        // Registrar nuevo usuario
-//        SeleniumUtils.registerNewUser(driver, email, "123456");
-//
-//
-//        // Acceder a una opción para usuarios administradores
-//        driver.navigate().to(BASE_ENDPOINT + PO_AdminView.ADMIN_DASHBOARD_ENDPOINT);
-//
-//        // Comprobar que se redirecciona a la vista de login
-//        Assertions.assertEquals(LOGIN_ENDPOINT, driver.getCurrentUrl());
-//    }
+        // Acceder a la vista del listado de todas las ofertas
+        driver.navigate().to(ALL_AVAILABLE_OFFERS_URL);
+
+        // Realizar una búsqueda con el campo vacío
+        // y comprobar que se muentra el listado de todas las ofertas existentes en el sistema
+        PO_OfferView.Search(driver, "");
+        PO_OfferView.checkOfferListingContainsOffers(driver, 2);
+    }
+
+    /**
+     * [Prueba24] Hacer una búsqueda escribiendo en el campo un texto que no exista
+     * y comprobar que se muestra la página que corresponde, con la lista de ofertas vacía.
+     */
+    @Test
+    @Order(24)
+    public void PR024() {
+        DatabaseUtils.resetOffersCollection();
+
+        // Iniciar sesión + añadir dos ofertas de prueba
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10", false);
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3", false);
+
+        // Acceder a la vista del listado de todas las ofertas
+        driver.navigate().to(ALL_AVAILABLE_OFFERS_URL);
+
+        // Realizar una búsqueda escribiendo en el campo un texto que no exista
+        // y comprobar que se muentra el listado de ofertas vacío
+        PO_OfferView.Search(driver, "jsdlvERIUFERd");
+        PO_OfferView.checkOfferListingContainsOffers(driver, 0);
+    }
+
+    /**
+     * [Prueba25] Hacer una búsqueda escribiendo en el campo un texto en minúscula o mayúscula
+     * y comprobar que se muestra la página que corresponde, con la lista de ofertas que contengan
+     * dicho texto, independientemente que el título esté almacenado en minúsculas o mayúscula
+     */
+    @Test
+    @Order(25)
+    public void PR025() {
+        DatabaseUtils.resetOffersCollection();
+
+        // Iniciar sesión + añadir dos ofertas de prueba
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10", false);
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3", false);
+
+        // Acceder a la vista del listado de todas las ofertas
+        driver.navigate().to(ALL_AVAILABLE_OFFERS_URL);
+
+        // Realizar una búsqueda escribiendo en el campo un texto en minúscula o mayúscula
+        // y comprobar que se muentra la oferta en el listado de ofertas
+        PO_OfferView.Search(driver, "OFERTA DE PRUEBA 1");
+        PO_OfferView.checkOfferListingContainsOffers(driver, 1);
+    }
+
+    /**
+     * [Prueba26] Sobre una búsqueda determinada,
+     * comprar una oferta que deja un saldo positivo en el contador del comprador.
+     * Y comprobar que el contador se actualiza correctamente en la vista del comprador.
+     */
+    @Test
+    @Order(26)
+    public void PR026() {
+        DatabaseUtils.resetOffersCollection();
+
+        // Iniciar sesión + añadir dos ofertas de prueba
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10", false);
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3", false);
+
+        // Acceder a la vista del listado de todas las ofertas
+        driver.navigate().to(ALL_AVAILABLE_OFFERS_URL);
+
+        // Realizar una búsqueda
+        // y comprobar que se muentra la oferta en el listado de ofertas
+        PO_OfferView.Search(driver, "Oferta de prueba 2");
+        PO_OfferView.checkOfferListingContainsOffers(driver, 1);
+        PO_OfferView.buyOffer(driver); // Comprar oferta
+    }
+
+    /**
+     * [Prueba27] Sobre una búsqueda determinada,
+     * comprar una oferta que deja un saldo 0 en el contador del comprobador.
+     * Y comprobar que el contador se actualiza correctamente en la vista del comprador.
+     */
+    @Test
+    @Order(27)
+    public void PR027() {
+        DatabaseUtils.resetOffersCollection();
+
+        // Iniciar sesión + añadir dos ofertas de prueba
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10", false);
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3", false);
+
+        // Acceder a la vista del listado de todas las ofertas
+        driver.navigate().to(ALL_AVAILABLE_OFFERS_URL);
+
+        // Realizar una búsqueda
+        // y comprobar que se muentra la oferta en el listado de ofertas
+        PO_OfferView.Search(driver, "Oferta de prueba 2");
+        PO_OfferView.checkOfferListingContainsOffers(driver, 1);
+        PO_OfferView.buyOffer(driver); // Comprar oferta
+    }
+
+    /**
+     * [Prueba28] Sobre una búsqueda determinada,
+     * intentar comprar una oferta que esté por encima de saldo disponible del comprador.
+     * Y comprobar que se muestra el mensaje de saldo no suficiente.
+     */
+    @Test
+    @Order(28)
+    public void PR028() {
+        DatabaseUtils.resetOffersCollection();
+
+        // Iniciar sesión + añadir dos ofertas de prueba
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10", false);
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3", false);
+
+        // Acceder a la vista del listado de todas las ofertas
+        driver.navigate().to(ALL_AVAILABLE_OFFERS_URL);
+
+        // Realizar una búsqueda
+        // y comprobar que se muentra la oferta en el listado de ofertas
+        PO_OfferView.Search(driver, "Oferta de prueba 1");
+        PO_OfferView.checkOfferListingContainsOffers(driver, 1);
+        PO_OfferView.buyOffer(driver); // Comprar oferta
+        boolean isDisplayed = driver.findElement(By.id("errorPrecio")).isDisplayed();
+        Assertions.assertEquals(true, isDisplayed);
+    }
+
+    /**
+     * [Prueba29] Ir a la opción de ofertas compradas del usuario y mostrar la lista.
+     * Comprobar que aparecen las ofertas que deben aparecer.
+     */
+    @Test
+    @Order(29)
+    public void PR029() {
+        DatabaseUtils.resetOffersCollection();
+
+        // Iniciar sesión + añadir dos ofertas de prueba
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "10", false);
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3", false);
+
+        // Acceder a la vista del listado de todas las ofertas
+        driver.navigate().to(ALL_AVAILABLE_OFFERS_URL);
+
+        // Realizar una búsqueda
+        // y comprobar que se muentra la oferta en el listado de ofertas
+        PO_OfferView.Search(driver, "Oferta de prueba 2");
+        PO_OfferView.checkOfferListingContainsOffers(driver, 1);
+        PO_OfferView.buyOffer(driver); // Comprar oferta
+
+        // Accedemos a la vista de listado de ofertas compradas
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listBoughtOffers");
+
+        // Obtenemos el número de filas de la tabla de la vista del listado de ofertas compradas
+        int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table table-hover']/tbody/tr");
+        Assertions.assertEquals(1, rowCount);
+    }
+
+    /**
+     * [Prueba30] Al crear una oferta marcar dicha oferta como destacada y a continuación comprobar:
+     * i) que aparece en el listado de ofertas destacadas para los usuarios y que el saldo del usuario
+     * se actualiza adecuadamente en la vista del ofertante (comprobar saldo antes y después,
+     * que deberá diferir en 20€).
+     */
+    @Test
+    @Order(30)
+    public void PR030() {
+        DatabaseUtils.resetOffersCollection();
+
+        // Añadir una oferta
+        PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba", "Descripcion de la oferta de prueba", "10.0", true);
+
+        // Comprobar que la oferta aparece en el listado de ofertas del usuario
+        PO_OfferView.checkAddOffer(driver, "Oferta de prueba");
+    }
+    /**
+     * [Prueba31] Sobre el listado de ofertas de un usuario con más de 20 euros de saldo,
+     * pinchar en el enlace Destacada y a continuación comprobar:
+     * i) que aparece en el listado de ofertas destacadas para los usuarios y
+     * que el saldo del usuario se actualiza adecuadamente en la vista del ofertante
+     * (comprobar saldo antes y después, que deberá diferir en 20€ ).
+     */
+    @Test
+    @Order(31)
+    public void PR031() {
+
+    }
+
+    /**
+     * [Prueba32] Sobre el listado de ofertas de un usuario con menos de 20 euros de saldo,
+     * pinchar en el enlace Destacada y a continuación comprobar que se muestra el mensaje
+     * de saldo no suficiente.
+     */
+    @Test
+    @Order(32)
+    public void PR032() {
+
+    }
+
 //
 //    // [Prueba 33]. Usuario administrador autenticado visualiza los logs generados
 //    // en una serie de iteraciones. Generar al menos dos interacciones de cada
