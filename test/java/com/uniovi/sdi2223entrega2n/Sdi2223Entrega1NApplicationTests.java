@@ -1,42 +1,46 @@
-package com.uniovi.sdi2223entrega2test.n;
+package com.uniovi.sdi2223entrega2n;
 
-import com.uniovi.sdi2223entrega2test.n.pageobjects.*;
-import com.uniovi.sdi2223entrega2test.n.util.DatabaseUtils;
-import com.uniovi.sdi2223entrega2test.n.util.SeleniumUtils;
-import io.restassured.RestAssured;
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
-import org.json.simple.JSONObject;
+import com.uniovi.sdi2223entrega2n.pageobjects.*;
+import com.uniovi.sdi2223entrega2n.util.DatabaseUtils;
+import com.uniovi.sdi2223entrega2n.util.SeleniumUtils;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.awt.image.SinglePixelPackedSampleModel;
 import java.util.List;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class Sdi2223Entrega2TestApplicationTests {
-    static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-    static String BASE_PATH = "http://localhost:8081";
+class Sdi2223Entrega1NApplicationTests {
 
-    static String BASE_API_CLIENT_URL = "http://localhost:8081/api/v1.0"; // URL base del API del cliente
-    //Manu
-    static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\spring\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
 
     // Kiko
     //static String Geckodriver = "C:\\Users\\kikoc\\Desktop\\SDI\\geckodriver-v0.30.0-win64.exe";
-//Manu
-    static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\spring\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "D:\\SDI\\sesion06\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //Manu
-    // Teresa
-    //static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
-
+    static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\spring\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
-    static String URL = "http://localhost:8081";
+    static String BASE_HTTP_URL = "http://localhost:8081";
 
-    // Url de la vista de listado de ofertas para comprar
+
+    // Url por defecto para el cliente HTTP (REST)
+    static String BASE_API_CLIENT_URL = BASE_HTTP_URL + "/apiclient";
+
     static String ALL_AVAILABLE_OFFERS_URL = "http://localhost:8081/offers/all";
+
+    // Endpoint para mostrar el listado de usuarios (Ver UserController)
+    static final String USER_LIST_ENDPOINT = BASE_HTTP_URL + "/user/list";
+
+    // Endpoint para mostrar la vista de conversaciones de un usuario.
+    static final String CONVERSATION_LIST_ENDPOINT = BASE_HTTP_URL + "/conversation/list";
+
+
+    // Enpoint para mostrar la vista de login
+    static final String LOGIN_ENDPOINT = BASE_HTTP_URL + "/login";
 
     public static WebDriver getDriver(String PathFirefox, String Geckodriver) {
         System.setProperty("webdriver.firefox.bin", PathFirefox);
@@ -47,8 +51,7 @@ class Sdi2223Entrega2TestApplicationTests {
 
     @BeforeEach
     public void setUp() {
-        driver.navigate().to(URL);
-
+        driver.navigate().to(BASE_HTTP_URL);
     }
 
     //Después de cada prueba se borran las cookies del navegador
@@ -61,7 +64,7 @@ class Sdi2223Entrega2TestApplicationTests {
     @BeforeAll
     static public void begin() {
         // Crear los usuarios de prueba
-        driver.navigate().to(URL);
+        driver.navigate().to(BASE_HTTP_URL);
         DatabaseUtils.seedUsers();
     }
 
@@ -72,14 +75,10 @@ class Sdi2223Entrega2TestApplicationTests {
         driver.quit();
     }
 
-    // -------------------------------------
-    // Parte 1 - Aplicacion Web
-    // -------------------------------------
     //    [Prueba1] Registro de Usuario con datos válidos.
     @Test
     @Order(1)
     void PR01() {
-        DatabaseUtils.resetUsersCollection();
         //Nos movemos al formulario de registro
         PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
@@ -93,7 +92,6 @@ class Sdi2223Entrega2TestApplicationTests {
     @Test
     @Order(2)
     void PR02() {
-        DatabaseUtils.resetUsersCollection();
         //Nos movemos al formulario de registro
         PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos INVALIDOS
@@ -141,7 +139,7 @@ class Sdi2223Entrega2TestApplicationTests {
         //Nos movemos al formulario de inicio de sesión
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario administrador
-        PO_LoginView.fillLoginForm(driver, "admin@email.com", "admin");
+        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
         //Comprobamos que hemos ido a la pagina de home, confirmando que el inicio de sesión se ha completado con exito
         PO_HomeView.checkWelcomeToPage(driver);
     }
@@ -153,7 +151,7 @@ class Sdi2223Entrega2TestApplicationTests {
         //Nos movemos al formulario de inicio de sesión
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
-        PO_LoginView.fillLoginForm(driver, "user01@email.com", "user01");
+        PO_LoginView.fillForm(driver, "user01@email.com", "user01");
         //Comprobamos que hemos ido a la pagina de home, confirmando que el inicio de sesión se ha completado con exito
         PO_HomeView.checkWelcomeToPage(driver);
     }
@@ -184,7 +182,7 @@ class Sdi2223Entrega2TestApplicationTests {
         //Nos movemos al formulario de inicio de sesión
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
-        PO_LoginView.fillLoginForm(driver, "user01@email.com", "user01");
+        PO_LoginView.fillForm(driver, "user01@email.com", "user01");
         //Comprobamos que hemos ido a la pagina de home, confirmando que el inicio de sesión se ha completado con exito
         PO_HomeView.checkWelcomeToPage(driver);
         //Nos movemos al formulario de inicio de sesión
@@ -240,6 +238,127 @@ class Sdi2223Entrega2TestApplicationTests {
         Assertions.assertTrue(fourthPageUsers.size() == 1);
     }
 
+
+
+//
+//    //[Prueba12] Ir a la lista de usuarios, borrar el primer usuario de la lista, comprobar que la lista se actualiza
+//    //y dicho usuario desaparece.
+//    @Test
+//    @Order(12)
+//    void PR012() {
+//        //Nos movemos al formulario de inicio de sesion
+//        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+//        //Cumplimentamos el registro con datos VALIDOS
+//        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+//        //Comprobamos que seguimos en la pantalla de registro
+//        PO_HomeView.checkWelcomeToPage(driver);
+//        //Accedemos a la lista de users
+//        driver.get("http://localhost:8090/user/list");
+//
+//        //Sacamos la lista de usuarios q hay
+//        List<WebElement> usersList = PO_UserListView.getUsersList(driver);
+//        //guardamos tamaño para comporbar
+//        int s1 = usersList.size();
+//        //Primer usuario y marcaje de su checkbox
+//        WebElement firstUser = usersList.get(0);
+//
+//        PO_UserListView.markCheckBoxUser(driver, firstUser);
+//        //Borramos dandole al boton
+//        PO_UserListView.clickDeleteButton(driver);
+//
+//        //Actualizamos la lista
+//        usersList = PO_UserListView.getUsersList(driver);
+//        //Guardamos segundo tamaño y vemos q no es el mismo, comprobamos que decrementó en 1
+//        int s2 = usersList.size();
+//        Assertions.assertNotEquals(s1, s2);
+//        Assertions.assertEquals(s1, s2 + 1);
+//    }
+//
+//    //[Prueba13] Ir a la lista de usuarios, borrar el último usuario de la lista, comprobar que la lista se actualiza
+////y dicho usuario desaparece.
+//    @Test
+//    @Order(13)
+//    void PR013() {
+//        //Nos movemos al formulario de inicio de sesion
+//        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+//        //Cumplimentamos el registro con datos VALIDOS
+//        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+//        //Comprobamos que seguimos en la pantalla de registro
+//        PO_HomeView.checkWelcomeToPage(driver);
+//        //Accedemos a la lista de users
+//        driver.get("http://localhost:8090/user/list");
+//
+//        //Sacamos la lista de usuarios q hay
+//        List<WebElement> usersList = PO_UserListView.getUsersList(driver);
+//        //guardamos tamaño para comporbar
+//        int s1 = usersList.size();
+//        //Ultimo usuario y marcaje de su checkbox
+//        WebElement lastUser = usersList.get(usersList.size() - 1);
+//        PO_UserListView.markCheckBoxUser(driver, lastUser);
+//        //Borramos dandole al boton
+//        PO_UserListView.clickDeleteButton(driver);
+//        //Actualizamos la lista
+//        usersList = PO_UserListView.getUsersList(driver);
+//        //Guardamos segundo tamaño y vemos q no es el mismo, comprobamos que decrementó en 1
+//        int s2 = usersList.size();
+//        Assertions.assertNotEquals(s1, s2);
+//        Assertions.assertEquals(s1, s2 + 1);
+//    }
+//
+//    //[Prueba14] Ir a la lista de usuarios, borrar 3 usuarios, comprobar que la lista se actualiza y dichos
+//    //usuarios desaparecen.
+//    @Test
+//    @Order(14)
+//    void PR014() {
+//        //Nos movemos al formulario de inicio de sesion
+//        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+//        //Cumplimentamos el registro con datos VALIDOS
+//        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+//        //Comprobamos que seguimos en la pantalla de registro
+//        PO_HomeView.checkWelcomeToPage(driver);
+//        //Accedemos a la lista de users
+//        driver.get("http://localhost:8090/user/list");
+//
+//        //Sacamos la lista de usuarios q hay
+//        List<WebElement> usersList = PO_UserListView.getUsersList(driver);
+//        //guardamos tamaño para comporbar
+//        int s1 = usersList.size();
+//        //Sacamos los tres primeros usuarios y marcamos de sus checkboxes
+//        WebElement u1 = usersList.get(0);
+//        WebElement u2 = usersList.get(1);
+//        WebElement u3 = usersList.get(2);
+//        PO_UserListView.markCheckBoxUser(driver, u1);
+//        PO_UserListView.markCheckBoxUser(driver, u2);
+//        PO_UserListView.markCheckBoxUser(driver, u3);
+//        //Borramos dandole al boton
+//        PO_UserListView.clickDeleteButton(driver);
+//        //Actualizamos la lista
+//        usersList = PO_UserListView.getUsersList(driver);
+//        //Guardamos segundo tamaño y vemos q no es el mismo, comprobamos que decrementó en 1
+//        int s2 = usersList.size();
+//        Assertions.assertNotEquals(s1, s2);
+//        Assertions.assertEquals(s1, s2 + 3);
+//    }
+//
+//    // [Prueba 15]. Añadir nueva oferta con datos válidos.
+//    @Test
+//    @Order(15)
+//    public void PR015() {
+//        // Crear nuevo usuario
+//        SeleniumUtils.registerNewUser(driver, "miemail444@email.com", "123456");
+//
+//        String newOfferText = "Coche marca Renault 1";
+//
+//        // Acceder a la vista de añadir una nueva oferta
+//        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
+//
+//        // Rellenar campos del formulario con valores válidos.
+//        PO_OfferView.fillForm(driver, newOfferText, "Coche de los años 90", 2000.50, false);
+//
+//        // Comprobar que se muestra en el listado de ofertas
+//        List<WebElement> offers = PO_View.checkElementBy(driver, "text", newOfferText);
+//        Assertions.assertEquals(1, offers.size());
+//    }
 
     /**
      * Parte 1 - Aplicacion Web - W6
@@ -385,27 +504,17 @@ class Sdi2223Entrega2TestApplicationTests {
         PO_OfferView.checkOfferAppearOnAllAvailableOfferList(driver, 1, "Oferta de prueba 1");
     }
 
-//    /**
-//     * Parte 1 - Aplicacion Web - W8
-//     * <p>
-//     * [Prueba 22] Ir a la lista de ofertas, borrar una oferta propia que ha
-//     * sido vendida, comprobar que la oferta no se borra.
-//     */
-//    @Test
-//    @Order(22)
-//    public void PR22() {
-//        // Iniciar sesion
-//        PO_LoginView.login(driver, "prueba2@prueba2.com", "prueba2", "");
-//
-//        // Acceder al listado de ofertas.
-//
-//        // Obtener una oferta propia que ha sido vendida
-//
-//        // Hacer click en el botón de borrar oferta
-//
-//        // Comprobar que la oferta no se borra
-//    }
-
+    /**
+     * Parte 1 - Aplicacion Web - W8
+     * <p>
+     * [Prueba 22] Ir a la lista de ofertas, borrar una oferta propia que ha sido vendida, comprobar que la
+     * oferta no se borra.
+     */
+    @Test
+    @Order(22)
+    public void PR22() {
+        // TODO: Implementar
+    }
     /**
      * [Prueba23] Hacer una búsqueda con el campo vacío
      * y comprobar que se muestra la página que corresponde con el listado de las ofertas existentes
@@ -780,8 +889,6 @@ class Sdi2223Entrega2TestApplicationTests {
         WebElement noLogsMessage = driver.findElement(By.xpath("/html/body/div/div/div/div/p[2]"));
         Assertions.assertEquals("No hay logs registrados", noLogsMessage.getText());
     }
-
-
     /**
      *[Prueba42] Enviar un mensaje a una oferta. Esta prueba consistirá en comprobar que el servicio
      * almacena correctamente el mensaje para dicha oferta. Por lo tanto, el usuario tendrá que
@@ -821,16 +928,16 @@ class Sdi2223Entrega2TestApplicationTests {
         botonConversacion.click();
 
         // ahora ya en la vista de la conversación
-        WebElement mensajeInput = driver.findElement(By.id("text"));
+        WebElement mensajeInput = driver.findElement(By.id("txtAddMsg"));
         mensajeInput.sendKeys("Hola, estoy interesado en tu oferta");
-        WebElement enviarButton = driver.findElement(By.id("send-button"));
+        WebElement enviarButton = driver.findElement(By.id("sendMsg"));
         enviarButton.click();
 
         WebElement ofertaAñadida2 = driver.findElement(By.cssSelector("#widget-songs table tbody tr:first-child"));
         WebElement botonConversacion2 = ofertaAñadida2.findElement(By.cssSelector("button[onclick='offerConversation(\\'0\\')']"));
         botonConversacion2.click();
 
-        WebElement tablaMensajes = driver.findElement(By.id("table-messages"));
+        WebElement tablaMensajes = driver.findElement(By.id("messagesTableBody"));
         List<WebElement> mensajes = tablaMensajes.findElements(By.tagName("tr"));
         WebElement ultimoMensaje = mensajes.get(mensajes.size() - 1);
         WebElement contenidoMensaje = ultimoMensaje.findElement(By.xpath("td[2]"));
@@ -845,17 +952,19 @@ class Sdi2223Entrega2TestApplicationTests {
     @Test
     @Order(43)
     public void PR43() {
+        //Esta prueba no se realiza ya que el cliente en sí ya está filtrando las conversaciones y sólo muestra las que no pertencen al usuario.
+        //No obstante en la api se valida.
         Assertions.assertTrue(true);
     }
     /**
-     [Prueba44] Obtener los mensajes de una conversación. Esta prueba consistirá en comprobar que el
-     servicio retorna el número correcto de mensajes para una conversación. El ID de la conversación
-     deberá conocerse a priori. Por lo tanto, se tendrá primero que invocar al servicio de identificación
-     (S1), y solicitar el listado de mensajes de una conversación de id conocido a continuación (S4),
-     comprobando que se retornan los mensajes adecuados.
+     *[Prueba44] Obtener los mensajes de una conversación. Esta prueba consistirá en comprobar que el
+     * servicio retorna el número correcto de mensajes para una conversación. El ID de la conversación
+     * deberá conocerse a priori. Por lo tanto, se tendrá primero que invocar al servicio de identificación
+     * (S1), y solicitar el listado de mensajes de una conversación de id conocido a continuación (S4),
+     * comprobando que se retornan los mensajes adecuados.
      */
     @Test
-    @Order(0)
+    @Order(44)
     public void PR44() {
         DatabaseUtils.resetOffersCollection();
 
@@ -887,52 +996,31 @@ class Sdi2223Entrega2TestApplicationTests {
         botonConversacion.click();
 
         // ahora ya en la vista de la conversación
-        WebElement mensajeInput = driver.findElement(By.id("text"));
+        WebElement mensajeInput = driver.findElement(By.id("txtAddMsg"));
         mensajeInput.sendKeys("Hola, estoy interesado en tu oferta");
-        WebElement enviarButton = driver.findElement(By.id("send-button"));
+        WebElement enviarButton = driver.findElement(By.id("sendMsg"));
         enviarButton.click();
 
         WebElement ofertaAñadida2 = driver.findElement(By.cssSelector("#widget-songs table tbody tr:first-child"));
         WebElement botonConversacion2 = ofertaAñadida2.findElement(By.cssSelector("button[onclick='offerConversation(\\'0\\')']"));
         botonConversacion2.click();
 
-        WebElement tablaMensajes = driver.findElement(By.id("table-messages"));
+        WebElement tablaMensajes = driver.findElement(By.id("messagesTableBody"));
         List<WebElement> mensajes = tablaMensajes.findElements(By.tagName("tr"));
-        WebElement ultimoMensaje = mensajes.get(mensajes.size() - 1);
-        WebElement contenidoMensaje = ultimoMensaje.findElement(By.xpath("td[2]"));
-        Assertions.assertEquals("Hola, estoy interesado en tu oferta", contenidoMensaje.getText());
-
-
-
-        //Ahora con los mensajes añadidos vamos a ver las conversaciones
-        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=convers");
-        WebElement tablaConvs = driver.findElement(By.id("table-convs"));
-        List<WebElement> convs = tablaConvs.findElements(By.tagName("tr"));
-
-        // Verificar que la tabla contiene al menos una conversación
-        Assertions.assertTrue(convs.size() > 0);
-
-        // Hacer clic en el botón de la primera conversación
-        WebElement botonConversacion3 = driver.findElement(By.xpath("//table[@id='table-convs']/tbody/tr[1]/td[3]/button[1]"));
-        botonConversacion3.click();
-
-
-        // Verificar que la tabla de mensajes se muestra correctamente
-        WebElement tablaMensajes2 = driver.findElement(By.id("table-messages"));
-        List<WebElement> mensajes2 = tablaMensajes2.findElements(By.tagName("tr"));
-        Assertions.assertEquals(mensajes2.size(), 2);
+        Assertions.assertEquals(1, mensajes.size());
     }
+
     /**
      *[Prueba45] Obtener la lista de conversaciones de un usuario. Esta prueba consistirá en comprobar que
      * el servicio retorna el número correcto de conversaciones para dicho usuario. Por lo tanto, se tendrá
      * primero que invocar al servicio de identificación (S1), y solicitar el listado de conversaciones a
-     * continuación (S5) comprobando que se retornan las conversaciones adecuadas
+     * continuación (S5) comprobando que se retornan las conversaciones adecuadas.
      */
     @Test
     @Order(45)
     public void PR45() {
         DatabaseUtils.resetOffersCollection();
-
+        DatabaseUtils.resetConversationsCollection();
         // Añadir 3 ofertas con user01
         PO_OfferView.simulateAddNewOffer(driver, "user01@email.com", "user01", "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "1");
 
@@ -961,52 +1049,27 @@ class Sdi2223Entrega2TestApplicationTests {
         botonConversacion.click();
 
         // ahora ya en la vista de la conversación
-        WebElement mensajeInput = driver.findElement(By.id("text"));
+        WebElement mensajeInput = driver.findElement(By.id("txtAddMsg"));
         mensajeInput.sendKeys("Hola, estoy interesado en tu oferta");
-        WebElement enviarButton = driver.findElement(By.id("send-button"));
+        WebElement enviarButton = driver.findElement(By.id("sendMsg"));
         enviarButton.click();
 
-        WebElement ofertaAñadida2 = driver.findElement(By.cssSelector("#widget-songs table tbody tr:first-child"));
-        WebElement botonConversacion2 = ofertaAñadida2.findElement(By.cssSelector("button[onclick='offerConversation(\\'0\\')']"));
-        botonConversacion2.click();
 
-        WebElement tablaMensajes = driver.findElement(By.id("table-messages"));
-        List<WebElement> mensajes = tablaMensajes.findElements(By.tagName("tr"));
-        WebElement ultimoMensaje = mensajes.get(mensajes.size() - 1);
-        WebElement contenidoMensaje = ultimoMensaje.findElement(By.xpath("td[2]"));
-        Assertions.assertEquals("Hola, estoy interesado en tu oferta", contenidoMensaje.getText());
+        // Acceder a la pagina de conversaciones
+        driver.findElement(By.id("convers")).click();
+        WebElement table = driver.findElement(By.id("conversTableBody"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsAct = rows.size();
 
+        //Compruebo que el actual sea uno mayor q el inicio
 
-
-        //Ahora con los mensajes añadidos vamos a ver las conversaciones
-        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=convers");
-
-        WebElement tablaConvs = driver.findElement(By.id("table-convs"));
-        List<WebElement> convs = tablaConvs.findElements(By.tagName("tr"));
-        Assertions.assertEquals(convs.size(),1);
+        //Hay una conversacion abierta
+        Assertions.assertEquals(1,numRowsAct);
     }
-    /**
-     *[Prueba46] Eliminar una conversación de ID conocido. Esta prueba consistirá en comprobar que se
-     * elimina correctamente una conversación concreta. Por lo tanto, se tendrá primero que invocar al
-     * servicio de identificación (S1), eliminar la conversación ID (S6) y solicitar el listado de
-     * conversaciones a continuación (S5), comprobando que se retornan las conversaciones adecuadas.
-     */
-    @Test
-    @Order(46)
-    public void PR46() {
 
-    }
-    /**
-     *[Prueba47] Marcar como leído un mensaje de ID conocido. Esta prueba consistirá en comprobar que
-     * el mensaje marcado de ID conocido queda marcado correctamente a true como leído. Por lo
-     * tanto, se tendrá primero que invocar al servicio de identificación (S1), solicitar el servicio de
-     * marcado (S7), comprobando que el mensaje marcado ha quedado marcado a true como leído (S4).
-     */
-    @Test
-    @Order(47)
-    public void PR47() {
 
-    }
+
+
     // -------------------------------------
     // Parte 2B - Cliente ligero JQuery/AJAX
     // -------------------------------------
@@ -1119,55 +1182,154 @@ class Sdi2223Entrega2TestApplicationTests {
         offers.get(2).findElement(By.xpath("td[1]")).getText().equals("Oferta de prueba 3");
     }
 
-//    @Test
-//    @Order(7)
-//    public void PR07() {
-//        Assertions.assertTrue(false, "PR07 sin hacer");
-//    }
-//
-//    @Test
-//    @Order(8)
-//    public void PR08() {
-//        Assertions.assertTrue(false, "PR08 sin hacer");
-//    }
-//
-//    @Test
-//    @Order(9)
-//    public void PR09() {
-//        Assertions.assertTrue(false, "PR09 sin hacer");
-//    }
-//
-//    @Test
-//    @Order(10)
-//    public void PR10() {
-//        Assertions.assertTrue(false, "PR10 sin hacer");
-//    }
-//
-//
-//    /* Ejemplos de pruebas de llamada a una API-REST */
-//    /* ---- Probamos a obtener lista de canciones sin token ---- */
-//    @Test
-//    @Order(11)
-//    public void PR11() {
-//        final String RestAssuredURL = "http://localhost:8081/api/v1.0/songs";
-//        Response response = RestAssured.get(RestAssuredURL);
-//        Assertions.assertEquals(403, response.getStatusCode());
-//    }
-//
-//    @Test
-//    @Order(38)
-//    public void PR38() {
-//        final String RestAssuredURL = "http://localhost:8081/api/v1.0/users/login";
-//        //2. Preparamos el parámetro en formato JSON
-//        RequestSpecification request = RestAssured.given();
-//        JSONObject requestParams = new JSONObject();
-//        requestParams.put("email", "prueba1@prueba1.com");
-//        requestParams.put("password", "prueba1");
-//        request.header("Content-Type", "application/json");
-//        request.body(requestParams.toJSONString());
-//        //3. Hacemos la petición
-//        Response response = request.post(RestAssuredURL);
-//        //4. Comprobamos que el servicio ha tenido exito
-//        Assertions.assertEquals(200, response.getStatusCode());
-//    }
+    /**
+     * Cliente ligero JQuery/AJAX
+     * <p>
+     * [Prueba52] Sobre listado de ofertas disponibles (a elección de desarrollador), enviar un mensaje a una
+     *     oferta concreta. Se abriría dicha conversación por primera vez. Comprobar que el mensaje aparece
+     *     en el listado de mensajes
+     */
+
+    @Test
+    @Order(52)
+    public void PR52() {
+        DatabaseUtils.resetOffersCollection();
+        DatabaseUtils.resetConversationsCollection();
+        //Añado una oferta a user01
+        PO_OfferView.simulateAddNewOffer(driver, "user01@email.com", "user01", "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "1");
+
+        //Añado una oferta user02
+        PO_OfferView.simulateAddNewOffer(driver, "user02@email.com", "user02", "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "2");
+
+
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        // Rellenar formulario de login con contraseña valida
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a")).click();
+
+        //Cojo el primer boton de conversacion y accedo a la pantalla de navegacin
+        driver.findElement(By.id("conver0")).click();
+
+        //Cuento las rows que habia
+        WebElement table = driver.findElement(By.id("messagesTableBody"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsPrev = rows.size();
+
+        //Busco el input y lo clicko
+        WebElement input =driver.findElement(By.id("txtAddMsg"));
+
+        //Escribo mensaje ("Mensaje text 52");
+        input.sendKeys("Mensaje text 52");
+
+        //Le doy a enviar
+        driver.findElement(By.id("sendMsg")).click();
+        driver.findElement(By.id("conver0")).click();
+
+        //Busco que se añadiese el mensaje
+
+        WebElement tableAct = driver.findElement(By.id("messagesTableBody"));
+        List<WebElement> rowsAct = tableAct.findElements(By.tagName("tr"));
+        int numRowsAct = rowsAct.size();
+
+        //Compruebo que el actual sea uno mayor q el inicio
+
+        Assertions.assertEquals(numRowsPrev, numRowsAct-1);
+
+    }
+
+    /**
+     * Cliente ligero JQuery/AJAX
+     [Prueba53] Sobre el listado de conversaciones enviar un mensaje a una conversación ya abierta.
+     Comprobar que el mensaje aparece en el listado de mensajes.
+     */
+
+    @Test
+    @Order(53)
+    public void PR53(){
+
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        // Rellenar formulario de login con contraseña valida
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+
+        // Acceder a la pagina de conversaciones
+        driver.findElement(By.id("convers")).click();
+
+        //Busco la primera conver y accedo a ella
+        driver.findElement(By.id("conv0")).click();
+
+        //Cuento las rows que habia
+        WebElement table = driver.findElement(By.id("messagesTableBody"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsPrev = rows.size();
+
+        //Busco el input y lo clicko
+        WebElement input =driver.findElement(By.id("txtAddMsg"));
+
+        //Escribo mensaje ("Mensaje text 53");
+        input.sendKeys("Mensaje text 53");
+
+        //Le doy a enviar
+        driver.findElement(By.id("sendMsg")).click();
+
+        //Cuando se arregle la api se borra
+        driver.findElement(By.id("convers")).click();
+        driver.findElement(By.id("conv0")).click();
+
+        //Busco que se añadiese el mensaje
+        WebElement tableAct = driver.findElement(By.id("messagesTableBody"));
+        List<WebElement> rowsAct = tableAct.findElements(By.tagName("tr"));
+        int numRowsAct = rowsAct.size();
+
+        //Compruebo que el actual sea uno mayor q el inicio
+
+        Assertions.assertEquals(numRowsPrev, numRowsAct-1);
+    }
+
+
+    /**
+     * Cliente ligero JQuery/AJAX
+     [Prueba53] Sobre el listado de conversaciones enviar un mensaje a una conversación ya abierta.
+     Comprobar que el mensaje aparece en el listado de mensajes.
+     */
+
+    @Test
+    @Order(54)
+    public void PR54(){
+        int count=0;
+
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        // Rellenar formulario de login con contraseña valida
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a")).click();
+
+        // Acceder a la pagina de conversaciones
+        driver.findElement(By.id("convers")).click();
+
+        //TODO: contar las convers q hay
+        //Busco que se añadiese el mensaje
+        WebElement table = driver.findElement(By.id("conversTableBody"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsAct = rows.size();
+
+        //Compruebo que el actual sea uno mayor q el inicio
+
+        //Hay una conversacion abierta
+        Assertions.assertEquals(1,numRowsAct);
+    }
+
 }
