@@ -250,7 +250,6 @@ module.exports = function (app, usersRepository, offersRepository, conversations
     });
      **/
     app.get('/api/v1.0/messages/:id', function (req, res) {
-
         try {
             let filter = {idConver: ObjectId(req.params.id)};
             let options = {};

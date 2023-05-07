@@ -106,18 +106,23 @@
 
      function offerConversation(index) {
         //Calculo la oferta
-        offer = offers[index];
-        selectedId = offer._id;
+
+        selectedId = offers[index]._id;
+        seller = offers[index]._id;
+        title = offers[index]._id;
         selectConver();
         $("#main-container").load("widget-conversation.html");
     }
 
     function selectConver(){
+        let aux;
         for(let i = 0; i< convers.length; i++){
             if(selectedId === convers[i].oferta){
-                idConver = convers[i]._id;
+                aux = convers[i]._id;
             }
         }
+        idConver = aux;
+
     }
 
 </script>
