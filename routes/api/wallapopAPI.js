@@ -110,8 +110,8 @@ module.exports = function (app, usersRepository, offersRepository, conversations
                         }
                         let msg = {
                             idConver: ObjectId(idConver),
-                            idSender: ObjectId(sender),
-                            idReceiver: ObjectId(receiver),
+                            idSender: sender,
+                            idReceiver: receiver,
                             leido: leido,
                             texto: message,
                             timestamp: date
