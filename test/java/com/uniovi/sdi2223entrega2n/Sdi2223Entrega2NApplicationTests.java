@@ -12,7 +12,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import java.util.List;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class Sdi2223Entrega1NApplicationTests {
+class Sdi2223Entrega2NApplicationTests {
 
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
 
@@ -72,23 +72,28 @@ class Sdi2223Entrega1NApplicationTests {
         driver.quit();
     }
 
+    // -------------------------------------
+    // Parte 1 - Aplicacion Web
+    // -------------------------------------
     //    [Prueba1] Registro de Usuario con datos válidos.
     @Test
     @Order(1)
     void PR01() {
+        DatabaseUtils.resetUsersCollection();
         //Nos movemos al formulario de registro
         PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
         PO_SignUpView.fillForm(driver, "JoseFo@gmail.com", "Josefo", "Perez", "2023-05-22",
                 "77777", "77777");
         //Comprobamos que hemos ido a la pagina de home, confirmando que el registro se ha completado con exito
-        PO_HomeView.checkWelcomeToPage(driver);
+        PO_HomeView.checkWelcomeToPage(driver, "standard");
     }
 
     //    [Prueba2] Registro de Usuario con datos inválidos (email, nombre, apellidos y fecha de nacimiento vacíos).
     @Test
     @Order(2)
     void PR02() {
+        DatabaseUtils.resetUsersCollection();
         //Nos movemos al formulario de registro
         PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos INVALIDOS
@@ -118,7 +123,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Cumplimentamos el registro con datos VALIDOS
         PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo", "Perez", "2023-05-22", "77777", "77777");
         //Comprobamos que hemos ido a la pagina de home, confirmando que el registro se ha completado con exito
-        PO_HomeView.checkWelcomeToPage(driver);
+        PO_HomeView.checkWelcomeToPage(driver, "standard");
 
         //Nos movemos al formulario de registro
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
@@ -133,30 +138,36 @@ class Sdi2223Entrega1NApplicationTests {
     @Test
     @Order(5)
     void PR05() {
+        DatabaseUtils.resetUsersCollection();
+        DatabaseUtils.seedUsers();
         //Nos movemos al formulario de inicio de sesión
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario administrador
-        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+        PO_LoginView.fillLoginForm(driver, "admin@email.com", "admin");
         //Comprobamos que hemos ido a la pagina de home, confirmando que el inicio de sesión se ha completado con exito
-        PO_HomeView.checkWelcomeToPage(driver);
+        PO_HomeView.checkWelcomeToPage(driver, "admin");
     }
 
     //[Prueba6] Inicio de sesión con datos válidos (usuario estándar).
     @Test
     @Order(6)
     void PR06() {
+        DatabaseUtils.resetUsersCollection();
+        DatabaseUtils.seedUsers();
         //Nos movemos al formulario de inicio de sesión
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
-        PO_LoginView.fillForm(driver, "user01@email.com", "user01");
+        PO_LoginView.fillLoginForm(driver, "user01@email.com", "user01");
         //Comprobamos que hemos ido a la pagina de home, confirmando que el inicio de sesión se ha completado con exito
-        PO_HomeView.checkWelcomeToPage(driver);
+        PO_HomeView.checkWelcomeToPage(driver, "standard");
     }
 
     //[Prueba7] Inicio de sesión con datos válidos (usuario estándar, email existente, pero contraseña incorrecta)
     @Test
     @Order(7)
     void PR07() {
+        DatabaseUtils.resetUsersCollection();
+        DatabaseUtils.seedUsers();
         // Insertar contraseña incorrecta
         SeleniumUtils.signInIntoAccount(driver, "STANDARD", "user01@email.com", "123");
         PO_LoginView.checkLoginPage(driver);
@@ -176,12 +187,14 @@ class Sdi2223Entrega1NApplicationTests {
     @Test
     @Order(9)
     void PR09() {
+        DatabaseUtils.resetUsersCollection();
+        DatabaseUtils.seedUsers();
         //Nos movemos al formulario de inicio de sesión
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
-        PO_LoginView.fillForm(driver, "user01@email.com", "user01");
+        PO_LoginView.fillLoginForm(driver, "user01@email.com", "user01");
         //Comprobamos que hemos ido a la pagina de home, confirmando que el inicio de sesión se ha completado con exito
-        PO_HomeView.checkWelcomeToPage(driver);
+        PO_HomeView.checkWelcomeToPage(driver, "standard");
         //Nos movemos al formulario de inicio de sesión
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
         //Comprobamos que estamos en la pantalla de inicio de sesión
@@ -208,134 +221,152 @@ class Sdi2223Entrega1NApplicationTests {
     @Order(11)
     void PR011() {
         // Insertar usuarios de prueba
+        DatabaseUtils.resetUsersCollection();
         DatabaseUtils.seedUsers();
 
         // Iniciar sesión como administrador
-        PO_LoginView.simulateLogin(driver, "admin@email.com", "admin");
-        PO_NavView.selectDropdownById(driver, "gestionUsuariosMenu", "gestionUsuariosDropdown", "listAllUsers");
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
 
         // Comprobar que se muestran todos los usuarios
         // Consultar primera pagina
-        List<WebElement> firstPageUsers = driver.findElements(By.xpath("/html/body/div/div[1]/table/tbody/tr"));
-        Assertions.assertTrue(firstPageUsers.size() == 4);
+        List<WebElement> firstPageUsers = PO_UserListView.getUsersList(driver);
+        Assertions.assertEquals(firstPageUsers.size(), 4);
 
         // Consultar segunda pagina
         driver.findElement(By.xpath("/html/body/div/div[2]/ul/li[3]/a")).click();
-        List<WebElement> secondPageUsers = driver.findElements(By.xpath("/html/body/div/div[1]/table/tbody/tr"));
+        List<WebElement> secondPageUsers = PO_UserListView.getUsersList(driver);
         Assertions.assertTrue(secondPageUsers.size() == 5);
 
         // Consultar tercera pagina
         driver.findElement(By.xpath("/html/body/div/div[2]/ul/li[4]/a")).click();
-        List<WebElement> thirdPageUsers = driver.findElements(By.xpath("/html/body/div/div[1]/table/tbody/tr"));
+        List<WebElement> thirdPageUsers = PO_UserListView.getUsersList(driver);
         Assertions.assertTrue(thirdPageUsers.size() == 5);
 
         // Consultar cuarta pagina
         driver.findElement(By.xpath("/html/body/div/div[2]/ul/li[5]/a")).click();
-        List<WebElement> fourthPageUsers = driver.findElements(By.xpath("/html/body/div/div[1]/table/tbody/tr"));
+        List<WebElement> fourthPageUsers = PO_UserListView.getUsersList(driver);
         Assertions.assertTrue(fourthPageUsers.size() == 1);
     }
 
 
-//
-//    //[Prueba12] Ir a la lista de usuarios, borrar el primer usuario de la lista, comprobar que la lista se actualiza
-//    //y dicho usuario desaparece.
-//    @Test
-//    @Order(12)
-//    void PR012() {
-//        //Nos movemos al formulario de inicio de sesion
-//        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//        //Cumplimentamos el registro con datos VALIDOS
-//        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
-//        //Comprobamos que seguimos en la pantalla de registro
-//        PO_HomeView.checkWelcomeToPage(driver);
-//        //Accedemos a la lista de users
-//        driver.get("http://localhost:8090/user/list");
-//
-//        //Sacamos la lista de usuarios q hay
-//        List<WebElement> usersList = PO_UserListView.getUsersList(driver);
-//        //guardamos tamaño para comporbar
-//        int s1 = usersList.size();
-//        //Primer usuario y marcaje de su checkbox
-//        WebElement firstUser = usersList.get(0);
-//
-//        PO_UserListView.markCheckBoxUser(driver, firstUser);
-//        //Borramos dandole al boton
-//        PO_UserListView.clickDeleteButton(driver);
-//
-//        //Actualizamos la lista
-//        usersList = PO_UserListView.getUsersList(driver);
-//        //Guardamos segundo tamaño y vemos q no es el mismo, comprobamos que decrementó en 1
-//        int s2 = usersList.size();
-//        Assertions.assertNotEquals(s1, s2);
-//        Assertions.assertEquals(s1, s2 + 1);
-//    }
-//
-//    //[Prueba13] Ir a la lista de usuarios, borrar el último usuario de la lista, comprobar que la lista se actualiza
-////y dicho usuario desaparece.
-//    @Test
-//    @Order(13)
-//    void PR013() {
-//        //Nos movemos al formulario de inicio de sesion
-//        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//        //Cumplimentamos el registro con datos VALIDOS
-//        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
-//        //Comprobamos que seguimos en la pantalla de registro
-//        PO_HomeView.checkWelcomeToPage(driver);
-//        //Accedemos a la lista de users
-//        driver.get("http://localhost:8090/user/list");
-//
-//        //Sacamos la lista de usuarios q hay
-//        List<WebElement> usersList = PO_UserListView.getUsersList(driver);
-//        //guardamos tamaño para comporbar
-//        int s1 = usersList.size();
-//        //Ultimo usuario y marcaje de su checkbox
-//        WebElement lastUser = usersList.get(usersList.size() - 1);
-//        PO_UserListView.markCheckBoxUser(driver, lastUser);
-//        //Borramos dandole al boton
-//        PO_UserListView.clickDeleteButton(driver);
-//        //Actualizamos la lista
-//        usersList = PO_UserListView.getUsersList(driver);
-//        //Guardamos segundo tamaño y vemos q no es el mismo, comprobamos que decrementó en 1
-//        int s2 = usersList.size();
-//        Assertions.assertNotEquals(s1, s2);
-//        Assertions.assertEquals(s1, s2 + 1);
-//    }
-//
-//    //[Prueba14] Ir a la lista de usuarios, borrar 3 usuarios, comprobar que la lista se actualiza y dichos
-//    //usuarios desaparecen.
-//    @Test
-//    @Order(14)
-//    void PR014() {
-//        //Nos movemos al formulario de inicio de sesion
-//        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//        //Cumplimentamos el registro con datos VALIDOS
-//        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
-//        //Comprobamos que seguimos en la pantalla de registro
-//        PO_HomeView.checkWelcomeToPage(driver);
-//        //Accedemos a la lista de users
-//        driver.get("http://localhost:8090/user/list");
-//
-//        //Sacamos la lista de usuarios q hay
-//        List<WebElement> usersList = PO_UserListView.getUsersList(driver);
-//        //guardamos tamaño para comporbar
-//        int s1 = usersList.size();
-//        //Sacamos los tres primeros usuarios y marcamos de sus checkboxes
-//        WebElement u1 = usersList.get(0);
-//        WebElement u2 = usersList.get(1);
-//        WebElement u3 = usersList.get(2);
-//        PO_UserListView.markCheckBoxUser(driver, u1);
-//        PO_UserListView.markCheckBoxUser(driver, u2);
-//        PO_UserListView.markCheckBoxUser(driver, u3);
-//        //Borramos dandole al boton
-//        PO_UserListView.clickDeleteButton(driver);
-//        //Actualizamos la lista
-//        usersList = PO_UserListView.getUsersList(driver);
-//        //Guardamos segundo tamaño y vemos q no es el mismo, comprobamos que decrementó en 1
-//        int s2 = usersList.size();
-//        Assertions.assertNotEquals(s1, s2);
-//        Assertions.assertEquals(s1, s2 + 3);
-//    }
-//
+
+    //[Prueba12] Ir a la lista de usuarios, borrar el primer usuario de la lista, comprobar que la lista se actualiza
+    //y dicho usuario desaparece.
+    @Test
+    @Order(12)
+    void PR012() {
+        DatabaseUtils.resetUsersCollection();
+        DatabaseUtils.seedUsersAlt();
+        //Nos movemos al formulario de inicio de sesion
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+        //Comprobamos que seguimos en la pantalla de registro
+        PO_HomeView.checkWelcomeToPage(driver, "admin");
+
+        //Sacamos la lista de usuarios que hay
+        List<WebElement> usersList = PO_UserListView.getUsersList(driver);
+        //guardamos tamaño para comporbar
+        int s1 = usersList.size();
+        //Primer usuario y marcaje de su checkbox
+        WebElement firstUser = usersList.get(0);
+
+        PO_UserListView.markCheckBoxUser(driver, firstUser);
+        //Borramos dandole al boton
+        PO_UserListView.clickDeleteButton(driver);
+
+        //Actualizamos la lista
+        usersList = PO_UserListView.getUsersList(driver);
+        //Guardamos segundo tamaño y vemos que no es el mismo, comprobamos que decrementó en 1
+        int s2 = usersList.size();
+        Assertions.assertNotEquals(s1, s2);
+        Assertions.assertEquals(s1, s2 + 1);
+    }
+
+    //[Prueba13] Ir a la lista de usuarios, borrar el último usuario de la lista, comprobar que la lista se actualiza
+//y dicho usuario desaparece.
+    @Test
+    @Order(13)
+    void PR013() {
+        DatabaseUtils.resetUsersCollection();
+        DatabaseUtils.seedUsersAlt();
+        //Nos movemos al formulario de inicio de sesion
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+        //Comprobamos que seguimos en la pantalla de registro
+        PO_HomeView.checkWelcomeToPage(driver, "admin");
+
+        //Sacamos la lista de usuarios que hay
+        List<WebElement> usersList = PO_UserListView.getUsersList(driver);
+        //guardamos tamaño para comporbar
+        int s1 = usersList.size();
+        //Ultimo usuario y marcaje de su checkbox
+        WebElement lastUser = usersList.get(usersList.size() - 1);
+        PO_UserListView.markCheckBoxUser(driver, lastUser);
+        //Borramos dandole al boton
+        PO_UserListView.clickDeleteButton(driver);
+        //Actualizamos la lista
+        usersList = PO_UserListView.getUsersList(driver);
+        //Guardamos segundo tamaño y vemos q no es el mismo, comprobamos que decrementó en 1
+        int s2 = usersList.size();
+        Assertions.assertNotEquals(s1, s2);
+        Assertions.assertEquals(s1, s2 + 1);
+    }
+
+    //[Prueba14] Ir a la lista de usuarios, borrar 3 usuarios, comprobar que la lista se actualiza y dichos
+    //usuarios desaparecen.
+    @Test
+    @Order(14)
+    void PR014() {
+        DatabaseUtils.resetUsersCollection();
+        DatabaseUtils.seedUsersAlt();
+        //Nos movemos al formulario de inicio de sesion
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+        //Comprobamos que seguimos en la pantalla de registro
+        PO_HomeView.checkWelcomeToPage(driver, "admin");
+
+        //Sacamos la lista de usuarios que hay
+        List<WebElement> usersList = PO_UserListView.getUsersList(driver);
+        //guardamos tamaño para comporbar
+        int s1 = usersList.size();
+        //Sacamos los tres primeros usuarios y marcamos de sus checkboxes
+        WebElement u1 = usersList.get(0);
+        WebElement u2 = usersList.get(1);
+        WebElement u3 = usersList.get(2);
+        PO_UserListView.markCheckBoxUser(driver, u1);
+        PO_UserListView.markCheckBoxUser(driver, u2);
+        PO_UserListView.markCheckBoxUser(driver, u3);
+        //Borramos dandole al boton
+        PO_UserListView.clickDeleteButton(driver);
+        //Actualizamos la lista
+        usersList = PO_UserListView.getUsersList(driver);
+        //Guardamos segundo tamaño y vemos q no es el mismo, comprobamos que decrementó en 1
+        int s2 = usersList.size();
+        Assertions.assertNotEquals(s1, s2);
+        Assertions.assertEquals(s1, s2 + 3);
+    }
+
+    //[Prueba15] Intentar borrar el usuario que se encuentra en sesión y comprobar que no ha sido borrado
+    @Test
+    @Order(15)
+    void PR015() {
+        DatabaseUtils.resetUsersCollection();
+        DatabaseUtils.seedUsersAlt();
+        //Nos movemos al formulario de inicio de sesion
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+        //Comprobamos que seguimos en la pantalla de registro
+        PO_HomeView.checkWelcomeToPage(driver, "admin");
+
+        //Buscamos el usuario administrador y comprobamos que no aparece en la lista
+        Assertions.assertFalse(PO_UserListView.findUserInList(driver, "admin@email.com"));
+    }
 //    // [Prueba 15]. Añadir nueva oferta con datos válidos.
 //    @Test
 //    @Order(15)

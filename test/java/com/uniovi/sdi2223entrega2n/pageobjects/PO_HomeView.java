@@ -6,11 +6,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.Objects;
 
 public class PO_HomeView extends PO_NavView {
-    static public void checkWelcomeToPage(WebDriver driver) {
+    static public void checkWelcomeToPage(WebDriver driver, String kind) {
 //Esperamos a que se cargue el saludo de bienvenida en Español
-        SeleniumUtils.waitLoadElementsBy(driver, "text", "Listado de las ofertas propias",
+        if (Objects.equals(kind, "standard"))
+            SeleniumUtils.waitLoadElementsBy(driver, "text", "Ofertas",
+                    getTimeout());
+        else
+            SeleniumUtils.waitLoadElementsBy(driver, "text", "Usuarios",
                 getTimeout());
     }
 

@@ -19,7 +19,7 @@ class Sdi2223Entrega2TestApplicationTests {
     static String BASE_API_CLIENT_URL = "http://localhost:8081/api/v1.0"; // URL base del API del cliente
 
     // Kiko
-    static String Geckodriver = "C:\\Users\\kikoc\\Desktop\\SDI\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     // Teresa
     //static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
 
@@ -66,7 +66,6 @@ class Sdi2223Entrega2TestApplicationTests {
     // -------------------------------------
     // Parte 1 - Aplicacion Web
     // -------------------------------------
-    //    [Prueba1] Registro de Usuario con datos válidos.
     //    [Prueba1] Registro de Usuario con datos válidos.
     @Test
     @Order(1)

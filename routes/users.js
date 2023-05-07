@@ -73,6 +73,8 @@ module.exports = function (app, usersRepository) {
             usersRepository.findUser({email: user.email}, {}).then(us => {
                 if (us === null)
                     usersRepository.insertUser(user).then(userId => {
+                        req.session.user = user.email;
+                        req.session.kind = user.kind;
                         res.redirect("/user/offers");
                     })
                 else
@@ -135,5 +137,18 @@ module.exports = function (app, usersRepository) {
                 "?message=Se ha producido un error al buscar el usuario" +
                 "&messageType=alert-danger ");
         })
+    })
+    app.post('/users/remove', function (req, res) {
+        let usersEmails = [];
+        usersEmails = usersEmails.concat(req.body.userEmails)
+        let filter = {
+            email: {
+                $in: usersEmails
+            }
+        }
+        usersRepository.removeUsers(filter, {}).then(ret =>{
+            res.redirect("/users/list");
+        })
+
     })
 }

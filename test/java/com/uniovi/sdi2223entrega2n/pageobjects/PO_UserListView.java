@@ -3,6 +3,7 @@ package com.uniovi.sdi2223entrega2n.pageobjects;
 import com.uniovi.sdi2223entrega2n.util.SeleniumUtils;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -34,11 +35,21 @@ public class PO_UserListView extends PO_NavView {
     }
 
     public static void markCheckBoxUser(WebDriver driver, WebElement user) {
-        WebElement firstUserChechbox=user.findElement(By.name("userIds"));
+        WebElement firstUserChechbox=user.findElement(By.name("userEmails"));
         firstUserChechbox.click();
     }
 
     public static String getTile(WebDriver driver) {
         return driver.findElement(By.name("title")).getText();
+    }
+
+    public static boolean findUserInList(WebDriver driver, String email){
+        try {
+            SeleniumUtils.waitLoadElementsBy(driver, "text", "admin@email.com",
+                    getTimeout());
+            return true;
+        } catch (TimeoutException e){
+            return false;
+        }
     }
 }
