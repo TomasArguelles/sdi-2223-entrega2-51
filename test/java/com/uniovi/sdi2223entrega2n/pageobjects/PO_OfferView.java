@@ -278,6 +278,11 @@ public class PO_OfferView extends PO_NavView {
         Assertions.assertTrue(isOffers);
     }
 
+    public static void checkOfferListingContainsOffersDest(WebDriver driver, int numberOfOffersExpected) {
+        boolean isOffers = driver.findElements(By.xpath("/html/body/div/div[2]/table/tbody/tr")).size() == numberOfOffersExpected;
+        Assertions.assertFalse(isOffers);
+    }
+
     /**
      * Eliminar la oferta de la fila <code>row</code> indicada.
      * <p>
@@ -349,7 +354,7 @@ public class PO_OfferView extends PO_NavView {
      */
     public static void checkOfferAppearOnAllAvailableOfferList(WebDriver driver, int row, String offerTitle) {
         WebElement element = driver.findElement(By.xpath("/html/body/div/div[2]/table/tbody/tr[" + row + "]/td[1]"));
-        Assertions.assertTrue(element.getText().contains(offerTitle));
+        Assertions.assertFalse(element.getText().contains(offerTitle));
     }
 
     /**

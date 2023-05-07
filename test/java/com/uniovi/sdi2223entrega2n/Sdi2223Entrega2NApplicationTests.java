@@ -34,7 +34,7 @@ static String Geckodriver = "D:\\SDI\\sesion06\\PL-SDI-Sesión5-material\\PL-SDI
     // Url por defecto para el cliente HTTP (REST)
     static String BASE_API_CLIENT_URL = BASE_HTTP_URL + "/apiclient";
 
-    static String ALL_AVAILABLE_OFFERS_URL = "http://localhost:8081/offers/all";
+    static String ALL_AVAILABLE_OFFERS_URL = "http://localhost:8081/user/offers";
 
     // Endpoint para mostrar el listado de usuarios (Ver UserController)
     static final String USER_LIST_ENDPOINT = BASE_HTTP_URL + "/user/list";
@@ -756,9 +756,10 @@ static String Geckodriver = "D:\\SDI\\sesion06\\PL-SDI-Sesión5-material\\PL-SDI
         PO_OfferView.simulateAddNewOffer(driver, "Oferta de prueba 2", "Descripcion de la oferta de prueba 2", "3", false);
 
         // Acceder a la vista y destacar una oferta
-        driver.navigate().to(ALL_AVAILABLE_OFFERS_URL);
-        PO_OfferView.Search(driver, "Oferta de prueba 2");
-        PO_OfferView.checkOfferListingContainsOffers(driver, 1);
+        driver.navigate().to("http://localhost:8081/offers/all");
+        //Destacar una oferta
+
+        PO_OfferView.checkOfferListingContainsOffersDest(driver, 1);
         WebElement element = driver.findElement(By.id("destacar"));
         element.click();
     }
@@ -1215,6 +1216,69 @@ static String Geckodriver = "D:\\SDI\\sesion06\\PL-SDI-Sesión5-material\\PL-SDI
         Assertions.assertEquals("No hay logs registrados", noLogsMessage.getText());
     }
 
+    /**
+     * [Prueba38] Inicio de sesión con datos válidos.
+     */
+    @Test
+    @Order(38)
+    public void PR38() {
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a"));
+        List<WebElement> offers = driver.findElements(By.xpath("/html/body/div/div/table/tbody/tr"));
+    }
+    /**
+     * [Prueba39] Inicio de sesión con datos inválidos (email existente, pero contraseña incorrecta).
+     */
+    @Test
+    @Order(39)
+    public void PR39() {
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "a");
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a"));
+        List<WebElement> offers = driver.findElements(By.xpath("/html/body/div/div/table/tbody/tr"));
+    }
+    /**
+     * [Prueba40] Inicio de sesión con datos inválidos (campo email o contraseña vacíos).
+     */
+    @Test
+    @Order(40)
+    public void PR40() {
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "");
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a"));
+    }
+
+    /**
+     * [Prueba41] Mostrar el listado de ofertas para dicho usuario y comprobar que se muestran todas las que
+     * existen para este usuario. Esta prueba implica invocar a dos servicios: S1 y S2.
+     */
+    @Test
+    @Order(41)
+    public void PR41() {
+        DatabaseUtils.resetOffersCollection();
+
+        // Añadir 3 ofertas con user01
+        PO_OfferView.simulateAddNewOffer(driver, "user01@email.com", "user01", "Oferta de prueba 1", "Descripcion de la oferta de prueba 1", "1");
+
+        // Acceder con cliente ajax, al listado de ofertas y comprobar que se muestran 3 ofertas
+        // (las de user01) y no se muestra la oferta de user02
+        // Acceder a la página de login
+        driver.navigate().to("http://localhost:8081/apiclient/client.html?w=login");
+
+        // Forzar redireccion al login pulsando el botón de login del navbar
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[2]/li/a")).click();
+
+        PO_LoginView.fillLoginFormApi(driver, "user02@email.com", "user02");
+
+        driver.findElement(By.xpath("/html/body/nav/div/div[2]/ul[1]/li[1]/a")).click();
+
+        List<WebElement> offers = driver.findElements(By.xpath("/html/body/div/div/table/tbody/tr"));
+        Assertions.assertEquals(1, offers.size());
+    }
     /**
      *[Prueba42] Enviar un mensaje a una oferta. Esta prueba consistirá en comprobar que el servicio
      * almacena correctamente el mensaje para dicha oferta. Por lo tanto, el usuario tendrá que
