@@ -1,5 +1,7 @@
 package com.uniovi.sdi2223entrega2test.n.util;
 
+import com.uniovi.sdi2223entrega2test.n.pageobjects.PO_HomeView;
+import com.uniovi.sdi2223entrega2test.n.pageobjects.PO_LoginView;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -110,5 +112,35 @@ public class SeleniumUtils {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Inicio de sesión con usuario de prueba ()
+     *
+     * @param driver Apuntando al navegador abierto actualmente.
+     * @param role   STANDARD | ADMIN
+     */
+    static public void signInIntoAccount(WebDriver driver, String role, String email) {
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        PO_LoginView.fillLoginForm(driver, role.equals("STANDARD") ? email : "admin@email.com",
+                role.equals("STANDARD") ? "123456" : "admin");
+    }
+
+    static public void signInIntoAccount(WebDriver driver, String role, String email, String password) {
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        PO_LoginView.fillLoginForm(driver, role.equals("STANDARD") ? email : "admin@email.com", password);
+    }
+
+
+    /**
+     * Comprueba que se muestra el mensaje en la ventana. Obtiene el texto del
+     * mensaje y comprueba contenga el mensaje pasado como parametro.
+     *
+     * @param driver
+     * @param xPath  Expresión xpath para obtener el mensaje de error.
+     */
+    public static void checkErrorMessageIsShown(WebDriver driver, String xPath, String messageText) {
+        WebElement msg = driver.findElement(By.xpath(xPath));
+        Assertions.assertTrue(msg.getText().matches(messageText));
     }
 }

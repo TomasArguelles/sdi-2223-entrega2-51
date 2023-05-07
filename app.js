@@ -30,7 +30,7 @@ app.set('crypto', crypto);
 
 const {MongoClient} = require("mongodb");
 // TODO: Reemplazar por URL mongo Altas
-const url = 'mongodb+srv://admin:sdi@sdi-2223-entrega2-51.287aegb.mongodb.net/?retryWrites=true&w=majority';
+//const url = 'mongodb+srv://admin:sdi@sdi-2223-entrega2-51.287aegb.mongodb.net/?retryWrites=true&w=majority';
 const localUrl = 'mongodb://localhost:27017';
 app.set('connectionStrings', localUrl);
 
@@ -44,15 +44,22 @@ app.use("/offers/", customLogger.loggerRouter);
 // ----------------------------------------------
 
 const userSessionRouter = require('./routes/userSessionRouter');
+const adminSessionRouter = require('./routes/adminRouter');
 
 // Auth middleware
 app.use("/offers/",userSessionRouter);
+app.use("/user/offers",userSessionRouter);
 app.use("/offer/",userSessionRouter);
+app.use("/offers/all",userSessionRouter);
+app.use("/offers/buy",userSessionRouter);
+app.use("/purchases",userSessionRouter);
 
-const userAuthorRouter = require('./routes/userAuthorRouter');
-app.use("/songs/edit",userAuthorRouter);
-app.use("/songs/delete",userAuthorRouter);
+// Protección de rutas del usuario administrador
+app.use("/admin", adminSessionRouter);
+app.use("/logs/delete/all", adminSessionRouter);
+app.use("/users/list", adminSessionRouter);
 
+// -- Protección rutas API
 const userTokenRouter = require('./routes/api/userTokenRouter');
 app.use("/api/v1.0/offers", userTokenRouter);
 app.use("/api/v1.0/messages", userTokenRouter);
@@ -108,7 +115,7 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
     // set locals, only providing error in development
-    console.log("se ha producido un error "+ err);
+    console.log("se ha producido un error (app.js)"+ err);
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
 

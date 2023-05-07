@@ -1,5 +1,7 @@
 const offersCollectionName = 'offers';
 
+const OFFERS_PER_PAGE = 5; // Número de ofertas por página a mostrar
+
 module.exports = {
     mongoClient: null,
     app: null,
@@ -54,20 +56,24 @@ module.exports = {
     },
 
     /**
-     * W9 Usuario registrado: Buscar ofertas
-     * Devuelve todas las ofertas de los usuarios.
-     * Puede recibir un filtro (título).
+     * Devuelve todas las ofertas publicadas por el usuario en sesion.
+     * Devuelve las ofertas correspondientes a una página concreta (paginación).
+     * @param filter
+     * @param options
+     * @param page
+     * @returns {Promise<{offers: *, total: *}>}
      */
-    getOffers: async function (filter, options) {
-        try {
-            const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
-            const database = client.db("sdi-2223-entrega2-51");
-            const offerCollection = database.collection(offersCollectionName);
-            const offers = await offerCollection.find(filter, options).toArray();
-            return offers;
-        } catch (error) {
-            throw (error);
-        }
+    getAllUserInSessionOffersPg: async function (userInSession, page) {
+        const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
+        const database = client.db("sdi-2223-entrega2-51");
+        const offerCollection = database.collection(offersCollectionName);
+        const offersCollectionCount = await offerCollection.count();
+        const cursor = offerCollection.find({
+            seller: userInSession
+        }).skip((page - 1) * OFFERS_PER_PAGE).limit(OFFERS_PER_PAGE);
+        const offers = await cursor.toArray();
+        const result = {offers: offers, total: offersCollectionCount};
+        return result;
     },
 
     deleteOffer: async function (offerId, callback) {
@@ -81,8 +87,27 @@ module.exports = {
     },
 
     /**
+     * Listado de todas las ofertas disponibles. Sin paginación.
+     * <p>
+     * @returns {Promise<*>}
+     */
+    getOffers: async function () {
+        try {
+            const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
+            const database = client.db("sdi-2223-entrega2-51");
+            const offerCollection = database.collection(offersCollectionName);
+            const offers = await offerCollection.find().toArray();
+
+            return offers;
+        } catch (error) {
+            throw (error);
+        }
+    },
+
+    /**
      * W9 Usuario registrado: Buscar ofertas
      * Devuelve las ofertas correspondientes a una página concreta (paginación).
+     * Puede recibir un filtro (título).
      */
     getOffersPg: async function (filter, options, page) {
         try {
@@ -94,6 +119,95 @@ module.exports = {
             const cursor = offersCollection.find(filter, options).skip((page - 1) * limit).limit(limit);
             const offers = await cursor.toArray();
             const result = {offers: offers, total: offersCollectionCount};
+            return result;
+        } catch (error) {
+            throw (error);
+        }
+    },
+
+    /**
+     * W10 Usuario registrado: Comprar oferta
+     * Cada compra registrará el email del usuario y la id de la oferta comprada
+     */
+    buyOffer: function (shop, callbackFunction) {
+        this.mongoClient.connect(this.app.get('connectionStrings'), function (err, dbClient) {
+            if (err) {
+                callbackFunction(null)
+            } else {
+                const database = dbClient.db("sdi-2223-entrega2-51");
+                const collectionName = 'purchases';
+                const purchasesCollection = database.collection(collectionName);
+                purchasesCollection.insertOne(shop)
+                    .then(result => callbackFunction(result.insertedId))
+                    .then(() => dbClient.close())
+                    .catch(err => callbackFunction({error: err.message}));
+            }
+        });
+    },
+
+    /**
+     * Obtiene la oferta buscada
+     */
+    findOffer: async function (filter, options) {
+        try {
+            const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
+            const database = client.db("sdi-2223-entrega2-51");
+            const offersCollection = database.collection(offersCollectionName);
+            const song = await offersCollection.findOne(filter, options);
+            return song;
+        } catch (error) {
+            throw (error);
+        }
+    },
+
+    /**
+     * Obtiene las ofertas compradas
+     */
+    getPurchases: async function (filter, options) {
+        try {
+            const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
+            const database = client.db("sdi-2223-entrega2-51");
+            const collectionName = 'purchases';
+            const purchasesCollection = database.collection(collectionName);
+            return await purchasesCollection.find(filter, options).toArray();
+        } catch (error) {
+            throw (error);
+        }
+    },
+
+    /**
+     * W11 Usuario registrado: Listar ofertas compradas
+     * Devuelve las ofertas correspondientes a una página concreta (paginación).
+     */
+    getPurchasesPg: async function (filter, options, page) {
+        try {
+            const limit = 5; // 5 ofertas por página
+            const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
+            const database = client.db("sdi-2223-entrega2-51");
+            const collectionName = 'purchases';
+            const purchasesCollection = database.collection(collectionName);
+            const purchasesCollectionCount = await purchasesCollection.count();
+            const cursor = purchasesCollection.find(filter, options).skip((page - 1) * limit).limit(limit);
+            const purchases = await cursor.toArray();
+            const result = {
+                purchases: purchases,
+                total: purchasesCollectionCount
+            };
+            return result;
+        } catch (error) {
+            throw (error);
+        }
+    },
+
+    /**
+     * W12 Usuario registrado: Destacar oferta
+     */
+    featuredOffer: async function (offer, filter, options) {
+        try {
+            const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
+            const database = client.db("sdi-2223-entrega2-51");
+            const offersCollection = database.collection(offersCollectionName);
+            const result = await offersCollection.findOneAndUpdate(filter, {$set: offer}, options);
             return result;
         } catch (error) {
             throw (error);

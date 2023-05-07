@@ -1,49 +1,105 @@
 {% extends "layout.twig" %}
-{% block title %} My Wallapoop {% endblock %}
+{% block title %} My Wallapop {% endblock %}
 {% block main_container %}
+    <!-- W9 Usuario registrado: Buscar ofertas -->
     <div class="row">
         <div id="custom-search-input ">
-            <form method="get" action="/shop">
+            <form method="get" action="/offers/all">
                 <div class="input-group col-xs-8 col-sm-6 col-md-4 col-lg-5 pull-right">
-                    <input id="search"
-                           type="text"
+                    <input id="search" type="text"
                            class="search-query form-control"
                            placeholder="Título de la oferta"
-                           name="search"/><span
-                            class="input-group-btn"><button class="btn" type="submit"><span
-                                    class="glyphicon glyphicon-search"></span></button></span></div>
+                           name="search"/>
+                    <span class="input-group-btn">
+                        <button class="btn" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
             </form>
         </div>
     </div>
     <h2>Ofertas</h2>
     <div class="row">
-        {% for offer in offers %}
-            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                <div style="width:200px">
-                    <a href="/offers/{{ offer._id }}">
-                        <div>{{ offer.title }}</div>
-                        <div class="small">{{ offer.description }}</div>
-                        <div class="small">{{ offer.date }}</div>
-                        <div class="text-right">{{ offer.price }} €</div>
-                        <div {% if {{offer.sold}} == true %}>
-                            <p>Vendido</p>
+        {% if offers.length > 0 %}
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Detalle de la oferta</th>
+                    <th>Fecha de publicación</th>
+                    <th>Precio</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for offer in offers %}
+                    <tr>
+                        <td>{{ offer.title }}</td>
+                        <td>{{ offer.description }}</td>
+                        <td>{{ offer.date }}</td>
+                        <td>{{ offer.price }}</td>
+                        <td>
+                            <a href="/offer/{{ offer._id }}/delete"
+                               class="btn btn-danger">Eliminar</a>
+                        </td>
+                        <td>
+                            {% if offer.buy %}
+                                <p>Vendida</p>
+                            {% else %}
+                                <a href="/offers/buy/{{ offer._id }}"
+                                   class="btn btn-primary">Comprar</a>
                             {% endif %}
-                        </div>
-                        <div {% if {{offer.sold}} == false %}>
-                            <a href="/offers/buy/{{ offer._id }}">Comprar</a>
-                            {% endif %}
-                        </div>
-                    </a>
-                </div>
-            </div>
-        {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No hay ofertas</p>
+        {% endif %}
+
+
+
+        {#        {% if offers.length == 0 %} #}
+        {#            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> #}
+        {#                <div class="alert alert-info"> #}
+        {#                    No hay ofertas que mostrar. #}
+        {#                </div> #}
+        {#            </div> #}
+        {#        {% else %} #}
+        {#            {% for offer in offers %} #}
+        {#                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3"> #}
+        {#                    <div style="width:200px"> #}
+        {#                        <a href="/offers/{{ offer._id }}"> #}
+        {#                            <div>{{ offer.title }}</div> #}
+        {#                            <div class="small">{{ offer.description }}</div> #}
+        {#                            <div class="small">{{ offer.date }}</div> #}
+        {#                            <div class="text-right">{{ offer.price }} €</div> #}
+        {#                            {% if buy %} #}
+        {#                                <a class="btn btn-primary pull-right" #}
+        {#                                   href="/offers/buy/{{ offer._id }}">Comprar</a> #}
+        {#                            {% else %} #}
+        {#                                <div>Vendida</div> #}
+        {#                            {% endif %} #}
+        {#                        </a> #}
+        {#                    </div> #}
+        {#                </div> #}
+        {#            {% endfor %} #}
+        {#        {% endif %} #}
+        {#        {% if buyError %} #}
+        {#            <span id="errorPrecio" class="text-danger"> #}
+        {#                ¡Tu dinero debe ser superior al precio de la oferta para poder comprarla!</span> #}
+        {#        {% endif %} #}
     </div>
     <!-- Paginación mostrar la actual y 2 anteriores y dos siguientes -->
     <div class="row text-center">
         <ul class="pagination">
             {% for page in pages %}
                 <li class="page-item" id="pi-{{ page }}">
-                    <a class="page-link" href="/shop/?page={{ page }}">{{ page }}</a>
+                    <a class="page-link"
+                       href="/offers/all/?page={{ page }}">{{ page }}</a>
                 </li>
             {% endfor %}
             <script>
